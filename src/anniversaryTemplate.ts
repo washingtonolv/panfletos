@@ -12,7 +12,7 @@ function txt(x: number, y: number, w: number, h: number, text: string, fontPt: n
 }
 
 function background(x: number, y: number, w: number, h: number, color: string): El {
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="${color}"/></svg>`
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><rect width="${w}" height="${h}" fill="${color}"/></svg>`
   return mk('image', { x, y, w, h, src: `data:image/svg+xml,${encodeURIComponent(svg)}` })
 }
 
