@@ -1,0 +1,16 @@
+# Fluxos atuais — Panfletos
+
+Derivados do README e do código; revisão no navegador pendente.
+
+| ID | Passos | Resultado esperado | Regressões |
+|---|---|---|---|
+| UF-01 | Abrir a URL principal | Carregar rascunho ou documento inicial | v3, migração v2/v1, registro ilegível, armazenamento indisponível. |
+| UF-02 | Escolher lado; inserir e ordenar blocos por arraste ou Subir/Descer | Ordem escolhida e paginação automática | Início/fim, conteúdo preservado, muitas páginas. |
+| UF-03 | Selecionar produto; editar texto, preços e foto | Atualizar o produto selecionado | Texto longo, cinco produtos, imagem inválida, seleção durante upload. |
+| UF-04 | Escolher etiqueta; aplicar ao produto ou bloco | Alterar somente o escopo escolhido | Cinco modelos, milhares, complemento longo. |
+| UF-05 | Duplicar/excluir/editar; Desfazer/Refazer | Recuperar o documento | Frente/verso, exclusão, nova edição após desfazer. |
+| UF-06 | Baixar projeto; Abrir projeto JSON | Recuperar conteúdo válido | JSON inválido preserva documento; importação pode ser desfeita. |
+| UF-07 | Selecionar ambos/frente/verso; Imprimir/PDF | Imprimir somente os lados escolhidos | Escala 100%, sem margens, gráficos de fundo, várias páginas. |
+| UF-08 | Abrir URL completa com #livre ou #avancado | Carregar o modo legado | Preservar importação de planilha e modelos de dados próprios. |
+
+Não há fluxo de login no estado inspecionado. Persistência local não equivale a sincronização entre dispositivos. Novos fluxos e regras precisam de tarefa definida.

@@ -1,0 +1,1 @@
+Follow AGENTS.md and the approved TASK.md. Check repository state. Implement only the agreed scope, preserve existing behavior and design system. Run available checks. Return changed files, test evidence, unresolved risks and preview instructions. Do not deploy to production.

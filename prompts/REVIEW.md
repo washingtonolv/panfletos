@@ -1,0 +1,1 @@
+Review the diff against TASK.md, PRD, DESIGN_SYSTEM and TEST_PLAN. Identify regressions, security/authorization risks, accessibility failures, responsive inconsistencies, missing states and untested assumptions. Prioritize by severity and provide concrete fixes; do not claim tests were run unless verified.

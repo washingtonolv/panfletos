@@ -1,0 +1,5 @@
+---
+description: AIDF universal project guardrails
+alwaysApply: true
+---
+Read and follow `AGENTS.md`. Consult project docs before modifying code. Plan, scope, implement, verify, report. Never publish without explicit approval.
