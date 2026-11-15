@@ -7,6 +7,44 @@ import { initialDocument, loadDraft, resolveDraftRecovery, saveDraft, STORAGE, R
 import { templates, createFromTemplate } from '../src/layout-templates.ts'
 import { formats } from '../src/layout-settings.ts'
 import { replaceDraft, listSavedDrafts, SAVED_PREFIX } from '../src/draft-library.ts'
+import { imageTarget, applyImage } from '../src/editor-images.ts'
+
+test('header/footer artwork and fit survive JSON and drafts without losing their original text', () => {
+  const doc = normalize(seed), image = 'data:image/png;base64,YQ=='
+  for (const side of ['frente', 'verso']) {
+    for (const block of doc[side].filter(b => ['header','footsite','footpay'].includes(b.kind))) {
+      block.image = image; block.imageFit = 'cover'
+    }
+  }
+  const imported = parseProject(JSON.stringify(doc))
+  assert.deepEqual(imported, doc)
+  assert.deepEqual(loadDraft({getItem:k=>k===STORAGE?JSON.stringify(doc):null}).document,doc)
+  const header = imported.frente[0]; delete header.image
+  assert.deepEqual(header.fields, normalize(seed).frente[0].fields)
+  assert.equal(normalize(seed).frente[0].image,undefined)
+})
+test('invalid artwork URLs, fits and product-block artwork are rejected before import', () => {
+  for (const image of ['javascript:alert(1)','data:image/svg+xml;base64,YQ==','data:image/png;base64,???','https://user:pass@example.com/a.png',42]) {
+    const doc=normalize(seed);doc.frente[0].image=image
+    assert.throws(()=>validateProject(doc),ProjectImportError)
+  }
+  for (const imageFit of [null,1,'stretch','url(x)']) {const doc=normalize(seed);doc.frente[0].imageFit=imageFit;assert.throws(()=>validateProject(doc),ProjectImportError)}
+  const doc=normalize(seed);doc.frente[1].image='https://example.com/image.png';assert.throws(()=>validateProject(doc),ProjectImportError)
+})
+test('image application preserves unrelated edits and refuses stale or shifted targets', () => {
+  const doc=normalize(seed), image='data:image/png;base64,YQ=='
+  const header=imageTarget(doc,'frente',doc.frente[0].id)
+  const product=imageTarget(doc,'frente',doc.frente[1].id,1)
+  const unrelated=structuredClone(doc);unrelated.verso[0].fields[0].value='Outra edição'
+  const withImage=applyImage(unrelated,header,image)
+  assert.equal(withImage.frente[0].image,image);assert.equal(withImage.verso[0].fields[0].value,'Outra edição');assert.equal(doc.frente[0].image,undefined)
+  assert.equal(applyImage(doc,product,image).frente[1].products[1].photo,image)
+  for(const change of [d=>d.frente.splice(1,1),d=>d.frente[1].products.shift(),d=>d.frente[1].products[1].name='alterado',d=>d.frente[1].products[1].photo=image]) {
+    const changed=structuredClone(doc);change(changed);assert.equal(applyImage(changed,product,image),undefined)
+  }
+  assert.equal(imageTarget(doc,'frente',doc.frente[1].id),undefined)
+  assert.equal(imageTarget(doc,'frente',doc.frente[1].id,99),undefined)
+})
 
 test('all reference models have unique editable copies, valid prices and one page per populated side', () => {
   assert.equal(templates.length, 9)
