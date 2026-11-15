@@ -21,6 +21,8 @@ npm run dev
 
 ## Montador visual
 
+**Abrir projeto** valida o arquivo inteiro antes de substituir o documento. Se houver erro, a mensagem indica o motivo e o bloco/campo, mantendo o trabalho atual e o histórico. São aceitos projetos de até 50 MiB, com frente e verso, identificadores únicos, campos consistentes e de um a cinco produtos por bloco de produtos. Arquivos válidos continuam podendo ser desfeitos/refeitos após a importação. Se você editar enquanto o arquivo estiver sendo lido, será necessário abri-lo novamente para substituir o documento.
+
 Se o rascunho não puder ser aberto, o editor bloqueia o salvamento e mostra as opções de recuperação. Use **Baixar original** para guardar o conteúdo sem alterações. Você pode tentar novamente, usar uma versão anterior encontrada ou confirmar o início de um novo documento com o modelo inicial. Antes de liberar o salvamento, o editor guarda e verifica uma cópia local dos originais que falharam. Se faltar espaço para essa cópia, os originais continuam protegidos; libere espaço e tente novamente. A recuperação não repara automaticamente arquivos inválidos.
 
 O endereço principal abre o montador React: escolha um bloco na biblioteca, arraste os blocos pela alça e clique em um produto para editar foto, marca, nome e preços. Nas linhas e no destaque duplo, a foto fica à esquerda e o nome e a etiqueta à direita, como no panfleto de referência. Cada produto ocupa uma célula com alinhamento automático. O destaque progressivo mantém as fotos acima dos preços coloridos. Os modelos de etiqueta incluem Por apenas, De/Por, D&D compacta, Etiqueta D&D e Leve 1, 2 e 3.

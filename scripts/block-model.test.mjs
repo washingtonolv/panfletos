@@ -1,5 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
+import seed from '../src/block-seed.json' with { type: 'json' }
+import { parseProject, validateProject, ProjectImportError, MAX_PROJECT_BYTES } from '../src/project-import.ts'
 import { initialDocument, loadDraft, resolveDraftRecovery, saveDraft, STORAGE, RECOVERY_PREFIX, minHeight, moveBlock, newBlock, normalize, paginate, priceParts, tags } from '../src/block-model.ts'
 
 test('D&D preserves its products on both sides and fits the default page', () => {
@@ -55,6 +57,71 @@ function memoryStorage(entries = []) {
   return { data, getItem: key => data.get(key) ?? null, setItem: (key, value) => data.set(key, value) }
 }
 const validDraft = () => JSON.stringify(initialDocument())
+
+test('import accepts exported round trips, seed metadata, BOM and empty sides', () => {
+  const doc = initialDocument()
+  assert.deepEqual(parseProject(JSON.stringify(doc)), doc)
+  assert.deepEqual(parseProject('\uFEFF' + JSON.stringify(seed)), normalize(seed))
+  assert.deepEqual(validateProject({ frente: [], verso: [] }), { frente: [], verso: [] })
+  const copy = structuredClone(doc.frente[0]); copy.id = 'duplicate-with-unique-id'
+  doc.frente.push(copy) // Duplicated blocks legitimately reuse field keys across blocks.
+  assert.doesNotThrow(() => validateProject(doc))
+})
+
+test('import preserves all editable product counts, tag models, photos and legacy offsets', () => {
+  for (const count of [1, 2, 3, 4, 5]) for (const kind of ['row', 'hero2', 'hero3']) for (const tag of tags) {
+    const p = { ...newBlock(3).products[0], tag: tag.id, photo: 'data:image/png;base64,YQ==', o: { x: 999 } }
+    const doc = { frente: [{ id: 'a', kind, name: 'A', h: 130, cols: count, products: Array.from({ length: count }, () => ({ ...p })) }], verso: [] }
+    const result = validateProject(doc)
+    assert.equal(result.frente[0].products.length, count)
+    assert.equal(result.frente[0].products[0].photo, p.photo)
+    assert.equal(result.frente[0].products[0].tag, tag.id)
+    assert.equal(result.frente[0].products[0].o, undefined)
+    assert.equal(doc.frente[0].products[0].o.x, 999)
+  }
+})
+
+test('invalid JSON and oversized input report controlled errors', () => {
+  for (const raw of ['', '{bad', 'null', '[]', '{}']) assert.throws(() => parseProject(raw), ProjectImportError)
+  assert.throws(() => parseProject(' '.repeat(MAX_PROJECT_BYTES + 1)), /50 MiB/)
+})
+
+test('invalid structures identify location without changing the input', () => {
+  const cases = [
+    d => { d.frente = null }, d => { delete d.verso }, d => { d.frente[0] = null },
+    d => { d.frente[0].id = '' }, d => { d.frente[0].id = 7 },
+    d => { d.frente[1].id = d.frente[0].id }, d => { d.verso[0].id = d.frente[0].id },
+    d => { d.frente[0].kind = 'unknown' }, d => { d.frente[0].kind = {} },
+    d => { d.frente[0].name = {} }, d => { delete d.frente[0].h },
+    ...[0, -1, NaN, Infinity, '130'].map(h => d => { d.frente[0].h = h }),
+    d => { d.frente[1].products = [] }, d => { delete d.frente[1].products },
+    d => { d.frente[1].products = {} }, d => { d.frente[1].products.push(...d.frente[1].products) },
+    d => { d.frente[1].products[0] = null }, d => { d.frente[1].cols = 5 },
+    d => { d.frente[1].products[0].por = 19.9 }, d => { delete d.frente[1].products[0].name },
+    d => { d.frente[1].products[0].tag = 'unknown' },
+    d => { d.frente[0].fields = {} }, d => { d.frente[0].fields = [] },
+    d => { d.frente[0].fields[0] = null }, d => { d.frente[0].fields[0].key = '' },
+    d => { d.frente[0].fields[1].key = d.frente[0].fields[0].key },
+    d => { d.frente[0].fields[0].label = false }, d => { d.frente[0].fields[0].value = {} },
+    d => { d.frente[0].products = [d.frente[1].products[0]] }, d => { d.frente[0].cols = 2 },
+  ]
+  for (const mutate of cases) {
+    const doc = initialDocument(); mutate(doc); const before = structuredClone(doc)
+    assert.throws(() => validateProject(doc), error => error instanceof ProjectImportError && /frente|verso/.test(error.message))
+    assert.deepEqual(doc, before)
+  }
+})
+
+test('photo validation rejects unsafe or malformed URLs instead of discarding them', () => {
+  for (const photo of ['javascript:alert(1)', 'data:image/svg+xml;base64,YQ==', 'data:image/png;base64,', 'data:image/png;base64,YQ=', 'https://', 'https://user:secret@example.com/a.png', ' https://example.com/a.png', null, {}]) {
+    const doc = initialDocument(); doc.frente[1].products[0].photo = photo
+    assert.throws(() => validateProject(doc), /foto/)
+  }
+  for (const photo of ['https://example.com/a.png?size=900', 'http://example.com/a.webp', 'data:image/webp;base64,' + 'YWFh'.repeat(250000)]) {
+    const doc = initialDocument(); doc.frente[1].products[0].photo = photo
+    assert.equal(validateProject(doc).frente[1].products[0].photo, photo)
+  }
+})
 
 test('valid current draft opens and saves without recovery or touching legacy data', () => {
   const raw = validDraft()

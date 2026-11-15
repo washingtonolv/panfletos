@@ -21,6 +21,7 @@ Hipótese de público: responsáveis por materiais promocionais de lojas. Perfil
 São critérios derivados do código, não uma declaração de testes de navegador concluídos.
 
 ## Próxima evolução
+A segunda melhoria aprovada é validar integralmente a estrutura dos arquivos importados antes de substituir o documento, conforme tasks/AIDF-003.md. Erros mantêm o documento e o histórico intactos; a validação numérica dos preços permanece uma tarefa posterior.
 A primeira melhoria aprovada é a recuperação segura dos rascunhos, descrita em tasks/AIDF-002.md: preservar originais ilegíveis, avisar, permitir download e exigir decisão explícita antes de novas gravações. Outras melhorias ainda precisam de tarefa definida.
 Não incluir automaticamente novos serviços, login ou armazenamento remoto.
 
