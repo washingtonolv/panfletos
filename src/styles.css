@@ -1,0 +1,23 @@
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; margin: 0; }
+body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: #e9e6ee; color: #222; }
+.app { display: flex; flex-direction: column; height: 100%; }
+.bar { display: flex; gap: 16px; align-items: center; padding: 8px 14px; background: #fff; border-bottom: 1px solid #ddd; flex-wrap: wrap; }
+.grp { display: flex; gap: 6px; align-items: center; }
+button { font: inherit; padding: 6px 10px; border: 1px solid #ccc; background: #fafafa; border-radius: 6px; cursor: pointer; }
+button:hover:not(:disabled) { background: #f0eaf5; }
+button:disabled { opacity: .45; cursor: default; }
+button.on { background: #6A2C91; color: #fff; border-color: #6A2C91; }
+button.danger { color: #b00020; border-color: #e6b0b8; margin-top: 10px; }
+.z { min-width: 42px; text-align: center; font-size: 13px; }
+.main { flex: 1; display: flex; min-height: 0; }
+.canvas { flex: 1; overflow: auto; padding: 32px; display: flex; justify-content: center; align-items: flex-start; position: relative; }
+.page { position: relative; background: #fff; box-shadow: 0 2px 14px rgba(0,0,0,.25); flex: none; }
+.side { width: 260px; background: #fff; border-left: 1px solid #ddd; padding: 14px; overflow: auto; font-size: 14px; }
+.side h3 { margin: 0 0 10px; }
+.side label { display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; font-size: 13px; color: #555; }
+.side input:not([type=color]), .side textarea { font: inherit; padding: 6px; border: 1px solid #ccc; border-radius: 6px; }
+.row { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; flex-wrap: wrap; }
+.row label { margin: 0; }
+.dim { color: #777; font-size: 12px; }
+.hint { color: #666; font-size: 13px; line-height: 1.4; }
