@@ -11,9 +11,14 @@ function txt(x: number, y: number, w: number, h: number, text: string, fontPt: n
   return mk('text', { x, y, w, h, text, fontPt, color, align, bold, font: 'Montserrat' })
 }
 
+function background(x: number, y: number, w: number, h: number, color: string): El {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="${color}"/></svg>`
+  return mk('image', { x, y, w, h, src: `data:image/svg+xml,${encodeURIComponent(svg)}` })
+}
+
 function base(): El[] {
   return [
-    txt(0, 0, 153, 34, ' ', 8, COLORS.cream),
+    background(0, 0, 153, 34, COLORS.cream),
     txt(31, 4, 91, 5, 'T E M P O   D E   F L O R E S C E R', 7, COLORS.green),
     txt(28, 9, 93, 9, 'ANIVERSÁRIO', 20, COLORS.pink),
     txt(34, 17, 74, 16, 'D&D', 36, COLORS.purple),
@@ -83,16 +88,16 @@ function front(): El[] {
       txt(x, 80, 40, 8, 'R$ ' + price, 16, color),
     ]),
     ...cards(frontItems, 92, 25.2, 4),
+    background(0, 190, 153, 17, COLORS.purple),
     txt(1, 191.5, 151, 6, 'dedcosmeticosonline.com.br   ·   @dedcosmeticosonline', 8, '#FFFFFF'),
-    txt(0, 190, 153, 17, ' ', 8, COLORS.purple),
-  ].sort((a, b) => a.y === 190 ? -1 : b.y === 190 ? 1 : 0)
+  ]
 }
 
 function back(): El[] {
   return [
     ...base(),
     ...cards(backItems, 38, 36.5, 3),
-    txt(0, 191, 153, 16, ' ', 8, COLORS.purple),
+    background(0, 191, 153, 16, COLORS.purple),
     txt(6, 193, 77, 5, 'EM ATÉ 6X SEM JUROS NOS CARTÕES', 8, '#FFFFFF'),
     txt(5, 199, 83, 4, 'Visa · Mastercard · Elo · Pix', 8, '#FFFFFF'),
     txt(91, 193, 57, 9, 'SIGA NOSSO INSTAGRAM', 9, '#FFFFFF'),
