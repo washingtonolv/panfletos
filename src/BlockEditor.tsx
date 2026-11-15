@@ -5,6 +5,7 @@ import type { ImageAdjustment, Block, Document, Product, Side } from './block-mo
 import './block-editor.css'
 import './brand-logo-styles.css'
 import './editor-dark.css'
+import './flyer-background.css'
 import { MAX_PROJECT_BYTES, parseProject, ProjectImportError } from './project-import'
 import { parsePrice, priceIssues } from './prices'
 import { formats } from './layout-settings'
@@ -63,12 +64,15 @@ function FlyerBlock({ block: b, pick, selected, productIndex, imagePick, imageDr
 
 function sheetStyle(doc: Document): CSSProperties {
   const size = formats[doc.layout?.format || '153x207']
-  return { '--sheet-width': `${size.width}px`, '--sheet-height': `${size.height}px`, '--sheet-width-mm': `${size.widthMm}mm`, '--sheet-height-mm': `${size.heightMm}mm`, ...(doc.layout ? { '--template-accent': doc.layout.accent, '--template-price': doc.layout.priceColor, '--template-background': doc.layout.background } : {}) } as CSSProperties
+  const color = doc.pageBackground
+  const rgb = color ? [1, 3, 5].map(i => parseInt(color.slice(i, i + 2), 16) / 255) : []
+  const luminance = rgb.map(v => v <= .04045 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4).reduce((sum, v, i) => sum + v * [.2126, .7152, .0722][i], 0)
+  return { '--sheet-width': `${size.width}px`, '--sheet-height': `${size.height}px`, '--sheet-width-mm': `${size.widthMm}mm`, '--sheet-height-mm': `${size.heightMm}mm`, ...(color ? { '--sheet-background': color, '--sheet-ink': luminance > .179 ? '#17131d' : '#ffffff' } : {}), ...(doc.layout ? { '--template-accent': doc.layout.accent, '--template-price': doc.layout.priceColor, '--template-background': doc.layout.background } : {}) } as CSSProperties
 }
 function templatePreview(doc: Document, side: Side, width: number) {
   const size = formats[doc.layout?.format || '153x207'], scale = width / size.width
   const page = paginate(doc[side], size.height)[0]
-  return <div className="template-preview" style={{ width, height: size.height * scale }}><div className="flyer-sheet themed-sheet" style={{ ...sheetStyle(doc), transform: `scale(${scale})`, gridTemplateRows: page.map(b => `minmax(${minHeight(b)}px, ${Math.max(1, b.h)}fr)`).join(' ') }}>{page.map(b => <FlyerBlock key={b.id} block={b} />)}</div></div>
+  return <div className="template-preview" style={{ width, height: size.height * scale }}><div className={`flyer-sheet themed-sheet ${doc.pageBackground ? 'has-page-background' : ''}`} style={{ ...sheetStyle(doc), transform: `scale(${scale})`, gridTemplateRows: page.map(b => `minmax(${minHeight(b)}px, ${Math.max(1, b.h)}fr)`).join(' ') }}>{page.map(b => <FlyerBlock key={b.id} block={b} />)}</div></div>
 }
 
 function downloadText(text: string, filename: string) {
@@ -284,7 +288,7 @@ export default function BlockEditor() {
         </aside>
         <CanvasViewport zoom={zoom} setZoom={setZoom} undo={undo} redo={redo} canUndo={!!history.past.length} canRedo={!!history.future.length}>
           <div className="status-line" role="status">{notice || `${pages.length} ${pages.length === 1 ? 'página' : 'páginas'} · ${size.widthMm} × ${size.heightMm} mm · encaixe automático`}</div>
-          {pages.map((page, pi) => <section className="page-stage" key={pi} style={{ width: size.width * zoom, height: size.height * zoom }} aria-label={`Página ${pi + 1} da ${side}`}><div className={`flyer-sheet ${doc.layout ? 'themed-sheet' : ''}`} style={{ ...sheetStyle(doc), transform: `scale(${zoom})`, gridTemplateRows: page.map(b => `minmax(${minHeight(b)}px, ${Math.max(1, b.h)}fr)`).join(' ') }}>
+          {pages.map((page, pi) => <section className="page-stage" key={pi} style={{ width: size.width * zoom, height: size.height * zoom }} aria-label={`Página ${pi + 1} da ${side}`}><div className={`flyer-sheet ${doc.layout ? 'themed-sheet' : ''} ${doc.pageBackground ? 'has-page-background' : ''}`} style={{ ...sheetStyle(doc), transform: `scale(${zoom})`, gridTemplateRows: page.map(b => `minmax(${minHeight(b)}px, ${Math.max(1, b.h)}fr)`).join(' ') }}>
             {page.map(b => <div key={b.id} data-block-id={b.id} className={`block-slot ${over === b.id ? 'drop-active' : ''}`} onDragOver={e => { e.preventDefault(); setOver(b.id) }} onDrop={e => drop(e, b.id)}>
               <div className="block-controls"><button draggable onDragStart={e => beginDrag(e, `block:${b.id}`)} aria-label={`Arrastar ${b.name}`}>⠿</button><button onClick={() => pick(b.id)}>{b.name}</button></div>
               <FlyerBlock block={b} selected={selected === b.id} productIndex={productIndex} pick={i => pick(b.id, i)} imagePick={i => chooseImage(b.id, i)} imageDrop={(file, i) => { pick(b.id, i); void upload(file, imageTarget(latestDoc.current, side, b.id, i)) }} />
@@ -317,12 +321,13 @@ export default function BlockEditor() {
             </> : null}
           </>}
           {doc.layout && <details className="print-options"><summary>Cores do modelo</summary>{([['accent', 'Cor da campanha'], ['priceColor', 'Cor padrão das etiquetas'], ['background', 'Fundo do cabeçalho']] as const).map(([key, label]) => <label key={key}>{label}<input type="color" value={doc.layout![key]} onChange={e => commit({ ...doc, layout: { ...doc.layout!, [key]: e.target.value } })} /></label>)}</details>}
+          <details className="print-options" open><summary>Fundo do panfleto</summary><label>Cor de fundo (frente e verso)<input type="color" value={doc.pageBackground || '#ffffff'} onChange={e => commit({ ...doc, pageBackground: e.target.value })} /></label>{doc.pageBackground && <button className="full" onClick={() => { const next = structuredClone(doc); delete next.pageBackground; commit(next) }}>Restaurar branco</button>}</details>
           <details className="print-options"><summary>Impressão / PDF</summary><label>Páginas para imprimir<select value={printSides} onChange={e => setPrintSides(e.target.value as typeof printSides)}><option value="both">Frente e verso</option><option value="frente">Só frente</option><option value="verso">Só verso</option></select></label><p>{size.label}. Escolha “Salvar como PDF”, escala 100%, sem margens e com gráficos de fundo na janela de impressão. Sem sangria.</p></details>
         </aside>
       </div>
     </div>
     {galleryOpen && <TemplateGallery onClose={() => setGalleryOpen(false)} onUse={useTemplate} onDownload={download} preview={templatePreview} />}
     <style>{`@media print { @page { size: ${size.widthMm}mm ${size.heightMm}mm; margin: 0; } }`}</style>
-    <div className="print-document">{printIssues.length ? <p role="alert">Impressão bloqueada: corrija os preços inválidos dos lados escolhidos no editor.</p> : (['frente', 'verso'] as Side[]).filter(s => (printSides === 'both' || printSides === s) && doc[s].length).flatMap(s => paginate(doc[s], size.height).map((page, pi) => <div key={`${s}-${pi}`} className={`flyer-sheet ${doc.layout ? 'themed-sheet' : ''}`} style={{ ...sheetStyle(doc), gridTemplateRows: page.map(b => `minmax(${minHeight(b)}px, ${Math.max(1, b.h)}fr)`).join(' ') }}>{page.map(b => <FlyerBlock key={b.id} block={b} />)}</div>))}</div>
+    <div className="print-document">{printIssues.length ? <p role="alert">Impressão bloqueada: corrija os preços inválidos dos lados escolhidos no editor.</p> : (['frente', 'verso'] as Side[]).filter(s => (printSides === 'both' || printSides === s) && doc[s].length).flatMap(s => paginate(doc[s], size.height).map((page, pi) => <div key={`${s}-${pi}`} className={`flyer-sheet ${doc.layout ? 'themed-sheet' : ''} ${doc.pageBackground ? 'has-page-background' : ''}`} style={{ ...sheetStyle(doc), gridTemplateRows: page.map(b => `minmax(${minHeight(b)}px, ${Math.max(1, b.h)}fr)`).join(' ') }}>{page.map(b => <FlyerBlock key={b.id} block={b} />)}</div>))}</div>
   </>
 }
