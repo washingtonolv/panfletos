@@ -110,3 +110,5 @@
 .artwork-editor p{margin-top:12px}.artwork-editor{margin-bottom:20px}
 @media(max-width:780px){.builder-workspace{grid-template-columns:minmax(0,1fr)}.block-library{max-height:230px;border-bottom:1px solid #e1d9e7}.canvas-shell{height:70dvh;min-height:380px}.canvas-hint{font-size:10px}.floating-tools{bottom:14px;gap:2px}.floating-tools button{min-width:38px}.edit-panel{grid-column:1}.tag-options{grid-template-columns:repeat(2,minmax(0,1fr))}.block-image-action{font-size:11px;min-height:32px}}
 @media print{.floating-tools,.canvas-hint,.block-image-action,.photo-action-hint{display:none!important}}
+
+.product-photo{border:1px dashed rgba(128,128,128,.1)}.photo-placeholder{display:grid;place-items:center;width:100%;height:100%}.image-adjustments{border:1px solid #ddd5e5;border-radius:10px;margin:18px 0;padding:12px}.image-adjustments legend{font-size:12px;font-weight:700}.image-adjustments output{font-size:11px}.product-photo img,.block-artwork img{flex-shrink:0}

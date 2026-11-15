@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { CSSProperties, DragEvent } from 'react'
 import { blankProduct, catalog, loadDraft, resolveDraftRecovery, saveDraft, minHeight, moveBlock, newBlock, paginate, priceParts, tags, uid } from './block-model'
-import type { Block, Document, Product, Side } from './block-model'
+import type { ImageAdjustment, Block, Document, Product, Side } from './block-model'
 import './block-editor.css'
 import { MAX_PROJECT_BYTES, parseProject, ProjectImportError } from './project-import'
 import { parsePrice, priceIssues } from './prices'
@@ -12,6 +12,7 @@ import CanvasViewport from './CanvasViewport'
 import { applyImage, imageTarget, MAX_IMAGE_BYTES } from './editor-images'
 import type { ImageTarget } from './editor-images'
 
+function imageStyle(a?: ImageAdjustment): CSSProperties { return { transform: `translate(${a?.x || 0}%, ${a?.y || 0}%) scale(${a?.scale || 1})`, transformOrigin: 'center' } }
 function PriceTag({ product: p, index = 0 }: { product: Product; index?: number }) {
   const tag = p.tag || 'wide'
   const parts = priceParts(p.por)
@@ -30,7 +31,7 @@ function PriceTag({ product: p, index = 0 }: { product: Product; index?: number 
 
 function FlyerBlock({ block: b, pick, selected, productIndex, imagePick, imageDrop }: { block: Block; pick?: (index?: number) => void; selected?: boolean; productIndex?: number; imagePick?: (index?: number) => void; imageDrop?: (file: File, index?: number) => void }) {
   const artwork = ['header', 'footsite', 'footpay'].includes(b.kind)
-  const content = artwork && b.image ? <div className="block-artwork"><img src={b.image} alt={b.kind === 'header' ? 'Imagem do cabeçalho' : 'Imagem do rodapé'} draggable={false} style={{ objectFit: b.imageFit || 'contain' }} /></div>
+  const content = artwork && b.image ? <div className="block-artwork"><img src={b.image} alt={b.kind === 'header' ? 'Imagem do cabeçalho' : 'Imagem do rodapé'} draggable={false} style={{ ...imageStyle(b.imageAdjustment), objectFit: b.imageFit || 'contain' }} /></div>
     : b.kind === 'header' ? <div className="campaign"><small>{b.fields?.[0]?.value}</small><strong>{b.fields?.[1]?.value}</strong><span>✿</span></div>
     : b.kind.startsWith('foot') ? <div className="flyer-footer">{b.fields?.map(f => <span key={f.key}>{f.value}</span>)}</div>
     : <>{b.fields?.length ? <div className="block-title">{b.fields.map(f => f.value).filter(Boolean).join(' · ')}</div> : null}
@@ -38,7 +39,7 @@ function FlyerBlock({ block: b, pick, selected, productIndex, imagePick, imageDr
         {b.products?.map((p, i) => <button type="button" key={i} className={`product-card ${selected && productIndex === i ? 'is-picked' : ''}`}
           aria-label={`Editar produto ${i + 1}: ${p.name}`} onClick={e => { e.stopPropagation(); if ((e.target as HTMLElement).closest('.product-photo') && imagePick) imagePick(i); else pick?.(i) }}
           onDragOver={e => { if (imageDrop && e.dataTransfer.types.includes('Files')) { e.preventDefault(); e.stopPropagation() } }} onDrop={e => { const file = e.dataTransfer.files[0]; if (file && imageDrop) { e.preventDefault(); e.stopPropagation(); imageDrop(file, i) } }}>
-          <span className="product-photo" title={imagePick ? (p.photo ? 'Clique para trocar a foto. Remova pelo painel de edição.' : 'Clique para adicionar foto') : undefined}>{p.photo ? <><img src={p.photo} alt={p.name} draggable={false} />{imagePick && <span className="photo-action-hint">Trocar foto</span>}</> : <span className="photo-placeholder">＋<small>{imagePick ? 'Adicionar foto' : 'Foto'}</small></span>}</span>
+          <span className="product-photo" title={imagePick ? (p.photo ? 'Clique para trocar a foto. Remova pelo painel de edição.' : 'Clique para adicionar foto') : undefined}>{p.photo ? <><img src={p.photo} alt={p.name} draggable={false} style={imageStyle(p.photoAdjustment)} />{imagePick && <span className="photo-action-hint">Trocar foto</span>}</> : <span className="photo-placeholder"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M4 16v5h16v-5" fill="none" stroke="currentColor" strokeWidth="1.5" /></svg></span>}</span>
           <span className="product-copy" title={`${p.brand} ${p.name}`}>{p.label && <em className="product-label">{p.label}</em>}<b>{p.brand}</b><span>{p.name}</span></span>
           <PriceTag product={p} index={i} />
         </button>)}
@@ -277,6 +278,7 @@ export default function BlockEditor() {
             {['header', 'footsite', 'footpay'].includes(current.kind) && <div className="artwork-editor"><label className="upload-box" onDragOver={e => e.preventDefault()} onDrop={e => { e.preventDefault(); void upload(e.dataTransfer.files[0]) }}>{current.image ? <img src={current.image} alt="Imagem do bloco selecionado" /> : <span>＋</span>}<b>{current.image ? 'Trocar imagem' : 'Adicionar imagem'}</b><small>PNG, JPG ou WebP · até 20 MiB</small><input type="file" aria-label="Imagem do cabeçalho ou rodapé" accept="image/png,image/jpeg,image/webp" onChange={e => { void upload(e.currentTarget.files?.[0]); e.currentTarget.value = '' }} /></label>
               {current.image && <><button className="danger full" onClick={() => removeImage(false)}>Remover imagem</button><label>Ajuste da imagem<select value={current.imageFit || 'contain'} onChange={e => changeBlock(b => { b.imageFit = e.target.value as 'contain' | 'cover' })}><option value="contain">Mostrar imagem inteira</option><option value="cover">Preencher espaço (corta bordas)</option></select></label><p>Os textos abaixo estão guardados e reaparecem ao remover a imagem.</p></>}
             </div>}
+            {((product?.photo) || current.image) && <fieldset className="image-adjustments"><legend>Ajustar imagem</legend><p>A imagem fica recortada dentro do espaço reservado.</p>{(['scale', 'x', 'y'] as const).map(key => { const adjustment = (product ? product.photoAdjustment : current.imageAdjustment) || { scale: 1, x: 0, y: 0 }; return <label key={key}>{key === 'scale' ? 'Tamanho' : key === 'x' ? 'Posição horizontal' : 'Posição vertical'}<input type="range" min={key === 'scale' ? .25 : -50} max={key === 'scale' ? 3 : 50} step={key === 'scale' ? .05 : 1} value={adjustment[key]} onChange={e => { const next = { ...adjustment, [key]: Number(e.target.value) }; if (product) changeProduct({ photoAdjustment: next }); else changeBlock(b => { b.imageAdjustment = next }) }} /><output>{Math.round(adjustment[key] * (key === 'scale' ? 100 : 1))}%</output></label> })}<button onClick={() => { if (product) changeProduct({ photoAdjustment: undefined }); else changeBlock(b => { delete b.imageAdjustment }) }}>Restaurar enquadramento</button></fieldset>}
             {current.fields?.map((f, i) => <label key={f.key}>{f.label}<input value={f.value} onChange={e => changeBlock(b => { b.fields![i].value = e.target.value })} /></label>)}
             {current.products?.length ? <>
               <div className="product-tabs" aria-label="Escolher produto">{current.products.map((_, i) => <button key={i} aria-pressed={productIndex === i} onClick={() => setProductIndex(i)}>{i + 1}</button>)}<button aria-label="Adicionar produto" disabled={current.products.length >= 5} onClick={() => { const index = current.products!.length; changeBlock(b => { b.products!.push(blankProduct()); b.cols = b.products!.length }); setProductIndex(index) }}>＋</button></div>

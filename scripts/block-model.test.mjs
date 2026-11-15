@@ -9,6 +9,18 @@ import { formats } from '../src/layout-settings.ts'
 import { replaceDraft, listSavedDrafts, SAVED_PREFIX } from '../src/draft-library.ts'
 import { imageTarget, applyImage } from '../src/editor-images.ts'
 
+test('image framing round trips without changing block geometry and rejects unsafe values', () => {
+ const doc=normalize(seed), heights=doc.frente.map(b=>b.h)
+ doc.frente[0].imageAdjustment={scale:2,x:30,y:-20}
+ doc.frente[1].products[0].photoAdjustment={scale:.25,x:-50,y:50}
+ assert.deepEqual(parseProject(JSON.stringify(doc)),doc)
+ assert.deepEqual(normalize(doc).frente.map(b=>b.h),heights)
+ for(const value of [{scale:0,x:0,y:0},{scale:4,x:0,y:0},{scale:1,x:51,y:0},{scale:1,x:0,y:-51},{scale:'1',x:0,y:0},null,[]]) {
+  const invalid=structuredClone(doc);invalid.frente[0].imageAdjustment=value;assert.throws(()=>validateProject(invalid),ProjectImportError)
+  const invalidPhoto=structuredClone(doc);invalidPhoto.frente[1].products[0].photoAdjustment=value;assert.throws(()=>validateProject(invalidPhoto),ProjectImportError)
+ }
+})
+
 test('header/footer artwork and fit survive JSON and drafts without losing their original text', () => {
   const doc = normalize(seed), image = 'data:image/png;base64,YQ=='
   for (const side of ['frente', 'verso']) {
