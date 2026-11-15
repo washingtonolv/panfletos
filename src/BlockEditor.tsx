@@ -4,6 +4,7 @@ import { blankProduct, catalog, loadDraft, resolveDraftRecovery, saveDraft, minH
 import type { ImageAdjustment, Block, Document, Product, Side } from './block-model'
 import './block-editor.css'
 import './brand-logo-styles.css'
+import './editor-dark.css'
 import { MAX_PROJECT_BYTES, parseProject, ProjectImportError } from './project-import'
 import { parsePrice, priceIssues } from './prices'
 import { formats } from './layout-settings'
@@ -14,6 +15,11 @@ import { applyImage, imageTarget, MAX_IMAGE_BYTES } from './editor-images'
 import type { ImageTarget } from './editor-images'
 import BrandMark from './BrandMark'
 import BrandLogoPicker from './BrandLogoPicker'
+
+const EDITOR_THEME_KEY = 'panfletos:editor:theme'
+function savedEditorTheme(): boolean {
+  try { return localStorage.getItem(EDITOR_THEME_KEY) === 'dark' } catch { return false }
+}
 
 function imageStyle(a?: ImageAdjustment): CSSProperties { return { transform: `translate(${a?.x || 0}%, ${a?.y || 0}%) scale(${a?.scale || 1})`, transformOrigin: 'center' } }
 function PriceTag({ product: p, index = 0 }: { product: Product; index?: number }) {
@@ -72,6 +78,7 @@ function downloadText(text: string, filename: string) {
 function download(data: Document) { downloadText(JSON.stringify(data, null, 2), 'panfleto-editavel.json') }
 
 export default function BlockEditor() {
+  const [darkMode, setDarkMode] = useState(savedEditorTheme)
   const [draft, setDraft] = useState(loadDraft)
   const [doc, setDoc] = useState(draft.document)
   const [recoveryError, setRecoveryError] = useState('')
@@ -103,6 +110,15 @@ export default function BlockEditor() {
   const printIssues = priceIssues(doc, printSides === 'both' ? ['frente', 'verso'] : [printSides])
   const deResult = product ? parsePrice(product.de, true) : null
   const porResult = product ? parsePrice(product.por) : null
+  useEffect(() => {
+    document.documentElement.dataset.editorTheme = darkMode ? 'dark' : 'light'
+    return () => { delete document.documentElement.dataset.editorTheme }
+  }, [darkMode])
+  function toggleDarkMode() {
+    const next = !darkMode
+    setDarkMode(next)
+    try { localStorage.setItem(EDITOR_THEME_KEY, next ? 'dark' : 'light') } catch { setNotice('Tema aplicado nesta sessão. O navegador não permitiu salvar a preferência.') }
+  }
   useEffect(() => { try { if (saveDraft(doc, draft)) { lastSaved.current = JSON.stringify(doc); setSaveError(false) } } catch { setSaveError(true) } }, [doc, draft])
 
   function recover(choice: 'recovered' | 'new') {
@@ -252,6 +268,7 @@ export default function BlockEditor() {
         <button className="primary new-project" onClick={() => setGalleryOpen(true)}>+ Novo</button>
         <nav aria-label="Lado do panfleto">{(['frente', 'verso'] as Side[]).map(s => <button key={s} aria-pressed={side === s} onClick={() => { setSide(s); setSelected(null) }}>{s === 'frente' ? 'Frente' : 'Verso'}</button>)}</nav>
         <span className={`save-state ${saveError ? 'error' : ''}`}>{saveError ? 'Não foi possível salvar. Baixe o projeto.' : '✓ Salvo neste navegador'}</span>
+        <button className="theme-toggle" aria-label={darkMode ? 'Ativar modo claro' : 'Ativar modo escuro'} aria-pressed={darkMode} onClick={toggleDarkMode}>{darkMode ? '☀ Claro' : '☾ Escuro'}</button>
         <button onClick={() => download(doc)}>Baixar projeto</button><button onClick={() => fileInput.current?.click()}>Abrir projeto</button>
         <input ref={fileInput} hidden type="file" accept=".json,application/json" onChange={e => { void importProject(e.currentTarget) }} />
         <input ref={pictureInput} hidden type="file" accept="image/png,image/jpeg,image/webp" aria-label="Escolher imagem para o item" onChange={e => { void upload(e.currentTarget.files?.[0], pictureTarget.current); e.currentTarget.value = '' }} />
