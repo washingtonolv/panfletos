@@ -21,6 +21,8 @@ npm run dev
 
 ## Montador visual
 
+**Preços:** informe valores não negativos com até duas casas, como `19`, `19,90`, `19.90` ou `1.299,90`. O campo **De** é opcional; **Por** é obrigatório e aceita zero. Ao sair do campo válido, o valor ganha formatação brasileira. Letras, negativos, casas excedentes e valores incompletos são sinalizados, sem apagar o texto do rascunho. Use **Revisar preços** para localizar pendências. A importação rejeita preços inválidos; a impressão dos lados afetados fica bloqueada até corrigir. Baixar projeto continua disponível para preservar o trabalho incompleto.
+
 **Abrir projeto** valida o arquivo inteiro antes de substituir o documento. Se houver erro, a mensagem indica o motivo e o bloco/campo, mantendo o trabalho atual e o histórico. São aceitos projetos de até 50 MiB, com frente e verso, identificadores únicos, campos consistentes e de um a cinco produtos por bloco de produtos. Arquivos válidos continuam podendo ser desfeitos/refeitos após a importação. Se você editar enquanto o arquivo estiver sendo lido, será necessário abri-lo novamente para substituir o documento.
 
 Se o rascunho não puder ser aberto, o editor bloqueia o salvamento e mostra as opções de recuperação. Use **Baixar original** para guardar o conteúdo sem alterações. Você pode tentar novamente, usar uma versão anterior encontrada ou confirmar o início de um novo documento com o modelo inicial. Antes de liberar o salvamento, o editor guarda e verifica uma cópia local dos originais que falharam. Se faltar espaço para essa cópia, os originais continuam protegidos; libere espaço e tente novamente. A recuperação não repara automaticamente arquivos inválidos.

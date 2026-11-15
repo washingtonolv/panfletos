@@ -1,5 +1,13 @@
 # Verificação — Panfletos
 
+## AIDF-004 — preços numéricos (2026-11-15)
+- npm ci sem alteração de dependências; 23 testes passaram, incluindo quatro novos testes com matrizes de formatos, centavos exatos, limites, importação, lados de impressão e rascunhos antigos.
+- Lint sem erros, cinco avisos existentes; TypeScript e build de produção aprovados.
+- Cinco cenários Edge/build local passaram: edição inválida/salvamento/reload/backup/bloqueio de impressão; formatos válidos/De opcional/zero; De inválido/Desfazer; importação rejeitada e válida; rascunho antigo e impressão por lado.
+- Mídia print verificada: documento com erro exibe aviso e nenhuma folha de ofertas; frente válida imprime quando verso inválido está excluído. window.print foi interceptado nos testes para não abrir diálogo real.
+- Screenshot da interface em 1366 × 1000 px revisado: aviso global, marcador na etiqueta e mensagem no campo legíveis. Sem erros JavaScript.
+- Não houve impressão física, auditoria completa de acessibilidade nem revalidação visual dos modos legados. Contrato e reversão em tasks/AIDF-004.md.
+
 ## AIDF-003 — importação JSON (2026-11-15)
 - npm ci concluído sem alterar dependências; 19 testes passaram, incluindo cinco novos testes com matrizes de estruturas inválidas, tipos, identificadores, fotos, tags, quantidades, metadados históricos, BOM e limite de arquivo.
 - npm run lint: nenhum erro, cinco avisos existentes. npm run build: TypeScript e produção aprovados.
