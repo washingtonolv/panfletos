@@ -643,7 +643,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
                   <span style="font-size:15px;font-weight:700">Escolha a planilha (.xlsx ou .csv)</span>
                   <span style="font-size:13px;color:#5E5868">A planilha traz só texto e preços. As fotos continuam sendo enviadas à mão.</span>
                   <div style="display:flex;gap:10px">
-                    <label style="\1;display:flex;align-items:center;box-sizing:border-box"><input type="file" accept=".xlsx,.xls,.csv" onChange="{{ impPick }}" style="display:none">Escolher arquivo</label>
+                    <label style="height:38px;padding:0 16px;border-radius:9px;border:0;background:#6A2C91;color:#fff;font-size:13.5px;font-weight:700;cursor:pointer;display:flex;align-items:center;box-sizing:border-box"><input type="file" accept=".xlsx,.xls,.csv" onChange="{{ impPick }}" style="display:none">Escolher arquivo</label>
                     <button type="button" onClick="{{ impSample }}" style="height:38px;padding:0 16px;border-radius:9px;border:1px solid #C9C2D3;background:#fff;font-size:13.5px;font-weight:600;cursor:pointer">Usar planilha de exemplo</button>
                   </div>
                 </div>
@@ -701,7 +701,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
                     <span style="width:260px;display:flex;align-items:center;gap:6px;flex-wrap:wrap">
                       <sc-if value="{{ r.isOk }}" hint-placeholder-val="{{ true }}"><span style="font-size:12px;font-weight:700;color:#0B4F2A;background:#DDF2E4;border-radius:999px;padding:2px 9px">Pronta</span></sc-if>
                       <sc-if value="{{ r.showFixBrand }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#8A1230;font-weight:600">Falta a marca:</span><input type="text" value="{{ r.brandVal }}" onInput="{{ r.brandInput }}" aria-label="Marca da linha {{ r.n }}" style="width:84px;height:26px;box-sizing:border-box;border:1.5px solid #D4153B;border-radius:6px;padding:0 6px;font-size:12px;font-weight:700"></sc-if>
-                      <sc-if value="{{ r.showPor }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#8A1230;font-weight:600">“Por” vazio ou maior que “de”:</span><input type="text" value="{{ r.porVal }}" onInput="{{ r.porInput }}" aria-label="Corrigir preço por da linha {{ r.n }}" style="width:62px;height:26px;box-sizing:border-box;border:1.5px solid #D4153B;border-radius:6px;padding:0 6px;font-size:12.5px;font-weight:700"></sc-if>
+                      <sc-if value="{{ r.showPor }}" hint-placeholder-val="{{ false }}"><sc-if value="{{ r.priceErr }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#8A1230;font-weight:600">“Por” vazio ou maior que “de”:</span></sc-if><input type="text" value="{{ r.porVal }}" onInput="{{ r.porInput }}" aria-label="Corrigir preço por da linha {{ r.n }}" style="width:62px;height:26px;box-sizing:border-box;border:1.5px solid #D4153B;border-radius:6px;padding:0 6px;font-size:12.5px;font-weight:700"></sc-if>
                       <sc-if value="{{ r.showIgnore }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ r.ignore }}" style="height:26px;padding:0 9px;border-radius:6px;border:1px solid #C9C2D3;background:#fff;font-size:12px;font-weight:600;cursor:pointer">Ignorar</button></sc-if>
                       <sc-if value="{{ r.showUndo }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#5E5868;font-weight:600">Linha ignorada</span><button type="button" onClick="{{ r.unignore }}" style="height:26px;padding:0 9px;border-radius:6px;border:1px solid #C9C2D3;background:#fff;font-size:12px;font-weight:600;cursor:pointer">Desfazer</button></sc-if>
                     </span>
@@ -1058,7 +1058,7 @@ class Component extends DCLogic {
         isHeader: b.kind === 'header', isHero3: b.kind === 'hero3', isHero2: b.kind === 'hero2',
         isRow: b.kind === 'row', isFootSite: b.kind === 'footsite', isFootPay: b.kind === 'footpay',
         cols: b.cols || 0,
-        hasFields: !!(b.fields && b.fields.length), fields: (b.fields || []).map((f) => ({ id: b.id + '_' + f.key, label: f.label, value: f.value, input: (e) => mut((nd) => { blk(nd).fields.find((x) => x.key === f.key).value = ev(e); }) })),
+        hasFields: !!(b.fields && b.fields.length), fields: (b.fields || []).map((f) => ({ id: b.id + '_' + f.key, label: f.label, value: f.value, input: (e) => mut((nd) => { const v = ev(e); const me = blk(nd); me.fields.find((x) => x.key === f.key).value = v; if (me.kind === 'header' || me.kind === 'footsite' || me.kind === 'footpay') { const other = nd[side === 'frente' ? 'verso' : 'frente'].find((q) => q.kind === me.kind); const of = other && other.fields && other.fields.find((q) => q.label === f.label); if (of) of.value = v; } }) })),
         hasProducts: prods.length > 0, products: prods,
         btnStyle: 'display:block;position:relative;flex:none;width:578px;height:' + b.h + 'px;padding:0;margin:0;border:0;background:transparent;cursor:pointer;text-align:left;font:inherit;color:inherit;overflow:hidden',
         ringStyle: 'position:absolute;inset:0;pointer-events:none;box-sizing:border-box;z-index:1;' + (selected ? 'border:3px solid ' + P : 'border:0'),
@@ -1250,7 +1250,7 @@ class Component extends DCLogic {
         rowStyle: 'display:flex;align-items:center;gap:8px;padding:8px 12px;border-top:1px solid #EFEBF3;font-size:13px;' + (err ? 'background:#FDF1F3' : x.ignored ? 'background:#F6F4F8;opacity:.7' : ''),
         brandStyle: 'width:78px;font-weight:700;' + (x.brandErr ? 'color:#D4153B' : ''),
         porStyle: 'width:70px;text-align:right;font-weight:700;' + (x.priceErr ? 'color:#D4153B' : ''),
-        isOk: !err && !x.ignored, showFixBrand: !x.ignored && (x.brandErr || x.ed.brand !== undefined), showPor: !x.ignored && (x.priceErr || x.ed.por !== undefined),
+        isOk: !err && !x.ignored, priceErr: x.priceErr, showFixBrand: !x.ignored && (x.brandErr || x.ed.brand !== undefined), showPor: !x.ignored && (x.priceErr || x.ed.por !== undefined),
         showIgnore: err, showUndo: x.ignored, porVal: x.por, brandVal: x.brand,
         brandInput: (e) => this.setState({ impEdit: Object.assign({}, impEdit, { [x.i]: Object.assign({}, x.ed, { brand: ev(e) }) }) }),
         porInput: (e) => this.setState({ impEdit: Object.assign({}, impEdit, { [x.i]: Object.assign({}, x.ed, { por: ev(e) }) }) }),
