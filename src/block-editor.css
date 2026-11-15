@@ -51,3 +51,4 @@
 .side-by-side .price-tag .price-value .price-currency{font-size:clamp(3.5px,7cqw,7px)}
 .side-by-side .tag-pill .price-top,.side-by-side .tag-wide .price-top{font-size:clamp(3px,8cqw,8px)}
 .side-by-side .price-tag .price-unit{font-size:clamp(3px,6cqw,6px)}
+.side-by-side .tag-offer .price-top,.side-by-side .tag-before .price-top{font-size:clamp(3px,7cqw,9px)}
