@@ -1,0 +1,407 @@
+{
+  "frente": [
+    {
+      "id": "f0",
+      "kind": "header",
+      "h": 136,
+      "name": "Cabeçalho da campanha",
+      "mm": "36 mm",
+      "hint": "fixo em todas as páginas",
+      "fields": [
+        {
+          "key": "ff0a",
+          "label": "Chamada superior",
+          "value": "TEMPO DE FLORESCER"
+        },
+        {
+          "key": "ff0b",
+          "label": "Título da campanha",
+          "value": "ANIVERSÁRIO D&D"
+        }
+      ]
+    },
+    {
+      "id": "f1",
+      "kind": "hero3",
+      "h": 204,
+      "name": "Destaque · Leve 1, 2 e 3",
+      "mm": "54 mm",
+      "hint": "desconto progressivo",
+      "fields": [
+        {
+          "key": "ff1a",
+          "label": "Título",
+          "value": "APROVEITE O DESCONTO PROGRESSIVO"
+        },
+        {
+          "key": "ff1b",
+          "label": "Marca parceira",
+          "value": "FHADER"
+        }
+      ],
+      "products": [
+        {
+          "brand": "Leve 1",
+          "name": "Eau de Parfum 100ml Masculino ou Feminino",
+          "de": "99,90",
+          "por": "69,90",
+          "cada": "",
+          "hue": 330
+        },
+        {
+          "brand": "Leve 2",
+          "name": "Eau de Parfum 100ml Masculino ou Feminino",
+          "de": "199,90",
+          "por": "110,00",
+          "cada": "",
+          "hue": 150
+        },
+        {
+          "brand": "Leve 3",
+          "name": "Eau de Parfum 100ml Masculino ou Feminino",
+          "de": "299,70",
+          "por": "150,00",
+          "cada": "",
+          "hue": 200
+        }
+      ]
+    },
+    {
+      "id": "f2",
+      "kind": "row",
+      "cols": 4,
+      "h": 108,
+      "name": "Linha · 4 produtos",
+      "mm": "29 mm",
+      "hint": "produtos compactos",
+      "products": [
+        {
+          "brand": "FRAN",
+          "name": "Liphoney Gloss Labial de Mel 5g",
+          "de": "69,90",
+          "por": "19,99",
+          "cada": "",
+          "hue": 30
+        },
+        {
+          "brand": "AVON",
+          "name": "Color Trend Máscara Incolor Cílios 8g",
+          "de": "29,99",
+          "por": "14,99",
+          "cada": "",
+          "hue": 200
+        },
+        {
+          "brand": "AVON",
+          "name": "Supershock Máscara de Cílios 10ml",
+          "de": "42,99",
+          "por": "19,99",
+          "cada": "",
+          "hue": 150
+        },
+        {
+          "brand": "AVON",
+          "name": "Color Trend Disney Máscara 7ml",
+          "de": "29,99",
+          "por": "9,99",
+          "cada": "",
+          "hue": 270
+        }
+      ]
+    },
+    {
+      "id": "f3",
+      "kind": "row",
+      "cols": 3,
+      "h": 130,
+      "name": "Linha · 3 produtos",
+      "mm": "34 mm",
+      "hint": "produtos médios",
+      "products": [
+        {
+          "brand": "EUDORA",
+          "name": "H Colônia Masculina 100ml",
+          "de": "124,90",
+          "por": "74,99",
+          "cada": "cada",
+          "hue": 220
+        },
+        {
+          "brand": "EUDORA",
+          "name": "Pulse Colônia Masculina 100ml",
+          "de": "94,95",
+          "por": "69,99",
+          "cada": "cada",
+          "hue": 20
+        },
+        {
+          "brand": "EUDORA",
+          "name": "Chic Retrô Colônia Feminina 95ml",
+          "de": "129,90",
+          "por": "79,99",
+          "cada": "",
+          "hue": 300
+        }
+      ]
+    },
+    {
+      "id": "f4",
+      "kind": "row",
+      "cols": 3,
+      "h": 130,
+      "name": "Linha · 3 produtos",
+      "mm": "34 mm",
+      "hint": "produtos médios",
+      "products": [
+        {
+          "brand": "EUDORA",
+          "name": "Combo Siàge Pro Cronology Curvas",
+          "de": "102,90",
+          "por": "79,99",
+          "cada": "",
+          "hue": 320
+        },
+        {
+          "brand": "EUDORA",
+          "name": "Siàge Resgate Imediato Máscara 250g",
+          "de": "74,90",
+          "por": "39,99",
+          "cada": "",
+          "hue": 270
+        },
+        {
+          "brand": "NUANCE",
+          "name": "Kit Viagem Sol de Copacabana",
+          "de": "45,97",
+          "por": "24,99",
+          "cada": "",
+          "hue": 45
+        }
+      ]
+    },
+    {
+      "id": "f5",
+      "kind": "footsite",
+      "h": 74,
+      "name": "Rodapé · site e redes",
+      "mm": "20 mm",
+      "hint": "fixo em todas as páginas",
+      "fields": [
+        {
+          "key": "ff5a",
+          "label": "Site",
+          "value": "dedcosmeticosonline.com.br"
+        },
+        {
+          "key": "ff5b",
+          "label": "Instagram",
+          "value": "@dedcosmeticosonline"
+        }
+      ]
+    }
+  ],
+  "verso": [
+    {
+      "id": "v0",
+      "kind": "header",
+      "h": 136,
+      "name": "Cabeçalho da campanha",
+      "mm": "36 mm",
+      "hint": "fixo em todas as páginas",
+      "fields": [
+        {
+          "key": "fv0a",
+          "label": "Chamada superior",
+          "value": "TEMPO DE FLORESCER"
+        },
+        {
+          "key": "fv0b",
+          "label": "Título da campanha",
+          "value": "ANIVERSÁRIO D&D"
+        }
+      ]
+    },
+    {
+      "id": "v1",
+      "kind": "hero2",
+      "h": 132,
+      "name": "Destaque duplo",
+      "mm": "35 mm",
+      "hint": "dois produtos grandes",
+      "products": [
+        {
+          "brand": "JEQUITI",
+          "name": "Cebolinha Colônia Masculina 25ml",
+          "de": "39,90",
+          "por": "19,99",
+          "cada": "",
+          "hue": 150
+        },
+        {
+          "brand": "CICLO",
+          "name": "Deo Colônia Infantil Cici 100ml — Mel, Zoe ou Bella",
+          "de": "75,90",
+          "por": "64,99",
+          "cada": "CADA",
+          "hue": 50
+        }
+      ]
+    },
+    {
+      "id": "v2",
+      "kind": "row",
+      "cols": 5,
+      "h": 128,
+      "name": "Linha · 5 produtos",
+      "mm": "34 mm",
+      "hint": "produtos compactos",
+      "products": [
+        {
+          "brand": "AVON",
+          "name": "Petit Colônia 50ml",
+          "de": "44,90",
+          "por": "29,99",
+          "cada": "",
+          "hue": 280
+        },
+        {
+          "brand": "FINI",
+          "name": "Minhocas Enxaguante Bucal 250ml",
+          "de": "14,99",
+          "por": "9,99",
+          "cada": "",
+          "hue": 140
+        },
+        {
+          "brand": "FINI",
+          "name": "Gel Dental Infantil",
+          "de": "14,99",
+          "por": "9,99",
+          "cada": "",
+          "hue": 100
+        },
+        {
+          "brand": "FINI",
+          "name": "Dentaduras Gel Anticárie 70g",
+          "de": "14,99",
+          "por": "9,99",
+          "cada": "",
+          "hue": 190
+        },
+        {
+          "brand": "FINI",
+          "name": "Hidratante Labial 10g",
+          "de": "14,99",
+          "por": "9,99",
+          "cada": "",
+          "hue": 340
+        }
+      ]
+    },
+    {
+      "id": "v3",
+      "kind": "row",
+      "cols": 3,
+      "h": 132,
+      "name": "Linha · 3 produtos",
+      "mm": "35 mm",
+      "hint": "produtos médios",
+      "products": [
+        {
+          "brand": "AVON",
+          "name": "Aquavibe Body Splash 300ml",
+          "de": "29,99",
+          "por": "19,99",
+          "cada": "",
+          "hue": 10
+        },
+        {
+          "brand": "AVON",
+          "name": "LovU Touch Deo Parfum Feminino 75ml",
+          "de": "144,90",
+          "por": "49,99",
+          "cada": "",
+          "hue": 320
+        },
+        {
+          "brand": "AVON",
+          "name": "Far Away Deo Parfum Feminino 50ml",
+          "de": "124,90",
+          "por": "64,99",
+          "cada": "cada",
+          "hue": 170
+        }
+      ]
+    },
+    {
+      "id": "v4",
+      "kind": "row",
+      "cols": 3,
+      "h": 132,
+      "name": "Linha · 3 produtos",
+      "mm": "35 mm",
+      "hint": "produtos médios",
+      "products": [
+        {
+          "brand": "JEQUITI",
+          "name": "Momentos de Amor Sabonete em Barra 4un 80g",
+          "de": "32,90",
+          "por": "19,99",
+          "cada": "",
+          "hue": 25
+        },
+        {
+          "brand": "JEQUITI",
+          "name": "Sensi Hidratante Extrato de Calêndula 220ml",
+          "de": "32,90",
+          "por": "14,99",
+          "cada": "",
+          "hue": 210
+        },
+        {
+          "brand": "BARBOUR’S",
+          "name": "Body Splash 200ml — qualquer fragrância",
+          "de": "99,90",
+          "por": "49,99",
+          "cada": "cada",
+          "hue": 30
+        }
+      ]
+    },
+    {
+      "id": "v5",
+      "kind": "footpay",
+      "h": 122,
+      "name": "Rodapé · pagamento + QR",
+      "mm": "32 mm",
+      "hint": "condições e validade",
+      "fields": [
+        {
+          "key": "fv5a",
+          "label": "Parcelamento",
+          "value": "Em até 6x sem juros nos cartões"
+        },
+        {
+          "key": "fv5b",
+          "label": "Parcela mínima",
+          "value": "R$ 30,00"
+        },
+        {
+          "key": "fv5c",
+          "label": "Formas de pagamento",
+          "value": "Visa · Master · Elo · Amex · PicPay · Pix"
+        },
+        {
+          "key": "fv5d",
+          "label": "Link do QR Code",
+          "value": "Instagram da loja"
+        },
+        {
+          "key": "fv5e",
+          "label": "Validade",
+          "value": "até 07.11.26 enquanto durarem os estoques"
+        }
+      ]
+    }
+  ]
+}

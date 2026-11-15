@@ -3,7 +3,11 @@ import { createRoot } from 'react-dom/client'
 
 const root = document.getElementById('root')!
 
-if (location.hash === '#livre') {
+if (location.hash !== '#livre' && location.hash !== '#avancado') {
+  void import('./BlockEditor').then(({ default: BlockEditor }) => {
+    createRoot(root).render(<StrictMode><BlockEditor /></StrictMode>)
+  })
+} else if (location.hash === '#livre') {
   // editor de elementos livres (versão anterior)
   void Promise.all([import('./styles.css'), import('./App')]).then(([, { default: App }]) => {
     createRoot(root).render(<StrictMode><App /></StrictMode>)
