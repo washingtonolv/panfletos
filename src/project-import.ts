@@ -1,6 +1,7 @@
 import { normalize, tags } from './block-model.ts'
 import type { Document } from './block-model.ts'
 import { parsePrice } from './prices.ts'
+import { readLayout, readAppearance, isColor } from './layout-settings.ts'
 
 export const MAX_PROJECT_BYTES = 50 * 1024 * 1024
 
@@ -40,6 +41,7 @@ function validPhoto(value: unknown, path: string) {
 // Extra historical metadata is ignored by normalize; known fields are never coerced.
 export function validateProject(value: unknown): Document {
   const input = record(value, 'Projeto')
+  try { readLayout(input.layout) } catch (error) { fail('Projeto', (error as Error).message) }
   const ids = new Set<string>()
   for (const side of ['frente', 'verso'] as const) {
     const blocks = input[side]
@@ -47,6 +49,7 @@ export function validateProject(value: unknown): Document {
     blocks.forEach((value, index) => {
       const path = `${side}, bloco ${index + 1}`
       const block = record(value, path)
+      try { readAppearance(block.appearance) } catch (error) { fail(path, (error as Error).message) }
       identifier(block.id, `${path}, id`, ids)
       if (typeof block.kind !== 'string' || !['header', 'hero3', 'hero2', 'row', 'footsite', 'footpay'].includes(block.kind)) fail(path, 'tipo de bloco desconhecido.')
       text(block.name, `${path}, nome`)
@@ -58,6 +61,8 @@ export function validateProject(value: unknown): Document {
         block.products.forEach((value, pi) => {
           const pp = `${path}, produto ${pi + 1}`
           const product = record(value, pp)
+          if (product.badgeColor !== undefined && !isColor(product.badgeColor)) fail(pp, 'cor da etiqueta inválida.')
+          if (product.label !== undefined) text(product.label, `${pp}, chamada`)
           for (const [key, label] of [['brand', 'marca'], ['name', 'nome'], ['de', 'preço de'], ['por', 'preço por'], ['cada', 'complemento']]) text(product[key], `${pp}, ${label}`)
           for (const field of ['de', 'por'] as const) {
             const price = parsePrice(product[field], field === 'de')

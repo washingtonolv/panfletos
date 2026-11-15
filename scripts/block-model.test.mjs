@@ -4,6 +4,90 @@ import seed from '../src/block-seed.json' with { type: 'json' }
 import { parseProject, validateProject, ProjectImportError, MAX_PROJECT_BYTES } from '../src/project-import.ts'
 import { parsePrice, priceIssues } from '../src/prices.ts'
 import { initialDocument, loadDraft, resolveDraftRecovery, saveDraft, STORAGE, RECOVERY_PREFIX, minHeight, moveBlock, newBlock, normalize, paginate, priceParts, tags } from '../src/block-model.ts'
+import { templates, createFromTemplate } from '../src/layout-templates.ts'
+import { formats } from '../src/layout-settings.ts'
+import { replaceDraft, listSavedDrafts, SAVED_PREFIX } from '../src/draft-library.ts'
+
+test('all reference models have unique editable copies, valid prices and one page per populated side', () => {
+  assert.equal(templates.length, 9)
+  assert.equal(new Set(templates.flatMap(t => t.sources)).size, 15)
+  const counts = [[13,12],[15,17],[12,15],[15,12],[14,0],[11,18],[11,21],[12,16],[13,0]]
+  for (const [index, template] of templates.entries()) {
+    const first = createFromTemplate(template.id), second = createFromTemplate(template.id)
+    assert.equal(priceIssues(first).length, 0)
+    const ids = [...first.frente, ...first.verso, ...second.frente, ...second.verso].map(b => b.id)
+    assert.equal(new Set(ids).size, ids.length)
+    for (const [si, side] of ['frente', 'verso'].entries()) {
+      assert.equal(first[side].flatMap(b => b.products || []).length, counts[index][si])
+      assert.equal(paginate(first[side], formats[first.layout.format].height).length, 1)
+      assert.ok(first[side].reduce((n,b) => n + minHeight(b) + 6, 0) <= formats[first.layout.format].height - 30)
+    }
+    first.frente[0].fields[0].value = 'Alterado'
+    assert.notEqual(second.frente[0].fields[0].value, 'Alterado')
+    assert.deepEqual(parseProject(JSON.stringify(second)), normalize(second))
+  }
+  assert.throws(() => createFromTemplate('missing'))
+})
+
+test('new layout metadata is preserved through draft loading and rejected when malformed on import', () => {
+  const doc = createFromTemplate('natura-verao')
+  doc.frente[1].products[0].label = 'LANÇAMENTO'
+  const saved = JSON.stringify(doc)
+  assert.deepEqual(loadDraft({ getItem: k => k === STORAGE ? saved : null }).document, normalize(doc))
+  for (const mutate of [
+    d => { d.layout.format = '__proto__' }, d => { d.layout.format = 'A4' },
+    d => { d.layout.accent = 'url(javascript:alert(1))' }, d => { d.layout = [] },
+    d => { d.frente[0].appearance.minHeight = -1 }, d => { d.frente[0].appearance.minHeight = 301 },
+    d => { d.frente[0].appearance.vertical = 'yes' }, d => { d.frente[0].appearance = null },
+    d => { d.frente[1].products[0].badgeColor = '#fff;display:none' },
+    d => { d.frente[1].products[0].label = 1 },
+  ]) { const invalid = structuredClone(doc); mutate(invalid); assert.throws(() => validateProject(invalid), ProjectImportError) }
+  assert.equal(normalize(seed).layout, undefined)
+})
+
+function libraryStorage(initial = {}) {
+  const values = new Map(Object.entries(initial))
+  return { get length() { return values.size }, key: i => [...values.keys()][i] ?? null, getItem: k => values.get(k) ?? null, setItem: (k,v) => values.set(k,v), values }
+}
+test('replacing and restoring archives the exact current draft, including invalid editable prices', () => {
+  const old = normalize(seed); old.frente[1].products[0].por = 'rascunho'
+  const raw = JSON.stringify(old), next = createFromTemplate('blitz')
+  const storage = libraryStorage({ [STORAGE]: raw, 'panfletos:montador:v2': 'legacy' })
+  const snapshot = replaceDraft(old, next, raw, storage)
+  assert.equal(storage.getItem(STORAGE), JSON.stringify(next))
+  assert.deepEqual(JSON.parse(storage.getItem(snapshot.key)).document, JSON.parse(raw))
+  const library = listSavedDrafts(storage)
+  assert.equal(library.drafts.length, 1); assert.equal(library.unreadable, 0)
+  replaceDraft(next, library.drafts[0].document, JSON.stringify(next), storage)
+  assert.equal(JSON.parse(storage.getItem(STORAGE)).frente[1].products[0].por, 'rascunho')
+  assert.equal(listSavedDrafts(storage).drafts.length, 2)
+  assert.equal(storage.getItem('panfletos:montador:v2'), 'legacy')
+})
+test('archive quota, verification, active-write failure and concurrent edits never replace originals', () => {
+  const old = normalize(seed), raw = JSON.stringify(old), next = createFromTemplate('blitz')
+  for (const failure of ['archive-quota','verification','active-quota','conflict','late-conflict']) {
+    const storage = libraryStorage({ [STORAGE]: raw })
+    const originalSet = storage.setItem
+    storage.setItem = (key,value) => {
+      if (failure === 'archive-quota' || (failure === 'active-quota' && key === STORAGE)) throw new Error('quota')
+      if (failure === 'verification' && key.startsWith(SAVED_PREFIX)) return
+      originalSet(key,value)
+      if (failure === 'late-conflict' && key.startsWith(SAVED_PREFIX)) originalSet(STORAGE, 'other-tab')
+    }
+    if (failure === 'conflict') originalSet(STORAGE,'other-tab')
+    assert.throws(() => replaceDraft(old,next,raw,storage))
+    assert.equal(storage.getItem(STORAGE), failure.includes('conflict') ? 'other-tab' : raw)
+    assert.equal(old.layout, undefined)
+  }
+})
+test('unreadable archived copies are reported and preserved alongside readable copies', () => {
+  const old = normalize(seed), raw = JSON.stringify(old)
+  const storage = libraryStorage({ [STORAGE]:raw, [SAVED_PREFIX+'broken']:'broken' })
+  replaceDraft(old,createFromTemplate('blitz'),raw,storage)
+  assert.equal(listSavedDrafts(storage).unreadable,1)
+  assert.equal(listSavedDrafts(storage).drafts.length,1)
+  assert.equal(storage.getItem(SAVED_PREFIX+'broken'),'broken')
+})
 
 test('D&D preserves its products on both sides and fits the default page', () => {
   const doc = initialDocument()
