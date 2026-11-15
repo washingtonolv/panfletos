@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { initialDocument, minHeight, moveBlock, newBlock, normalize, paginate, tags } from '../src/block-model.ts'
+import { initialDocument, minHeight, moveBlock, newBlock, normalize, paginate, priceParts, tags } from '../src/block-model.ts'
 
 test('D&D preserves its products on both sides and fits the default page', () => {
   const doc = initialDocument()
@@ -41,4 +41,11 @@ test('all four tag models paginate safely, including a large one-product tag', (
 test('invalid projects are rejected instead of overwriting the active document', () => {
   assert.throws(() => normalize({frente: [], verso: 'wrong'}))
   assert.throws(() => normalize({frente: [{kind: 'unknown'}], verso: []}))
+})
+
+test('price layout separates the integer and raised cents without losing thousands', () => {
+  assert.deepEqual(priceParts('19,99'), { integer: '19', cents: '99' })
+  assert.deepEqual(priceParts('1.299,90'), { integer: '1.299', cents: '90' })
+  assert.deepEqual(priceParts('129.90'), { integer: '129', cents: '90' })
+  assert.deepEqual(priceParts(''), { integer: '0', cents: '00' })
 })

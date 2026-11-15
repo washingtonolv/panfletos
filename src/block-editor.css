@@ -16,3 +16,22 @@
 .tag-before .price-value strong{font-size:clamp(9px,var(--price-font),20px)}
 .tag-before .price-unit{font-size:7px}
 .has-large-tags .product-photo{min-height:42px}
+
+/* D&D print reference: rounded red card, white DE capsule and raised cents. */
+.tag-pill,.tag-wide{background:#e91d47;clip-path:none;border-radius:13px;width:86px;max-width:100%;align-self:center;padding:4px 6px;gap:3px}
+.tag-pill{width:76px;border-radius:12px}
+.tag-pill .price-top,.tag-wide .price-top{background:#fff;color:#171717;width:100%;min-width:0;max-width:100%;padding:3px 2px;border-radius:9px;font-size:clamp(5px,8cqw,8px);font-weight:600;line-height:1;flex-shrink:0}
+.price-tag .price-value{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;gap:3px;line-height:1}
+.price-tag .price-value .price-currency{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:1px;font-size:clamp(5px,7cqw,7px);font-weight:500;line-height:1;flex-shrink:0}
+.price-number{display:flex;align-items:flex-start;min-width:0;font-size:clamp(12px,var(--price-font),34px);line-height:1;letter-spacing:-.04em}
+.price-tag .price-value strong{font-size:inherit;line-height:.95;letter-spacing:inherit}
+.price-fraction{display:flex;flex-direction:column;justify-content:space-between;align-self:stretch;gap:2px;padding-top:1px;letter-spacing:-.02em}
+.price-fraction sup{position:static;font-size:.4em;line-height:1;vertical-align:baseline}
+.price-tag .price-unit{font-size:clamp(4px,6cqw,6px);line-height:1;text-transform:uppercase;margin:0;align-self:flex-end;letter-spacing:0}
+.tag-offer .price-top,.tag-before .price-top{flex-shrink:0}
+.tag-progressive{background:transparent;color:var(--promo-color);height:58px;padding:0 2px;gap:2px;align-self:center}
+.tag-progressive .price-top{background:var(--promo-color);color:white;border-radius:4px;padding:2px 4px;font-size:clamp(5px,6cqw,8px);font-weight:500;line-height:1;flex-shrink:0}
+.price-quantity{font-size:clamp(12px,15cqw,20px);font-weight:800;line-height:1;white-space:nowrap}
+.tag-progressive .price-value{flex:initial;gap:3px;align-items:baseline}
+.tag-progressive .price-number{font-size:clamp(10px,var(--price-font),20px)}
+.tag-progressive .price-value .price-currency{flex-direction:row;gap:2px;font-size:clamp(5px,7cqw,9px);font-weight:800}

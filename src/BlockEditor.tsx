@@ -1,17 +1,20 @@
 import { useEffect, useRef, useState } from 'react'
 import type { CSSProperties, DragEvent } from 'react'
-import { blankProduct, catalog, initialDocument, minHeight, moveBlock, newBlock, normalize, paginate, STORAGE, tags, uid } from './block-model'
+import { blankProduct, catalog, initialDocument, minHeight, moveBlock, newBlock, normalize, paginate, priceParts, STORAGE, tags, uid } from './block-model'
 import type { Block, Document, Product, Side } from './block-model'
 import './block-editor.css'
 
-function PriceTag({ product: p }: { product: Product }) {
+function PriceTag({ product: p, index = 0 }: { product: Product; index?: number }) {
   const tag = p.tag || 'wide'
-  const priceSize = Math.min(tag === 'offer' || tag === 'before' ? 23 : 18, 88 / ((p.por || '0,00').length * .65 + 1.7))
-  return <span className={`price-tag tag-${tag}`} style={{ '--price-font': `${priceSize}cqw` } as CSSProperties}>
-    <span className="price-top">{tag === 'offer' ? 'Por Apenas' : p.de ? `De: R$ ${p.de}` : 'Por Apenas'}</span>
-    {tag === 'before' && <span className="price-por">Por:</span>}
-    <span className="price-value"><small>R$</small><strong>{p.por || '0,00'}</strong></span>
-    {p.cada && <span className="price-unit">{p.cada}</span>}
+  const parts = priceParts(p.por)
+  const priceSize = Math.min(40, 84 / (parts.integer.length * .65 + 1.3))
+  return <span className={`price-tag tag-${tag}`} style={{ '--price-font': `${priceSize}cqw`, '--promo-color': ['#244cff', '#29b52a', '#a02eef'][index % 3] } as CSSProperties}>
+    <span className="price-top">{tag === 'offer' ? 'Por Apenas' : p.de ? `DE: R$ ${p.de}` : 'POR APENAS'}</span>
+    {tag === 'progressive' && <span className="price-quantity">LEVE {index + 1}</span>}
+    <span className="price-value" aria-label={`Por R$ ${p.por || '0,00'}${p.cada ? ' ' + p.cada : ''}`}>
+      <small className="price-currency"><span>POR{tag === 'progressive' ? '' : ':'}</span><span>R$</span></small>
+      <span className="price-number"><strong>{parts.integer}</strong><span className="price-fraction"><sup>,{parts.cents}</sup>{p.cada && <span className="price-unit">{p.cada}</span>}</span></span>
+    </span>
   </span>
 }
 
@@ -24,7 +27,7 @@ function FlyerBlock({ block: b, pick, selected, productIndex }: { block: Block; 
           aria-label={`Editar produto ${i + 1}: ${p.name}`} onClick={e => { e.stopPropagation(); pick?.(i) }}>
           <span className="product-photo">{p.photo ? <img src={p.photo} alt={p.name} /> : <span className="photo-placeholder">＋<small>Foto</small></span>}</span>
           <span className="product-copy" title={`${p.brand} ${p.name}`}><b>{p.brand}</b><span>{p.name}</span></span>
-          <PriceTag product={p} />
+          <PriceTag product={p} index={i} />
         </button>)}
       </div></>
   const hasLargeTags = b.products?.some(p => p.tag === 'offer' || p.tag === 'before')

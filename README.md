@@ -13,7 +13,7 @@ O endereço principal abre o montador React: escolha um bloco na biblioteca, arr
 
 Quando o conteúdo excede a folha de 153 × 207 mm, uma nova página é criada. As setas Subir/Descer também permitem ordenar sem arrastar. Desfazer e Refazer recuperam alterações, inclusive exclusões. Fotos PNG/JPG/WebP são reduzidas para armazenamento local.
 
-O rascunho fica neste navegador. Use **Baixar projeto** para ter uma cópia JSON e **Abrir projeto** para recuperá-la. O novo editor importa o conteúdo do rascunho anterior, ignorando posições e escalas livres; o original permanece na chave `panfletos:v1`. O novo rascunho usa `panfletos:montador:v2`.
+O rascunho fica neste navegador. Use **Baixar projeto** para ter uma cópia JSON e **Abrir projeto** para recuperá-la. O editor importa o conteúdo do rascunho anterior, ignorando posições e escalas livres; os originais permanecem nas chaves anteriores. O novo rascunho usa `panfletos:montador:v3`, migrando uma vez os destaques antigos para o preço progressivo colorido. As etiquetas D&D usam cartão vermelho arredondado, faixa branca para o DE, inteiro grande e centavos elevados.
 
 **Imprimir / PDF** imprime frente e verso, ou o lado selecionado nas opções do painel. Na janela de impressão, escolha Salvar como PDF, escala 100%, margens nenhuma e gráficos de fundo. A saída é RGB, sem sangria ou marcas de corte.
 
