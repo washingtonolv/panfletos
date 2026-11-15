@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import type { CSSProperties, DragEvent } from 'react'
-import { blankProduct, catalog, loadDraft, resolveDraftRecovery, saveDraft, minHeight, moveBlock, newBlock, normalize, paginate, priceParts, tags, uid } from './block-model'
+import { blankProduct, catalog, loadDraft, resolveDraftRecovery, saveDraft, minHeight, moveBlock, newBlock, paginate, priceParts, tags, uid } from './block-model'
 import type { Block, Document, Product, Side } from './block-model'
 import './block-editor.css'
+import { MAX_PROJECT_BYTES, parseProject, ProjectImportError } from './project-import'
 
 function PriceTag({ product: p, index = 0 }: { product: Product; index?: number }) {
   const tag = p.tag || 'wide'
@@ -56,6 +57,7 @@ export default function BlockEditor() {
   const [printSides, setPrintSides] = useState<'both' | Side>('both')
   const fileInput = useRef<HTMLInputElement>(null)
   const latestDoc = useRef(doc)
+  const importRequest = useRef(0)
   const blocks = doc[side]
   const current = blocks.find(b => b.id === selected)
   const product = current?.products?.[productIndex]
@@ -93,6 +95,24 @@ export default function BlockEditor() {
     const previous = latestDoc.current
     latestDoc.current = next
     setHistory(h => ({ past: [...h.past.slice(-19), previous], future: [] })); setDoc(next)
+  }
+  async function importProject(input: HTMLInputElement) {
+    const file = input.files?.[0]
+    if (!file) return
+    const request = ++importRequest.current
+    const previous = latestDoc.current
+    input.value = '' // The same invalid file can be selected again after repair.
+    try {
+      if (file.size > MAX_PROJECT_BYTES) throw new ProjectImportError('O arquivo excede o limite de 50 MiB.')
+      const imported = parseProject(await file.text())
+      if (request !== importRequest.current) return
+      if (latestDoc.current !== previous) throw new ProjectImportError('O documento mudou durante a leitura. Abra o arquivo novamente para confirmar a substituição.')
+      commit(imported); setSelected(null); setNotice('Projeto aberto. Você pode desfazer para recuperar o anterior.')
+    } catch (error) {
+      if (request !== importRequest.current) return
+      const reason = error instanceof ProjectImportError ? error.message : 'Não foi possível ler o arquivo. Tente novamente.'
+      setNotice(`Projeto não aberto. ${reason} Seu documento foi mantido.`)
+    }
   }
   function changeBlock(fn: (b: Block) => void) {
     if (!current) return
@@ -151,7 +171,7 @@ export default function BlockEditor() {
         <nav aria-label="Lado do panfleto">{(['frente', 'verso'] as Side[]).map(s => <button key={s} aria-pressed={side === s} onClick={() => { setSide(s); setSelected(null) }}>{s === 'frente' ? 'Frente' : 'Verso'}</button>)}</nav>
         <span className={`save-state ${saveError ? 'error' : ''}`}>{saveError ? 'Não foi possível salvar. Baixe o projeto.' : '✓ Salvo neste navegador'}</span>
         <button onClick={() => download(doc)}>Baixar projeto</button><button onClick={() => fileInput.current?.click()}>Abrir projeto</button>
-        <input ref={fileInput} hidden type="file" accept=".json,application/json" onChange={async e => { const f = e.target.files?.[0]; if (!f) return; try { const imported = normalize(JSON.parse(await f.text())); commit(imported); setSelected(null); setNotice('Projeto aberto. Você pode desfazer para recuperar o anterior.') } catch { setNotice('Arquivo inválido. Escolha um projeto JSON do editor.') } e.target.value = '' }} />
+        <input ref={fileInput} hidden type="file" accept=".json,application/json" onChange={e => { void importProject(e.currentTarget) }} />
         <button className="primary" onClick={() => window.print()}>Imprimir / PDF</button>
       </header>
       <div className="builder-workspace">

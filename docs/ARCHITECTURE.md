@@ -20,6 +20,8 @@ Essas faixas não equivalem a versões instaladas. O workflow usa Node 22; o tes
 | scripts/block-model.test.mjs | Seis testes do modelo na baseline. |
 
 ## Dados e persistência
+Importação de arquivos passa por parseProject/validateProject em src/project-import.ts antes de qualquer commit no editor. Essa etapa valida estrutura, tipos, ids, produtos, campos, etiquetas e sintaxe das fotos; somente então chama normalize. A leitura de rascunhos mantém o fluxo anterior para compatibilidade de migração. Arquivos acima de 50 MiB são rejeitados antes da leitura. O editor também descarta respostas de seleções antigas e recusa substituir um documento alterado durante a leitura.
+
 loadDraft retorna documento, origem, falhas com conteúdo original e permissão de salvamento. saveDraft recusa gravação enquanto houver falha não resolvida. resolveDraftRecovery verifica que o original não mudou, grava e relê uma cópia em panfletos:recovery:<UUID> antes de liberar a decisão explícita de usar a versão anterior ou o modelo inicial. O download dos originais não depende de conseguir gravar a cópia local. Chaves e formatos dos documentos existentes permanecem iguais.
 
 O documento principal contém frente e verso, com blocos e produtos. Estado e histórico do montador ficam em React; não presumir que o montador usa o store legado.

@@ -1,5 +1,12 @@
 # Verificação — Panfletos
 
+## AIDF-003 — importação JSON (2026-11-15)
+- npm ci concluído sem alterar dependências; 19 testes passaram, incluindo cinco novos testes com matrizes de estruturas inválidas, tipos, identificadores, fotos, tags, quantidades, metadados históricos, BOM e limite de arquivo.
+- npm run lint: nenhum erro, cinco avisos existentes. npm run build: TypeScript e produção aprovados.
+- Seis cenários no Edge/build local: rejeições preservam documento/armazenamento/histórico e permitem repetir arquivo; importação válida/desfazer/refazer/reload; tamanho/leitura; edição durante leitura; seleção concorrente; BOM e lados vazios.
+- Ausência de erros JavaScript confirmada. Recuperação permanece coberta pelos oito testes anteriores. Não há alteração visual, na impressão ou nos modos legados.
+- Contrato, critérios e limites em tasks/AIDF-003.md.
+
 ## AIDF-002 — recuperação segura (2026-11-15)
 - Instalação pelo lockfile concluída com npm ci usando ferramenta local, sem mudança de dependências.
 - npm run test:model: 14 testes passaram (seis existentes e oito de recuperação).
