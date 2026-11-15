@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { produce } from 'immer'
+import { anniversaryTemplate } from './anniversaryTemplate'
 
 export const PAGE_W = 153 // mm
 export const PAGE_H = 207 // mm
@@ -145,6 +146,7 @@ interface State {
   setProducts: (p: Product[]) => void
   fillPage: () => { filled: number; left: number }
   addBlocksForRest: () => void
+  loadAnniversary: () => void
 }
 
 const samples: Product[] = [
@@ -176,6 +178,10 @@ export const useDoc = create<State>((set, get) => {
   return {
     pages: initial, page: 0, sel: null, scope: 'one', products: [], past: [], future: [],
     select: (id) => set({ sel: id }),
+    loadAnniversary: () => {
+      const { pages, past } = get()
+      set({ pages: anniversaryTemplate(), page: 0, sel: null, past: [...past.slice(-99), pages], future: [] })
+    },
     setPage: (n) => set({ page: n, sel: null }),
     setScope: (scope) => set({ scope }),
     update: (id, patch) =>
