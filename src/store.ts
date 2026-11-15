@@ -5,6 +5,21 @@ export const PAGE_W = 153 // mm
 export const PAGE_H = 207 // mm
 
 export type ElType = 'price' | 'text' | 'image'
+export type BlockKind = 'row3' | 'row2' | 'hero'
+
+const MARGIN = 8
+const GAP = 4
+export const BLOCKS: Record<BlockKind, { label: string; cols: number; h: number; fontPt: number }> = {
+  row3: { label: 'Linha de 3', cols: 3, h: 48, fontPt: 20 },
+  row2: { label: 'Linha de 2', cols: 2, h: 56, fontPt: 26 },
+  hero: { label: 'Destaque', cols: 1, h: 70, fontPt: 40 },
+}
+
+function slotGeom(kind: BlockKind, slot: number, y0: number) {
+  const b = BLOCKS[kind]
+  const w = (PAGE_W - 2 * MARGIN - GAP * (b.cols - 1)) / b.cols
+  return { x: +(MARGIN + slot * (w + GAP)).toFixed(2), y: y0, w: +w.toFixed(2), h: b.h }
+}
 
 export interface El {
   id: string
@@ -20,6 +35,7 @@ export interface El {
   color: string
   bg: string
   src?: string
+  block?: { id: string; kind: BlockKind; slot: number; y0: number }
 }
 
 type Pages = El[][]
@@ -34,6 +50,8 @@ interface State {
   setPage: (n: number) => void
   update: (id: string, patch: Partial<El>) => void
   add: (el: Partial<El> & { type: ElType }) => void
+  addBlock: (kind: BlockKind) => void
+  resetBlock: (blockId: string) => void
   remove: (id: string) => void
   undo: () => void
   redo: () => void
@@ -85,6 +103,30 @@ export const useDoc = create<State>((set, get) => {
       commit((p) => { p[get().page].push({ ...base, ...el, id }) })
       set({ sel: id })
     },
+    addBlock: (kind) => {
+      const b = BLOCKS[kind]
+      const arr = get().pages[get().page]
+      const bottom = arr.reduce((m, e) => Math.max(m, e.y + e.h), MARGIN - GAP)
+      let y0 = +(bottom + GAP).toFixed(2)
+      if (y0 + b.h > PAGE_H - MARGIN) y0 = Math.max(MARGIN, +(PAGE_H - MARGIN - b.h).toFixed(2))
+      const id = uid()
+      commit((p) => {
+        for (let i = 0; i < b.cols; i++) {
+          p[get().page].push({
+            id: uid(), type: 'price', ...slotGeom(kind, i, y0),
+            text: 'Nome do produto', price: '0,00', sub: 'de R$ 0,00', fontPt: b.fontPt,
+            color: '#C8102E', bg: '#C8102E', block: { id, kind, slot: i, y0 },
+          })
+        }
+      })
+      set({ sel: null })
+    },
+    resetBlock: (blockId) =>
+      commit((p) => {
+        for (const e of p[get().page]) {
+          if (e.block?.id === blockId) Object.assign(e, slotGeom(e.block.kind, e.block.slot, e.block.y0), { fontPt: BLOCKS[e.block.kind].fontPt })
+        }
+      }),
     remove: (id) => {
       commit((p) => {
         const arr = p[get().page]

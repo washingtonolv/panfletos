@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import Moveable from 'react-moveable'
-import { PAGE_H, PAGE_W, useDoc, type El } from './store'
+import { BLOCKS, PAGE_H, PAGE_W, useDoc, type BlockKind, type El } from './store'
 
 const PT_MM = 25.4 / 72 // 1 pt em mm
 const SIZES = [6, 7, 8, 9, 10, 11, 12, 14, 16, 18, 20, 24, 28, 32, 40, 48]
@@ -46,7 +46,7 @@ function ElView({ el, S, selected, onDown }: { el: El; S: number; selected: bool
 }
 
 export default function App() {
-  const { pages, page, sel, past, future, select, setPage, update, add, remove, undo, redo } = useDoc()
+  const { pages, page, sel, past, future, select, setPage, update, add, addBlock, resetBlock, remove, undo, redo } = useDoc()
   const [zoom, setZoom] = useState(1)
   const S = 3.78 * zoom // px por mm
   const els = pages[page]
@@ -115,6 +115,11 @@ export default function App() {
         <div className="grp">
           <button className={page === 0 ? 'on' : ''} onClick={() => setPage(0)}>Frente</button>
           <button className={page === 1 ? 'on' : ''} onClick={() => setPage(1)}>Verso</button>
+        </div>
+        <div className="grp">
+          {(Object.keys(BLOCKS) as BlockKind[]).map((k) => (
+            <button key={k} onClick={() => addBlock(k)}>+ {BLOCKS[k].label}</button>
+          ))}
         </div>
         <div className="grp">
           <button onClick={() => add({ type: 'price', text: 'Nome do produto', price: '0,00', sub: 'de R$ 0,00', fontPt: 26, color: '#C8102E', bg: '#C8102E', w: 64, h: 52 })}>+ Card de preço</button>
@@ -207,7 +212,10 @@ export default function App() {
               <div className="row dim">
                 {selEl.x.toFixed(1)}, {selEl.y.toFixed(1)} mm · {selEl.w.toFixed(1)} × {selEl.h.toFixed(1)} mm
               </div>
-              <button className="danger" onClick={() => remove(selEl.id)}>Excluir</button>
+              {selEl.block && (
+                <button onClick={() => resetBlock(selEl.block!.id)}>Restaurar bloco ({BLOCKS[selEl.block.kind].label})</button>
+              )}
+              <div><button className="danger" onClick={() => remove(selEl.id)}>Excluir</button></div>
             </>
           )}
         </aside>
