@@ -1,11 +1,13 @@
 import seed from './block-seed.json' with { type: 'json' }
 import { parsePrice } from './prices.ts'
+import { readLayout, readAppearance, isColor } from './layout-settings.ts'
+import type { Layout, Appearance } from './layout-settings.ts'
 
 export type Tag = 'offer' | 'before' | 'pill' | 'wide' | 'progressive'
-export type Product = { brand: string; name: string; de: string; por: string; cada: string; photo?: string; tag?: Tag }
-export type Block = { id: string; kind: string; name: string; h: number; cols?: number; fields?: { key: string; label: string; value: string }[]; products?: Product[] }
-export type Document = { frente: Block[]; verso: Block[] }
-export type Side = keyof Document
+export type Product = { brand: string; name: string; de: string; por: string; cada: string; photo?: string; tag?: Tag; badgeColor?: string; label?: string }
+export type Block = { id: string; kind: string; name: string; h: number; cols?: number; fields?: { key: string; label: string; value: string }[]; products?: Product[]; appearance?: Appearance }
+export type Document = { frente: Block[]; verso: Block[]; layout?: Layout }
+export type Side = 'frente' | 'verso'
 export const STORAGE = 'panfletos:montador:v3'
 export const tags: { id: Tag; name: string }[] = [
   { id: 'offer', name: 'Por apenas' }, { id: 'before', name: 'De / Por' },
@@ -39,15 +41,18 @@ export function normalize(value: unknown, upgradeHero = false): Document {
       const products = b.products?.map(p => ({
         brand: String(p.brand ?? ''), name: String(p.name ?? ''), de: String(p.de ?? ''),
         por: String(p.por ?? ''), cada: String(p.cada ?? ''),
+        ...(p.badgeColor !== undefined ? { badgeColor: isColor(p.badgeColor) ? p.badgeColor : undefined } : {}),
+        ...(typeof p.label === 'string' ? { label: p.label } : {}),
         photo: typeof p.photo === 'string' && /^(data:image\/(png|jpeg|webp);base64,|https?:\/\/)/.test(p.photo) ? p.photo : undefined,
         tag: b.kind === 'hero3' && (!p.tag || (upgradeHero && p.tag === 'wide')) ? 'progressive' as Tag
           : tags.some(t => t.id === p.tag) ? p.tag : 'wide' as Tag,
       }))
       return { id: typeof b.id === 'string' ? b.id : uid(), kind: b.kind, name: String(b.name), h: Number(b.h) || 130,
-        cols: products?.length, products, fields: b.fields?.map(f => ({ key: String(f.key), label: String(f.label), value: String(f.value) })) }
+        cols: products?.length, products, fields: b.fields?.map(f => ({ key: String(f.key), label: String(f.label), value: String(f.value) })),
+        ...(b.appearance !== undefined ? { appearance: readAppearance(b.appearance) } : {}) }
     })
   }
-  return { frente: side('frente'), verso: side('verso') }
+  return { frente: side('frente'), verso: side('verso'), ...(input.layout !== undefined ? { layout: readLayout(input.layout) } : {}) }
 }
 export type DraftStorage = Pick<Storage, 'getItem' | 'setItem'>
 export type DraftFailure = { key: string; raw: string | null }
@@ -99,6 +104,7 @@ export function newBlock(index: number): Block {
     fields: fields.map(([label, value]) => ({ key: uid(), label, value })) }
 }
 export function minHeight(b: Block) {
+  if (b.appearance) return b.appearance.minHeight
   if (b.kind === 'header') return 108
   if (b.kind.startsWith('foot')) return b.kind === 'footpay' ? 88 : 56
   const n = Math.max(1, b.products?.length || 1)
@@ -107,13 +113,13 @@ export function minHeight(b: Block) {
   const photoReserve = largeTag ? Math.max(24, Math.min(64, (554 / n - 10) * .24)) : 0
   return Math.ceil(58 + 72 + photoReserve + (b.fields?.length ? 24 : 0))
 }
-export function paginate(blocks: Block[]): Block[][] {
+export function paginate(blocks: Block[], height = 782): Block[][] {
   const pages: Block[][] = [[]]
   let used = 0
   for (const b of blocks) {
-    const height = minHeight(b) + 6
-    if (used + height > 752 && pages[pages.length - 1].length) { pages.push([]); used = 0 }
-    pages[pages.length - 1].push(b); used += height
+    const blockHeight = minHeight(b) + 6
+    if (used + blockHeight > height - 30 && pages[pages.length - 1].length) { pages.push([]); used = 0 }
+    pages[pages.length - 1].push(b); used += blockHeight
   }
   return pages
 }

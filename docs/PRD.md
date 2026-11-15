@@ -21,6 +21,7 @@ Hipótese de público: responsáveis por materiais promocionais de lojas. Perfil
 São critérios derivados do código, não uma declaração de testes de navegador concluídos.
 
 ## Próxima evolução
+A galeria aprovada em tasks/AIDF-005.md acrescenta + Novo, nove modelos editáveis em dois tamanhos e cópias locais recuperáveis antes da substituição. Contratos e origem em LAYOUT_TEMPLATES.md. A autorização inclui testes e deploy.
 A terceira melhoria aprovada é validar numericamente De/Por, com avisos na edição, validação de arquivos e bloqueio de impressão dos lados com erros, conforme tasks/AIDF-004.md. De é opcional; Por obrigatório; zero permitido. Relação entre os preços e outras regras comerciais dependem de decisão futura.
 A segunda melhoria é validar integralmente a estrutura dos arquivos importados antes de substituir o documento, conforme tasks/AIDF-003.md. Erros mantêm o documento e o histórico intactos; a validação numérica foi acrescentada na AIDF-004.
 A primeira melhoria aprovada é a recuperação segura dos rascunhos, descrita em tasks/AIDF-002.md: preservar originais ilegíveis, avisar, permitir download e exigir decisão explícita antes de novas gravações. Outras melhorias ainda precisam de tarefa definida.

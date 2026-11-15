@@ -1,6 +1,7 @@
 # AIDF agent contract
 ## Contexto do Panfletos
 - Objetivo confirmado: evoluir o editor existente. Recuperação em tasks/AIDF-002.md; importação em tasks/AIDF-003.md; preços numéricos com testes e deploy em tasks/AIDF-004.md.
+- Galeria + Novo, modelos, formatos opcionais e cópias recuperáveis: tasks/AIDF-005.md e docs/LAYOUT_TEMPLATES.md. Preservar metadados e arquivos antigos; não apagar cópias locais automaticamente.
 - Leia `docs/AIDF_BASELINE.md` e os documentos de contexto antes de editar.
 - Montador principal: `src/BlockEditor.tsx`, `src/block-model.ts` e `src/block-editor.css`. Preserve também `#livre` e `#avancado` em `src/main.tsx`.
 - Preserve rascunhos locais e compatibilidade JSON. Mudanças de formato ou chaves de armazenamento exigem tarefa e estratégia de migração aprovadas.

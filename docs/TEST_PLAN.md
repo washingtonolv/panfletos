@@ -1,5 +1,13 @@
 # Verificação — Panfletos
 
+## AIDF-005 — galeria de modelos (2026-11-15)
+- npm ci pelo lockfile; 28 testes de modelo aprovados, incluindo todos os nove modelos / 15 fontes, contagens de produtos, IDs independentes, metadados/JSON, preservação de rascunhos inválidos, quota, conflitos, verificação de cópia e restauração.
+- Lint sem erros e cinco avisos existentes. TypeScript e build de produção aprovados. Nenhuma dependência ou workflow alterado.
+- Seis cenários Edge/build local: galeria/filtros/teclado/cancelamento; troca/edição/undo/redo/reload/backup/restauração; quota/conflito; todos os modelos/JSON/dimensões de impressão; celular/foco; foto/cabeçalho/cor/preço e reload.
+- Mais 17 cenários existentes no mesmo build: seis de recuperação, seis de importação e cinco de preços passaram, sem erros JavaScript.
+- Screenshots da galeria desktop 1440 × 1080, celular 390 × 844 e editor revisados. Mídia print verificou uma folha por lado preenchido, 153/185 mm de largura, lados vazios omitidos e preços inválidos bloqueados. Sem impressão física nem auditoria completa de acessibilidade; tipografia/ornamentos adaptados às referências.
+- Suíte reproduzível da galeria em scripts/gallery.browser.mjs; operação documentada em LAYOUT_TEMPLATES.md. Validação após deploy será informada no fechamento da tarefa, sem commit extra que dispare outra publicação.
+
 ## AIDF-004 — preços numéricos (2026-11-15)
 - npm ci sem alteração de dependências; 23 testes passaram, incluindo quatro novos testes com matrizes de formatos, centavos exatos, limites, importação, lados de impressão e rascunhos antigos.
 - Lint sem erros, cinco avisos existentes; TypeScript e build de produção aprovados.

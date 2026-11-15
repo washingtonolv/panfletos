@@ -1,0 +1,3966 @@
+[
+  {
+    "id": "dd-aniversario",
+    "name": "D&D · Aniversário",
+    "description": "Frente e verso",
+    "sources": [
+      "Main.dc.html",
+      "Verso.dc.html"
+    ],
+    "document": {
+      "layout": {
+        "format": "153x207",
+        "name": "D&D · Aniversário",
+        "accent": "#8B4FE0",
+        "priceColor": "#E23B3F",
+        "background": "#FBE9DF"
+      },
+      "frente": [
+        {
+          "id": "source-0-0",
+          "kind": "header",
+          "name": "Cabeçalho da campanha",
+          "h": 110,
+          "appearance": {
+            "minHeight": 110,
+            "vertical": false
+          },
+          "fields": [
+            {
+              "key": "field-0-0",
+              "label": "Tema",
+              "value": "D&D COSMÉTICOS"
+            },
+            {
+              "key": "field-0-1",
+              "label": "Título",
+              "value": "Aniversário"
+            }
+          ]
+        },
+        {
+          "id": "source-0-1",
+          "kind": "hero3",
+          "name": "Desconto progressivo",
+          "h": 170,
+          "appearance": {
+            "minHeight": 170,
+            "vertical": true
+          },
+          "cols": 3,
+          "fields": [
+            {
+              "key": "field-0-0",
+              "label": "Título",
+              "value": "APROVEITE O DESCONTO PROGRESSIVO"
+            }
+          ],
+          "products": [
+            {
+              "brand": "FHADER",
+              "name": "Eau de Parfum 100ml · Masculino ou Feminino · Qualquer fragrância",
+              "de": "99,90",
+              "por": "69,90",
+              "cada": "",
+              "tag": "progressive",
+              "badgeColor": "#2748D8"
+            },
+            {
+              "brand": "FHADER",
+              "name": "Eau de Parfum 100ml · Masculino ou Feminino · Qualquer fragrância",
+              "de": "199,80",
+              "por": "110,00",
+              "cada": "",
+              "tag": "progressive",
+              "badgeColor": "#1FA84F"
+            },
+            {
+              "brand": "FHADER",
+              "name": "Eau de Parfum 100ml · Masculino ou Feminino · Qualquer fragrância",
+              "de": "299,70",
+              "por": "150,00",
+              "cada": "",
+              "tag": "progressive",
+              "badgeColor": "#8B4FE0"
+            }
+          ]
+        },
+        {
+          "id": "source-0-2",
+          "kind": "row",
+          "name": "Linha 1 · 4 produtos",
+          "h": 95,
+          "appearance": {
+            "minHeight": 95,
+            "vertical": false
+          },
+          "cols": 4,
+          "products": [
+            {
+              "brand": "Fran",
+              "name": "Liphoney · Gloss Labial de Mel 5g Com Pingente",
+              "de": "69,90",
+              "por": "19,99",
+              "cada": "",
+              "tag": "wide"
+            },
+            {
+              "brand": "Avon",
+              "name": "Color Trend · Máscara Incolor para Cílios e Sobrancelhas 8g",
+              "de": "29,99",
+              "por": "14,99",
+              "cada": "",
+              "tag": "wide"
+            },
+            {
+              "brand": "Avon",
+              "name": "Supershock · Máscara de Cílios Volume Max 10ml",
+              "de": "42,99",
+              "por": "19,99",
+              "cada": "",
+              "tag": "wide"
+            },
+            {
+              "brand": "Avon",
+              "name": "Color Trend Disney · Máscara de Cílios Super Loong 7ml",
+              "de": "29,99",
+              "por": "9,99",
+              "cada": "",
+              "tag": "wide"
+            }
+          ]
+        },
+        {
+          "id": "source-0-3",
+          "kind": "row",
+          "name": "Linha 2 · 3 produtos",
+          "h": 118,
+          "appearance": {
+            "minHeight": 118,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "Eudora",
+              "name": "H · Colônia Masculina 100ml Consulte fragrâncias",
+              "de": "124,90",
+              "por": "74,99",
+              "cada": "cada",
+              "tag": "wide"
+            },
+            {
+              "brand": "Eudora",
+              "name": "Pulse · Colônia Masculina 100ml Consulte fragrâncias",
+              "de": "94,99",
+              "por": "69,99",
+              "cada": "cada",
+              "tag": "wide"
+            },
+            {
+              "brand": "Eudora",
+              "name": "Chic Retrô · Colônia Feminina 95ml",
+              "de": "129,90",
+              "por": "79,99",
+              "cada": "cada",
+              "tag": "wide"
+            }
+          ]
+        },
+        {
+          "id": "source-0-4",
+          "kind": "row",
+          "name": "Linha 3 · 3 produtos",
+          "h": 119,
+          "appearance": {
+            "minHeight": 119,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "Eudora",
+              "name": "Combo Siàge Pro Cronology Curvas · Shampoo 250ml + Condicionador 200ml",
+              "de": "102,98",
+              "por": "79,99",
+              "cada": "",
+              "tag": "wide"
+            },
+            {
+              "brand": "Eudora",
+              "name": "Siàge Resgate Imediato · Máscara Balm 250g",
+              "de": "74,99",
+              "por": "39,99",
+              "cada": "",
+              "tag": "wide"
+            },
+            {
+              "brand": "Nuance",
+              "name": "Kit Viagem Sol de Copacabana · Shampoo 100ml + Condicionador 100ml",
+              "de": "49,97",
+              "por": "24,99",
+              "cada": "",
+              "tag": "wide",
+              "label": "LANÇAMENTO"
+            }
+          ]
+        },
+        {
+          "id": "source-0-5",
+          "kind": "footsite",
+          "name": "Rodapé · contato e condições",
+          "h": 60,
+          "appearance": {
+            "minHeight": 60,
+            "vertical": false
+          },
+          "fields": [
+            {
+              "key": "field-0-0",
+              "label": "Loja",
+              "value": "D&D Cosméticos"
+            },
+            {
+              "key": "field-0-1",
+              "label": "Contato",
+              "value": "Adicione seu site, telefone e redes sociais"
+            },
+            {
+              "key": "field-0-2",
+              "label": "Condições",
+              "value": "Edite a validade e as condições desta campanha."
+            }
+          ]
+        }
+      ],
+      "verso": [
+        {
+          "id": "source-1-0",
+          "kind": "header",
+          "name": "Cabeçalho da campanha",
+          "h": 60,
+          "appearance": {
+            "minHeight": 60,
+            "vertical": false
+          },
+          "fields": [
+            {
+              "key": "field-1-0",
+              "label": "Tema",
+              "value": "OFERTAS · D&D COSMÉTICOS"
+            },
+            {
+              "key": "field-1-1",
+              "label": "Título",
+              "value": "Aniversário"
+            }
+          ]
+        },
+        {
+          "id": "source-1-1",
+          "kind": "row",
+          "name": "Linha 1 · 2 produtos",
+          "h": 132,
+          "appearance": {
+            "minHeight": 132,
+            "vertical": false
+          },
+          "cols": 2,
+          "products": [
+            {
+              "brand": "Jequiti",
+              "name": "Cebolinha · Colônia Masculina 25ml",
+              "de": "39,90",
+              "por": "19,99",
+              "cada": "",
+              "tag": "wide"
+            },
+            {
+              "brand": "Ciclo",
+              "name": "Deo Colônia Infantil Cici 100ml · Mel, Zoe ou Bella",
+              "de": "75,99",
+              "por": "64,99",
+              "cada": "cada",
+              "tag": "wide"
+            }
+          ]
+        },
+        {
+          "id": "source-1-2",
+          "kind": "row",
+          "name": "Linha 2 · 4 produtos",
+          "h": 95,
+          "appearance": {
+            "minHeight": 95,
+            "vertical": false
+          },
+          "cols": 4,
+          "products": [
+            {
+              "brand": "Avon",
+              "name": "Petit · Colônia 50ml Consulte fragrâncias",
+              "de": "64,90",
+              "por": "29,99",
+              "cada": "cada",
+              "tag": "wide"
+            },
+            {
+              "brand": "Carmed",
+              "name": "Fini Minhocas · Enxaguante Bucal 250ml",
+              "de": "14,99",
+              "por": "9,99",
+              "cada": "",
+              "tag": "wide"
+            },
+            {
+              "brand": "Carmed",
+              "name": "Fini Dentaduras · Gel Dental Anticárie Flúor 70g",
+              "de": "14,99",
+              "por": "9,99",
+              "cada": "",
+              "tag": "wide"
+            },
+            {
+              "brand": "Carmed",
+              "name": "Hidratante Labial 10g · Consulte sabores",
+              "de": "14,99",
+              "por": "9,99",
+              "cada": "cada",
+              "tag": "wide"
+            }
+          ]
+        },
+        {
+          "id": "source-1-3",
+          "kind": "row",
+          "name": "Linha 3 · 3 produtos",
+          "h": 120,
+          "appearance": {
+            "minHeight": 120,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "Avon",
+              "name": "Aquavibe · Body Splash 300ml Consulte fragrâncias",
+              "de": "39,99",
+              "por": "19,99",
+              "cada": "cada",
+              "tag": "wide"
+            },
+            {
+              "brand": "Avon",
+              "name": "Lov|U Touch · Deo Parfum Feminino 75ml",
+              "de": "144,90",
+              "por": "49,99",
+              "cada": "cada",
+              "tag": "wide"
+            },
+            {
+              "brand": "Avon",
+              "name": "Far Away · Deo Parfum Feminino 50ml Consulte fragrâncias",
+              "de": "124,90",
+              "por": "64,99",
+              "cada": "cada",
+              "tag": "wide"
+            }
+          ]
+        },
+        {
+          "id": "source-1-4",
+          "kind": "row",
+          "name": "Linha 4 · 3 produtos",
+          "h": 116,
+          "appearance": {
+            "minHeight": 116,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "Jequiti",
+              "name": "Momentos de Amor · Sabonete em Barra 4un 80g",
+              "de": "33,90",
+              "por": "19,99",
+              "cada": "",
+              "tag": "wide"
+            },
+            {
+              "brand": "Jequiti",
+              "name": "Sensi · Hidratante Extrato de Calêndula 220ml",
+              "de": "32,90",
+              "por": "14,99",
+              "cada": "",
+              "tag": "wide"
+            },
+            {
+              "brand": "Barbour’s",
+              "name": "Body Splash 200ml · Qualquer fragrância",
+              "de": "99,90",
+              "por": "49,99",
+              "cada": "cada",
+              "tag": "wide"
+            }
+          ]
+        },
+        {
+          "id": "source-1-5",
+          "kind": "footsite",
+          "name": "Rodapé · contato e condições",
+          "h": 60,
+          "appearance": {
+            "minHeight": 60,
+            "vertical": false
+          },
+          "fields": [
+            {
+              "key": "field-1-0",
+              "label": "Loja",
+              "value": "D&D Cosméticos"
+            },
+            {
+              "key": "field-1-1",
+              "label": "Contato",
+              "value": "Adicione seu site, telefone e redes sociais"
+            },
+            {
+              "key": "field-1-2",
+              "label": "Condições",
+              "value": "Edite a validade e as condições desta campanha."
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "blitz",
+    "name": "Blitz de ofertas",
+    "description": "Frente e verso",
+    "sources": [
+      "Blitz.dc.html",
+      "BlitzVerso.dc.html"
+    ],
+    "document": {
+      "layout": {
+        "format": "185x270",
+        "name": "Blitz de ofertas",
+        "accent": "#8E4A9C",
+        "priceColor": "#FBB800",
+        "background": "#F6E5F6"
+      },
+      "frente": [
+        {
+          "id": "source-2-0",
+          "kind": "header",
+          "name": "Cabeçalho da campanha",
+          "h": 110,
+          "appearance": {
+            "minHeight": 110,
+            "vertical": false
+          },
+          "fields": [
+            {
+              "key": "field-2-0",
+              "label": "Tema",
+              "value": "D&D COSMÉTICOS"
+            },
+            {
+              "key": "field-2-1",
+              "label": "Título",
+              "value": "Blitz de ofertas"
+            }
+          ]
+        },
+        {
+          "id": "source-2-1",
+          "kind": "row",
+          "name": "Linha 1 · 3 produtos",
+          "h": 140,
+          "appearance": {
+            "minHeight": 140,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "Fhader",
+              "name": "Eau de Parfum 100ml · Masculino ou Feminino Qualquer fragrância",
+              "de": "99,90",
+              "por": "69,99",
+              "cada": "cada",
+              "tag": "wide",
+              "label": ""
+            },
+            {
+              "brand": "Fhader",
+              "name": "Body Splash 200ml · Qualquer fragrância",
+              "de": "49,99",
+              "por": "29,99",
+              "cada": "cada",
+              "tag": "wide",
+              "label": ""
+            },
+            {
+              "brand": "Fhader",
+              "name": "Hidratante 200ml · Qualquer fragrância",
+              "de": "39,99",
+              "por": "24,99",
+              "cada": "cada",
+              "tag": "wide",
+              "label": ""
+            }
+          ]
+        },
+        {
+          "id": "source-2-2",
+          "kind": "row",
+          "name": "Linha 2 · 3 produtos",
+          "h": 140,
+          "appearance": {
+            "minHeight": 140,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "Eudora",
+              "name": "Imensi · Colônia Feminina 100ml Tradicional ou Infinite",
+              "de": "159,90",
+              "por": "99,90",
+              "cada": "cada",
+              "tag": "wide",
+              "label": ""
+            },
+            {
+              "brand": "Eudora",
+              "name": "H · Colônia Masculina 100ml Tradicional ou Flow",
+              "de": "124,90",
+              "por": "74,90",
+              "cada": "cada",
+              "tag": "wide",
+              "label": ""
+            },
+            {
+              "brand": "Avon",
+              "name": "Lov|U Touch · Deo Parfum Feminino 75ml",
+              "de": "144,90",
+              "por": "49,99",
+              "cada": "",
+              "tag": "wide",
+              "label": ""
+            }
+          ]
+        },
+        {
+          "id": "source-2-3",
+          "kind": "row",
+          "name": "Linha 3 · 3 produtos",
+          "h": 140,
+          "appearance": {
+            "minHeight": 140,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "O Boticário",
+              "name": "Styletto · Colônia Masculina Boticollection 100ml",
+              "de": "124,90",
+              "por": "99,90",
+              "cada": "",
+              "tag": "wide",
+              "label": ""
+            },
+            {
+              "brand": "O Boticário",
+              "name": "Celebre Sua Força · Colônia Masculina 100ml",
+              "de": "124,90",
+              "por": "74,90",
+              "cada": "",
+              "tag": "wide",
+              "label": ""
+            },
+            {
+              "brand": "Avon",
+              "name": "Far Away · Deo Parfum Feminino 50ml",
+              "de": "124,90",
+              "por": "49,99",
+              "cada": "",
+              "tag": "wide",
+              "label": ""
+            }
+          ]
+        },
+        {
+          "id": "source-2-4",
+          "kind": "row",
+          "name": "Linha 4 · 3 produtos",
+          "h": 140,
+          "appearance": {
+            "minHeight": 140,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "Avon",
+              "name": "Aquavibe · Body Splash 300ml",
+              "de": "39,99",
+              "por": "19,99",
+              "cada": "cada",
+              "tag": "wide",
+              "label": ""
+            },
+            {
+              "brand": "Avon",
+              "name": "Care · Creme Depilatório Corporal 125g",
+              "de": "37,90",
+              "por": "24,99",
+              "cada": "cada",
+              "tag": "wide",
+              "label": ""
+            },
+            {
+              "brand": "Avon",
+              "name": "Care · Creme para Mãos Luvas de Silicone 120g",
+              "de": "24,99",
+              "por": "16,99",
+              "cada": "cada",
+              "tag": "wide",
+              "label": ""
+            }
+          ]
+        },
+        {
+          "id": "source-2-5",
+          "kind": "row",
+          "name": "Linha 5 · 3 produtos",
+          "h": 140,
+          "appearance": {
+            "minHeight": 140,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "Barbour’s",
+              "name": "Body Splash 200ml · Masculino ou Feminino Qualquer fragrância",
+              "de": "99,90",
+              "por": "49,99",
+              "cada": "cada",
+              "tag": "wide",
+              "label": ""
+            },
+            {
+              "brand": "Avon",
+              "name": "Care · Hidratante 700ml Erva Doce ou Aveia e Extrato de Baunilha",
+              "de": "44,99",
+              "por": "24,99",
+              "cada": "cada",
+              "tag": "wide",
+              "label": ""
+            },
+            {
+              "brand": "Avon",
+              "name": "Care · Sabonete Líquido Íntimo 250ml Gentle ou Fresh",
+              "de": "24,99",
+              "por": "12,99",
+              "cada": "cada",
+              "tag": "wide",
+              "label": ""
+            }
+          ]
+        },
+        {
+          "id": "source-2-6",
+          "kind": "footsite",
+          "name": "Rodapé · contato e condições",
+          "h": 60,
+          "appearance": {
+            "minHeight": 60,
+            "vertical": false
+          },
+          "fields": [
+            {
+              "key": "field-2-0",
+              "label": "Loja",
+              "value": "D&D Cosméticos"
+            },
+            {
+              "key": "field-2-1",
+              "label": "Contato",
+              "value": "Adicione seu site, telefone e redes sociais"
+            },
+            {
+              "key": "field-2-2",
+              "label": "Condições",
+              "value": "Edite a validade e as condições desta campanha."
+            }
+          ]
+        }
+      ],
+      "verso": [
+        {
+          "id": "source-3-0",
+          "kind": "header",
+          "name": "Cabeçalho da campanha",
+          "h": 60,
+          "appearance": {
+            "minHeight": 60,
+            "vertical": false
+          },
+          "fields": [
+            {
+              "key": "field-3-0",
+              "label": "Tema",
+              "value": "OFERTAS · D&D COSMÉTICOS"
+            },
+            {
+              "key": "field-3-1",
+              "label": "Título",
+              "value": "Blitz de ofertas"
+            }
+          ]
+        },
+        {
+          "id": "source-3-1",
+          "kind": "row",
+          "name": "Linha 1 · 3 produtos",
+          "h": 146,
+          "appearance": {
+            "minHeight": 146,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "O Boticário",
+              "name": "Refil Nativa SPA · Hidratante 350ml Ameixa",
+              "de": "69,90",
+              "por": "39,99",
+              "cada": "",
+              "tag": "wide",
+              "label": ""
+            },
+            {
+              "brand": "Eudora",
+              "name": "Combo Siàge Ultra Bond Reset · Shampoo + Condicionador",
+              "de": "102,98",
+              "por": "77,99",
+              "cada": "",
+              "tag": "wide",
+              "label": "LANÇAMENTO"
+            },
+            {
+              "brand": "Eudora",
+              "name": "Siàge Resgate Imediato · Máscara Balm 250g",
+              "de": "74,99",
+              "por": "39,99",
+              "cada": "",
+              "tag": "wide",
+              "label": ""
+            }
+          ]
+        },
+        {
+          "id": "source-3-2",
+          "kind": "row",
+          "name": "Linha 2 · 4 produtos",
+          "h": 118,
+          "appearance": {
+            "minHeight": 118,
+            "vertical": false
+          },
+          "cols": 4,
+          "products": [
+            {
+              "brand": "melu",
+              "name": "Made In Máscara de Cílios e Sobrancelha · Transparente 6ml ou Preta 4,3g",
+              "de": "21,49",
+              "por": "9,99",
+              "cada": "cada",
+              "tag": "wide",
+              "label": ""
+            },
+            {
+              "brand": "melu",
+              "name": "Obsidian · Blush Duo Gemini 3,2g/4,7g Consulte cores disponíveis",
+              "de": "",
+              "por": "14,99",
+              "cada": "cada",
+              "tag": "wide"
+            },
+            {
+              "brand": "melu",
+              "name": "Obsidian · Pó Compacto 9,6g Consulte cores disponíveis",
+              "de": "",
+              "por": "9,99",
+              "cada": "cada",
+              "tag": "wide"
+            },
+            {
+              "brand": "melu",
+              "name": "Made In · Gloss Labial Ginga 4ml",
+              "de": "19,57",
+              "por": "9,99",
+              "cada": "cada",
+              "tag": "wide",
+              "label": ""
+            }
+          ]
+        },
+        {
+          "id": "source-3-3",
+          "kind": "row",
+          "name": "Linha 3 · 4 produtos",
+          "h": 126,
+          "appearance": {
+            "minHeight": 126,
+            "vertical": false
+          },
+          "cols": 4,
+          "products": [
+            {
+              "brand": "Ammô",
+              "name": "Kit de Cuidados Íntimos · Sabonete Líquido + Gel + Sérum + Hidratante + Perfume",
+              "de": "71,90",
+              "por": "39,99",
+              "cada": "",
+              "tag": "wide",
+              "label": ""
+            },
+            {
+              "brand": "Ammô",
+              "name": "Cherry Lips · Lip Balm Chaveiro 15ml",
+              "de": "",
+              "por": "14,99",
+              "cada": "",
+              "tag": "wide"
+            },
+            {
+              "brand": "Ammô",
+              "name": "Fix Matte · Bruma Fixadora 100ml",
+              "de": "34,90",
+              "por": "24,99",
+              "cada": "",
+              "tag": "wide",
+              "label": ""
+            },
+            {
+              "brand": "Ammô",
+              "name": "Big Soft Blend · Esponja para Maquiagem",
+              "de": "19,90",
+              "por": "14,99",
+              "cada": "",
+              "tag": "wide",
+              "label": ""
+            }
+          ]
+        },
+        {
+          "id": "source-3-4",
+          "kind": "row",
+          "name": "Linha 4 · 3 produtos",
+          "h": 140,
+          "appearance": {
+            "minHeight": 140,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "Fran",
+              "name": "Liphoney · Gloss Labial 5g",
+              "de": "69,90",
+              "por": "29,99",
+              "cada": "cada",
+              "tag": "wide",
+              "label": ""
+            },
+            {
+              "brand": "Fran",
+              "name": "Gloss Labial · Lip Bunny 5g ou Pink Chilli 3,3g",
+              "de": "65,90",
+              "por": "24,99",
+              "cada": "cada",
+              "tag": "wide",
+              "label": ""
+            },
+            {
+              "brand": "Avon",
+              "name": "Care · Creme Facial 100g Antissinais 6 em 1",
+              "de": "32,99",
+              "por": "19,99",
+              "cada": "",
+              "tag": "wide",
+              "label": ""
+            }
+          ]
+        },
+        {
+          "id": "source-3-5",
+          "kind": "row",
+          "name": "Linha 5 · 3 produtos",
+          "h": 138,
+          "appearance": {
+            "minHeight": 138,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "Phállebeauty",
+              "name": "Natural Beauty · Blush Stick 20g Consulte cores disponíveis",
+              "de": "",
+              "por": "14,99",
+              "cada": "cada",
+              "tag": "wide"
+            },
+            {
+              "brand": "Phállebeauty",
+              "name": "My Cherry · Gloss Love ou Lip Gloss",
+              "de": "26,99",
+              "por": "19,99",
+              "cada": "cada",
+              "tag": "wide",
+              "label": ""
+            },
+            {
+              "brand": "Phállebeauty",
+              "name": "Demaquilante Bifásico 150ml ou Água Micelar Rosa Mosqueta 200ml",
+              "de": "",
+              "por": "14,99",
+              "cada": "cada",
+              "tag": "wide"
+            }
+          ]
+        },
+        {
+          "id": "source-3-6",
+          "kind": "footsite",
+          "name": "Rodapé · contato e condições",
+          "h": 60,
+          "appearance": {
+            "minHeight": 60,
+            "vertical": false
+          },
+          "fields": [
+            {
+              "key": "field-3-0",
+              "label": "Loja",
+              "value": "D&D Cosméticos"
+            },
+            {
+              "key": "field-3-1",
+              "label": "Contato",
+              "value": "Adicione seu site, telefone e redes sociais"
+            },
+            {
+              "key": "field-3-2",
+              "label": "Condições",
+              "value": "Edite a validade e as condições desta campanha."
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "natura-verao",
+    "name": "Natura · Tododia Verão",
+    "description": "Frente e verso",
+    "sources": [
+      "NaturaVeraoFrente.dc.html",
+      "NaturaVeraoVerso.dc.html"
+    ],
+    "document": {
+      "layout": {
+        "format": "185x270",
+        "name": "Natura · Tododia Verão",
+        "accent": "#8F3BE8",
+        "priceColor": "#E8582B",
+        "background": "#FFF0E7"
+      },
+      "frente": [
+        {
+          "id": "source-4-0",
+          "kind": "header",
+          "name": "Cabeçalho da campanha",
+          "h": 110,
+          "appearance": {
+            "minHeight": 110,
+            "vertical": false
+          },
+          "fields": [
+            {
+              "key": "field-4-0",
+              "label": "Tema",
+              "value": "D&D COSMÉTICOS"
+            },
+            {
+              "key": "field-4-1",
+              "label": "Título",
+              "value": "Tododia Verão"
+            }
+          ]
+        },
+        {
+          "id": "source-4-1",
+          "kind": "row",
+          "name": "Linha 1 · 4 produtos",
+          "h": 200,
+          "appearance": {
+            "minHeight": 200,
+            "vertical": true
+          },
+          "cols": 4,
+          "products": [
+            {
+              "brand": "",
+              "name": "Natura Solar · Protetor Solar Facial Pele Normal/Seca FPS60 50g",
+              "de": "105,90",
+              "por": "54,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#6C35D8"
+            },
+            {
+              "brand": "",
+              "name": "Natura Solar · Protetor Solar Facial Pele Normal/Seca FPS70 50ml",
+              "de": "109,90",
+              "por": "59,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#6C35D8"
+            },
+            {
+              "brand": "",
+              "name": "Natura Solar · Protetor Solar Facial Pele Mista/Oleosa FPS70 50ml",
+              "de": "109,90",
+              "por": "59,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#6C35D8"
+            },
+            {
+              "brand": "",
+              "name": "Natura Solar · Protetor Solar Corporal FPS50 120ml",
+              "de": "119,90",
+              "por": "79,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#6C35D8"
+            }
+          ]
+        },
+        {
+          "id": "source-4-2",
+          "kind": "row",
+          "name": "Linha 2 · 3 produtos",
+          "h": 116,
+          "appearance": {
+            "minHeight": 116,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "",
+              "name": "Combo Tododia · Manga Rosa e Água de Coco · Shampoo 300ml + Condicionador 280ml",
+              "de": "73,80",
+              "por": "49,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#E8582B"
+            },
+            {
+              "brand": "",
+              "name": "Tododia · Manga Rosa e Água de Coco · Spray Multi Sol, Mar e Piscina 200ml",
+              "de": "45,90",
+              "por": "34,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#E8582B"
+            },
+            {
+              "brand": "",
+              "name": "Combo Lumina Refil · Shampoo Purificante 300ml + Condicionador Protetor 300ml",
+              "de": "80,80",
+              "por": "39,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#E8582B"
+            }
+          ]
+        },
+        {
+          "id": "source-4-3",
+          "kind": "row",
+          "name": "Linha 3 · 2 produtos",
+          "h": 140,
+          "appearance": {
+            "minHeight": 140,
+            "vertical": false
+          },
+          "cols": 2,
+          "products": [
+            {
+              "brand": "",
+              "name": "Tododia · Body Splash 200ml · Acerola e Hibisco, Manga Rosa e Água de Coco ou Framboesa e Pimenta Vermelha",
+              "de": "93,90",
+              "por": "49,99",
+              "cada": "(CADA)",
+              "tag": "wide",
+              "badgeColor": "#E8582B"
+            },
+            {
+              "brand": "",
+              "name": "Tododia · Hidratante 400ml · Acerola e Hibisco, Manga Rosa e Água de Coco ou Framboesa e Pimenta Vermelha",
+              "de": "78,90",
+              "por": "39,99",
+              "cada": "(CADA)",
+              "tag": "wide",
+              "badgeColor": "#E8582B"
+            }
+          ]
+        },
+        {
+          "id": "source-4-4",
+          "kind": "row",
+          "name": "Linha 4 · 3 produtos",
+          "h": 105,
+          "appearance": {
+            "minHeight": 105,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "",
+              "name": "Kit Macadâmia · Hidratante Corporal 200ml + Sabonete Vegetal 5un 90g",
+              "de": "91,80",
+              "por": "54,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#E8582B"
+            },
+            {
+              "brand": "",
+              "name": "Kit Mãos Ekos · Polpa Mãos 40g Castanha, Cacau e Tukumã",
+              "de": "119,90",
+              "por": "69,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#E8582B"
+            },
+            {
+              "brand": "",
+              "name": "Tododia · Desodorante 80g Antitranspirante em Creme Leite de Algodão",
+              "de": "30,90",
+              "por": "19,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#E8582B"
+            }
+          ]
+        },
+        {
+          "id": "source-4-5",
+          "kind": "footsite",
+          "name": "Rodapé · contato e condições",
+          "h": 60,
+          "appearance": {
+            "minHeight": 60,
+            "vertical": false
+          },
+          "fields": [
+            {
+              "key": "field-4-0",
+              "label": "Loja",
+              "value": "D&D Cosméticos"
+            },
+            {
+              "key": "field-4-1",
+              "label": "Contato",
+              "value": "Adicione seu site, telefone e redes sociais"
+            },
+            {
+              "key": "field-4-2",
+              "label": "Condições",
+              "value": "Edite a validade e as condições desta campanha."
+            }
+          ]
+        }
+      ],
+      "verso": [
+        {
+          "id": "source-5-0",
+          "kind": "header",
+          "name": "Cabeçalho da campanha",
+          "h": 60,
+          "appearance": {
+            "minHeight": 60,
+            "vertical": false
+          },
+          "fields": [
+            {
+              "key": "field-5-0",
+              "label": "Tema",
+              "value": "OFERTAS · D&D COSMÉTICOS"
+            },
+            {
+              "key": "field-5-1",
+              "label": "Título",
+              "value": "Tododia Verão"
+            }
+          ]
+        },
+        {
+          "id": "source-5-1",
+          "kind": "row",
+          "name": "Linha 1 · 3 produtos",
+          "h": 108,
+          "appearance": {
+            "minHeight": 108,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "",
+              "name": "Essencial Tradicional · Deo Parfum 100ml Masculino ou Feminino",
+              "de": "279,90",
+              "por": "159,99",
+              "cada": "(CADA)",
+              "tag": "wide",
+              "badgeColor": "#E8582B"
+            },
+            {
+              "brand": "",
+              "name": "Kaiak Aventura · Colônia Feminina 100ml",
+              "de": "189,90",
+              "por": "94,90",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#E8582B"
+            },
+            {
+              "brand": "",
+              "name": "Biografia · Colônia Masculina 100ml",
+              "de": "209,90",
+              "por": "94,90",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#E8582B"
+            }
+          ]
+        },
+        {
+          "id": "source-5-2",
+          "kind": "row",
+          "name": "Linha 2 · 3 produtos",
+          "h": 108,
+          "appearance": {
+            "minHeight": 108,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "",
+              "name": "Águas · Colônia Feminina 170ml Lavanda ou Violeta",
+              "de": "116,90",
+              "por": "74,99",
+              "cada": "(CADA)",
+              "tag": "wide",
+              "badgeColor": "#E8582B"
+            },
+            {
+              "brand": "",
+              "name": "Humor Próprio · Colônia Feminina 75ml",
+              "de": "164,90",
+              "por": "89,90",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#E8582B"
+            },
+            {
+              "brand": "",
+              "name": "Luna Ousadia · Colônia Feminina 75ml",
+              "de": "185,90",
+              "por": "89,90",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#E8582B"
+            }
+          ]
+        },
+        {
+          "id": "source-5-3",
+          "kind": "row",
+          "name": "Linha 3 · 3 produtos",
+          "h": 108,
+          "appearance": {
+            "minHeight": 108,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "",
+              "name": "Kriska Tradicional · Colônia Feminina 100ml",
+              "de": "169,90",
+              "por": "89,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#E8582B"
+            },
+            {
+              "brand": "",
+              "name": "Ekos · Sabonete em Barra 4un 100g Consulte fragrâncias disponíveis",
+              "de": "45,90",
+              "por": "34,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#E8582B"
+            },
+            {
+              "brand": "",
+              "name": "Ekos Frescor · Colônia Feminina Pitanga 150ml",
+              "de": "129,90",
+              "por": "74,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#E8582B"
+            }
+          ]
+        },
+        {
+          "id": "source-5-4",
+          "kind": "row",
+          "name": "Linha 4 · 3 produtos",
+          "h": 108,
+          "appearance": {
+            "minHeight": 108,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "",
+              "name": "Essencial Ato · Deo Corporal Feminino 100ml GRÁTIS O REFIL DO MESMO",
+              "de": "121,80",
+              "por": "68,90",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#E8582B"
+            },
+            {
+              "brand": "",
+              "name": "Humor Transforma · Deo Corporal Masculino 100ml",
+              "de": "56,90",
+              "por": "29,90",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#E8582B"
+            },
+            {
+              "brand": "",
+              "name": "Homem · Deo Corporal Masculino 100ml",
+              "de": "56,90",
+              "por": "39,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#E8582B"
+            }
+          ]
+        },
+        {
+          "id": "source-5-5",
+          "kind": "row",
+          "name": "Linha 5 · 3 produtos",
+          "h": 108,
+          "appearance": {
+            "minHeight": 108,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "",
+              "name": "Faces · Batom Matte 3,5g Vermelho Hot, Nude ou Marsala",
+              "de": "23,90",
+              "por": "14,99",
+              "cada": "(CADA)",
+              "tag": "wide",
+              "badgeColor": "#E8582B"
+            },
+            {
+              "brand": "",
+              "name": "Faces · Lápis para Olhos Preto 1,2g",
+              "de": "39,90",
+              "por": "19,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#E8582B"
+            },
+            {
+              "brand": "",
+              "name": "Faces · Blush Color 3g Bronze 47, Coral 85 ou Rosa 69",
+              "de": "39,90",
+              "por": "29,99",
+              "cada": "(CADA)",
+              "tag": "wide",
+              "badgeColor": "#E8582B"
+            }
+          ]
+        },
+        {
+          "id": "source-5-6",
+          "kind": "footsite",
+          "name": "Rodapé · contato e condições",
+          "h": 60,
+          "appearance": {
+            "minHeight": 60,
+            "vertical": false
+          },
+          "fields": [
+            {
+              "key": "field-5-0",
+              "label": "Loja",
+              "value": "D&D Cosméticos"
+            },
+            {
+              "key": "field-5-1",
+              "label": "Contato",
+              "value": "Adicione seu site, telefone e redes sociais"
+            },
+            {
+              "key": "field-5-2",
+              "label": "Condições",
+              "value": "Edite a validade e as condições desta campanha."
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "natura-consumidor",
+    "name": "Natura · Mês do Consumidor",
+    "description": "Frente e verso",
+    "sources": [
+      "NaturaConsumidorFrente.dc.html",
+      "NaturaConsumidorVerso.dc.html"
+    ],
+    "document": {
+      "layout": {
+        "format": "185x270",
+        "name": "Natura · Mês do Consumidor",
+        "accent": "#C726C9",
+        "priceColor": "#E8541B",
+        "background": "#F5E6F9"
+      },
+      "frente": [
+        {
+          "id": "source-6-0",
+          "kind": "header",
+          "name": "Cabeçalho da campanha",
+          "h": 110,
+          "appearance": {
+            "minHeight": 110,
+            "vertical": false
+          },
+          "fields": [
+            {
+              "key": "field-6-0",
+              "label": "Tema",
+              "value": "D&D COSMÉTICOS"
+            },
+            {
+              "key": "field-6-1",
+              "label": "Título",
+              "value": "Mês do Consumidor"
+            }
+          ]
+        },
+        {
+          "id": "source-6-1",
+          "kind": "row",
+          "name": "Linha 1 · 5 produtos",
+          "h": 200,
+          "appearance": {
+            "minHeight": 200,
+            "vertical": true
+          },
+          "cols": 5,
+          "products": [
+            {
+              "brand": "",
+              "name": "Combo Tododia · Nutrição · Shampoo 300ml + Condicionador 280ml",
+              "de": "73,80",
+              "por": "49,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#B72BC4"
+            },
+            {
+              "brand": "",
+              "name": "Combo Tododia · Reparação · Shampoo 300ml + Condicionador 280ml",
+              "de": "73,80",
+              "por": "49,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#B72BC4"
+            },
+            {
+              "brand": "",
+              "name": "Combo Tododia · Nutrição e Brilho · Shampoo 300ml + Condicionador 280ml",
+              "de": "73,80",
+              "por": "49,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#B72BC4"
+            },
+            {
+              "brand": "",
+              "name": "Combo Tododia · Hidratação · Shampoo 300ml + Condicionador 280ml",
+              "de": "73,80",
+              "por": "49,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#B72BC4"
+            },
+            {
+              "brand": "",
+              "name": "Máscara Capilar Concentrada 250ml · Nutre, Repara ou Hidrata",
+              "de": "49,90",
+              "por": "34,99",
+              "cada": "(CADA)",
+              "tag": "wide",
+              "badgeColor": "#B72BC4"
+            }
+          ]
+        },
+        {
+          "id": "source-6-2",
+          "kind": "row",
+          "name": "Linha 2 · 3 produtos",
+          "h": 115,
+          "appearance": {
+            "minHeight": 115,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "",
+              "name": "Ekos Castanha · Colônia Frescor 150ml",
+              "de": "129,90",
+              "por": "69,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#E8541B"
+            },
+            {
+              "brand": "",
+              "name": "Ekos · Castanha ou Cupuaçu Hidratante Corporal 400ml",
+              "de": "89,90",
+              "por": "49,99",
+              "cada": "(CADA)",
+              "tag": "wide",
+              "badgeColor": "#E8541B"
+            },
+            {
+              "brand": "",
+              "name": "Kit Ekos Mãos · Polpa Creme 40g Castanha, Cacau e Tukumã",
+              "de": "119,90",
+              "por": "64,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#E8541B"
+            }
+          ]
+        },
+        {
+          "id": "source-6-3",
+          "kind": "row",
+          "name": "Linha 3 · 4 produtos",
+          "h": 115,
+          "appearance": {
+            "minHeight": 115,
+            "vertical": false
+          },
+          "cols": 4,
+          "products": [
+            {
+              "brand": "",
+              "name": "Luna Intensa · Deo Parfum Feminino 50ml",
+              "de": "219,90",
+              "por": "159,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#E8541B"
+            },
+            {
+              "brand": "",
+              "name": "Meu Primeiro Humor · Colônia Feminina 75ml",
+              "de": "164,90",
+              "por": "89,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#E8541B"
+            },
+            {
+              "brand": "",
+              "name": "Luna Ousadia · Colônia Feminina 75ml",
+              "de": "185,90",
+              "por": "89,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#E8541B"
+            },
+            {
+              "brand": "",
+              "name": "Águas · Colônia Feminina 170ml Violeta ou Lavanda",
+              "de": "116,90",
+              "por": "74,99",
+              "cada": "(CADA)",
+              "tag": "wide",
+              "badgeColor": "#E8541B"
+            }
+          ]
+        },
+        {
+          "id": "source-6-4",
+          "kind": "row",
+          "name": "Linha 4 · 3 produtos",
+          "h": 112,
+          "appearance": {
+            "minHeight": 112,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "",
+              "name": "Kit Tododia · Morango e Baunilha · Hidratante 400ml + Refil 400ml",
+              "de": "137,80",
+              "por": "69,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#E8541B"
+            },
+            {
+              "brand": "",
+              "name": "Kit Tododia · Lavanda e Camomila · Sabonete Líquido 300ml + Refil 300ml",
+              "de": "89,30",
+              "por": "39,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#E8541B"
+            },
+            {
+              "brand": "",
+              "name": "Ekos · Sabonete em Barra 4un 100g Consulte fragrâncias disponíveis",
+              "de": "45,90",
+              "por": "34,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#E8541B"
+            }
+          ]
+        },
+        {
+          "id": "source-6-5",
+          "kind": "footsite",
+          "name": "Rodapé · contato e condições",
+          "h": 60,
+          "appearance": {
+            "minHeight": 60,
+            "vertical": false
+          },
+          "fields": [
+            {
+              "key": "field-6-0",
+              "label": "Loja",
+              "value": "D&D Cosméticos"
+            },
+            {
+              "key": "field-6-1",
+              "label": "Contato",
+              "value": "Adicione seu site, telefone e redes sociais"
+            },
+            {
+              "key": "field-6-2",
+              "label": "Condições",
+              "value": "Edite a validade e as condições desta campanha."
+            }
+          ]
+        }
+      ],
+      "verso": [
+        {
+          "id": "source-7-0",
+          "kind": "header",
+          "name": "Cabeçalho da campanha",
+          "h": 60,
+          "appearance": {
+            "minHeight": 60,
+            "vertical": false
+          },
+          "fields": [
+            {
+              "key": "field-7-0",
+              "label": "Tema",
+              "value": "OFERTAS · D&D COSMÉTICOS"
+            },
+            {
+              "key": "field-7-1",
+              "label": "Título",
+              "value": "Mês do Consumidor"
+            }
+          ]
+        },
+        {
+          "id": "source-7-1",
+          "kind": "row",
+          "name": "Linha 1 · 3 produtos",
+          "h": 140,
+          "appearance": {
+            "minHeight": 140,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "",
+              "name": "Una Batom · Hidratante CC FPS25 3,8g Rose 4C, Nude 10C ou Nude 2C",
+              "de": "64,90",
+              "por": "49,99",
+              "cada": "(CADA)",
+              "tag": "wide",
+              "badgeColor": "#E8541B"
+            },
+            {
+              "brand": "",
+              "name": "Una Gloss · Labial FPS15 8ml Pérola 100 ou Coral 100",
+              "de": "64,90",
+              "por": "39,99",
+              "cada": "(CADA)",
+              "tag": "wide",
+              "badgeColor": "#E8541B"
+            },
+            {
+              "brand": "",
+              "name": "Faces · Lápis Kajal Preto 1,3g",
+              "de": "37,90",
+              "por": "24,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#E8541B"
+            }
+          ]
+        },
+        {
+          "id": "source-7-2",
+          "kind": "row",
+          "name": "Linha 2 · 3 produtos",
+          "h": 140,
+          "appearance": {
+            "minHeight": 140,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "",
+              "name": "Faces · Blush Color 3g Consulte cores disponíveis",
+              "de": "39,90",
+              "por": "34,99",
+              "cada": "(CADA)",
+              "tag": "wide",
+              "badgeColor": "#E8541B"
+            },
+            {
+              "brand": "",
+              "name": "Faces · Máscara de Cílios 7ml Volume Fever ou Fantástica Incolor",
+              "de": "34,90",
+              "por": "29,99",
+              "cada": "(CADA)",
+              "tag": "wide",
+              "badgeColor": "#E8541B"
+            },
+            {
+              "brand": "",
+              "name": "Faces · Corretivo Extrema Cobertura 24h 8ml Consulte cores disponíveis",
+              "de": "62,90",
+              "por": "49,99",
+              "cada": "(CADA)",
+              "tag": "wide",
+              "badgeColor": "#E8541B"
+            }
+          ]
+        },
+        {
+          "id": "source-7-3",
+          "kind": "row",
+          "name": "Linha 3 · 3 produtos",
+          "h": 140,
+          "appearance": {
+            "minHeight": 140,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "",
+              "name": "Biografia · Colônia Masculina 100ml",
+              "de": "209,90",
+              "por": "94,90",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#E8541B"
+            },
+            {
+              "brand": "",
+              "name": "Deo Corporal 100ml · Sr N, Kaiak Masculino ou Kaiak Feminino",
+              "de": "56,90",
+              "por": "29,99",
+              "cada": "(CADA)",
+              "tag": "wide",
+              "badgeColor": "#E8541B"
+            },
+            {
+              "brand": "",
+              "name": "Erva Doce · Deo Corporal 100ml",
+              "de": "56,90",
+              "por": "34,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#E8541B"
+            }
+          ]
+        },
+        {
+          "id": "source-7-4",
+          "kind": "row",
+          "name": "Linha 4 · 3 produtos",
+          "h": 140,
+          "appearance": {
+            "minHeight": 140,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "",
+              "name": "Ekos Maracujá · Sabonete Líquido Esfoliante 185ml",
+              "de": "55,90",
+              "por": "36,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#E8541B"
+            },
+            {
+              "brand": "",
+              "name": "Roll On 70ml · Macadâmia, Pele Uniforme ou Sem Perfume",
+              "de": "29,90",
+              "por": "19,99",
+              "cada": "(CADA)",
+              "tag": "wide",
+              "badgeColor": "#E8541B",
+              "label": "LEVE 2 POR R$ 29,90"
+            },
+            {
+              "brand": "",
+              "name": "Tododia Algodão · Creme Desodorante Leite de Algodão 80g",
+              "de": "30,90",
+              "por": "16,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#E8541B"
+            }
+          ]
+        },
+        {
+          "id": "source-7-5",
+          "kind": "footsite",
+          "name": "Rodapé · contato e condições",
+          "h": 60,
+          "appearance": {
+            "minHeight": 60,
+            "vertical": false
+          },
+          "fields": [
+            {
+              "key": "field-7-0",
+              "label": "Loja",
+              "value": "D&D Cosméticos"
+            },
+            {
+              "key": "field-7-1",
+              "label": "Contato",
+              "value": "Adicione seu site, telefone e redes sociais"
+            },
+            {
+              "key": "field-7-2",
+              "label": "Condições",
+              "value": "Edite a validade e as condições desta campanha."
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "natura-economize",
+    "name": "Natura · Economize",
+    "description": "Somente frente · verso livre para montar",
+    "sources": [
+      "NaturaEconomizeFrente.dc.html"
+    ],
+    "document": {
+      "layout": {
+        "format": "185x270",
+        "name": "Natura · Economize",
+        "accent": "#EE4A22",
+        "priceColor": "#37C21F",
+        "background": "#F3F7D9"
+      },
+      "frente": [
+        {
+          "id": "source-8-0",
+          "kind": "header",
+          "name": "Cabeçalho da campanha",
+          "h": 110,
+          "appearance": {
+            "minHeight": 110,
+            "vertical": false
+          },
+          "fields": [
+            {
+              "key": "field-8-0",
+              "label": "Tema",
+              "value": "D&D COSMÉTICOS"
+            },
+            {
+              "key": "field-8-1",
+              "label": "Título",
+              "value": "Economize"
+            }
+          ]
+        },
+        {
+          "id": "source-8-1",
+          "kind": "row",
+          "name": "Linha 1 · 3 produtos",
+          "h": 122,
+          "appearance": {
+            "minHeight": 122,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "",
+              "name": "Tododia · Tangerina e Gengibre · Body Splash 200ml",
+              "de": "96,90",
+              "por": "66,90",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#37C21F",
+              "label": "Economize\n30%"
+            },
+            {
+              "brand": "",
+              "name": "Tododia · Tangerina e Gengibre · Hidratante Corporal 400ml",
+              "de": "78,90",
+              "por": "54,90",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#37C21F",
+              "label": "Economize\n30%"
+            },
+            {
+              "brand": "",
+              "name": "Tododia · Chá de Camomila e Lavanda · Hidratante Corporal 200ml",
+              "de": "56,90",
+              "por": "39,83",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#37C21F",
+              "label": "Economize\n30%"
+            }
+          ]
+        },
+        {
+          "id": "source-8-2",
+          "kind": "row",
+          "name": "Linha 2 · 3 produtos",
+          "h": 122,
+          "appearance": {
+            "minHeight": 122,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "",
+              "name": "Ekos Andiroba · Creme para o Corpo 200ml",
+              "de": "69,90",
+              "por": "44,54",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#37C21F",
+              "label": "Economize\n36%"
+            },
+            {
+              "brand": "",
+              "name": "Ekos Maracujá Natureza dos Sonhos · Néctar Corporal 400ml",
+              "de": "89,90",
+              "por": "53,90",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#37C21F",
+              "label": "Economize\n40%"
+            },
+            {
+              "brand": "",
+              "name": "Ekos · Banho de Corpo 150ml · Hortelã ou Flor de Vindicá",
+              "de": "129,90",
+              "por": "89,90",
+              "cada": "CADA",
+              "tag": "wide",
+              "badgeColor": "#37C21F",
+              "label": "Economize\n30%"
+            }
+          ]
+        },
+        {
+          "id": "source-8-3",
+          "kind": "row",
+          "name": "Linha 3 · 3 produtos",
+          "h": 122,
+          "appearance": {
+            "minHeight": 122,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "",
+              "name": "Luna · Hidratante Corporal 300ml",
+              "de": "95,90",
+              "por": "67,13",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#37C21F",
+              "label": "Economize\n30%"
+            },
+            {
+              "brand": "",
+              "name": "Refil Lumina Força · Shampoo 300ml + Condicionador 300ml",
+              "de": "82,80",
+              "por": "52,04",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#37C21F",
+              "label": "Economize\n37%"
+            },
+            {
+              "brand": "",
+              "name": "Roll-On Tododia · Desodorante 70ml Consulte fragrâncias",
+              "de": "119,60",
+              "por": "83,72",
+              "cada": "CADA",
+              "tag": "wide",
+              "badgeColor": "#37C21F",
+              "label": "COMPRE 4: 30% OFF"
+            }
+          ]
+        },
+        {
+          "id": "source-8-4",
+          "kind": "row",
+          "name": "Linha 4 · 3 produtos",
+          "h": 122,
+          "appearance": {
+            "minHeight": 122,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "",
+              "name": "Faces · Supermáscara Tint 12ml",
+              "de": "59,90",
+              "por": "39,90",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#37C21F",
+              "label": "Economize\n33%"
+            },
+            {
+              "brand": "",
+              "name": "Faces · Batom 3,5g Consulte cores",
+              "de": "23,90",
+              "por": "19,12",
+              "cada": "CADA",
+              "tag": "wide",
+              "badgeColor": "#37C21F",
+              "label": "Economize\n20%"
+            },
+            {
+              "brand": "",
+              "name": "Faces · Blush 3g Coral, Rosa ou Bronze",
+              "de": "",
+              "por": "39,90",
+              "cada": "CADA",
+              "tag": "wide",
+              "badgeColor": "#37C21F"
+            }
+          ]
+        },
+        {
+          "id": "source-8-5",
+          "kind": "row",
+          "name": "Linha 5 · 2 produtos",
+          "h": 122,
+          "appearance": {
+            "minHeight": 122,
+            "vertical": false
+          },
+          "cols": 2,
+          "products": [
+            {
+              "brand": "",
+              "name": "Faces · Lápis para Olhos Preto ou Marrom 1,3g",
+              "de": "",
+              "por": "39,90",
+              "cada": "CADA",
+              "tag": "wide",
+              "badgeColor": "#37C21F"
+            },
+            {
+              "brand": "",
+              "name": "Faces · Batom Color Hidra FPS8 3,5g",
+              "de": "35,90",
+              "por": "28,72",
+              "cada": "CADA",
+              "tag": "wide",
+              "badgeColor": "#37C21F",
+              "label": "Economize\n20%"
+            }
+          ]
+        },
+        {
+          "id": "source-8-6",
+          "kind": "footsite",
+          "name": "Rodapé · contato e condições",
+          "h": 60,
+          "appearance": {
+            "minHeight": 60,
+            "vertical": false
+          },
+          "fields": [
+            {
+              "key": "field-8-0",
+              "label": "Loja",
+              "value": "D&D Cosméticos"
+            },
+            {
+              "key": "field-8-1",
+              "label": "Contato",
+              "value": "Adicione seu site, telefone e redes sociais"
+            },
+            {
+              "key": "field-8-2",
+              "label": "Condições",
+              "value": "Edite a validade e as condições desta campanha."
+            }
+          ]
+        }
+      ],
+      "verso": []
+    }
+  },
+  {
+    "id": "mm-jequiti",
+    "name": "MM · Consumidor + Jequiti",
+    "description": "Frente MM com verso Jequiti",
+    "sources": [
+      "MMConsumidorFrente.dc.html",
+      "MMJequitiVerso.dc.html"
+    ],
+    "document": {
+      "layout": {
+        "format": "185x270",
+        "name": "MM · Consumidor + Jequiti",
+        "accent": "#C259E0",
+        "priceColor": "#C259E0",
+        "background": "#FFF1DA"
+      },
+      "frente": [
+        {
+          "id": "source-9-0",
+          "kind": "header",
+          "name": "Cabeçalho da campanha",
+          "h": 110,
+          "appearance": {
+            "minHeight": 110,
+            "vertical": false
+          },
+          "fields": [
+            {
+              "key": "field-9-0",
+              "label": "Tema",
+              "value": "D&D COSMÉTICOS"
+            },
+            {
+              "key": "field-9-1",
+              "label": "Título",
+              "value": "Consumidor + Jequiti"
+            }
+          ]
+        },
+        {
+          "id": "source-9-1",
+          "kind": "row",
+          "name": "Linha 1 · 2 produtos",
+          "h": 175,
+          "appearance": {
+            "minHeight": 175,
+            "vertical": false
+          },
+          "cols": 2,
+          "products": [
+            {
+              "brand": "Fhader",
+              "name": "Eau de Parfum · Masculino ou Feminino Qualquer fragrância",
+              "de": "99,90",
+              "por": "69,90",
+              "cada": "CADA",
+              "tag": "wide",
+              "badgeColor": "#C259E0"
+            },
+            {
+              "brand": "Fhader",
+              "name": "Kit Fhader · Body Splash 200ml + Hidratante 200ml Qualquer fragrância",
+              "de": "89,98",
+              "por": "54,90",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#C259E0"
+            }
+          ]
+        },
+        {
+          "id": "source-9-2",
+          "kind": "row",
+          "name": "Linha 2 · 3 produtos",
+          "h": 134,
+          "appearance": {
+            "minHeight": 134,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "O Boticário",
+              "name": "Thaty · Boticollection Colônia Feminina 100ml",
+              "de": "174,90",
+              "por": "99,90",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#C259E0"
+            },
+            {
+              "brand": "O Boticário",
+              "name": "Liz · Colônia Feminina 100ml",
+              "de": "174,90",
+              "por": "119,90",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#C259E0"
+            },
+            {
+              "brand": "O Boticário",
+              "name": "Arbo · Colônia Masculina 100ml Botanic ou Forest",
+              "de": "179,90",
+              "por": "129,90",
+              "cada": "CADA",
+              "tag": "wide",
+              "badgeColor": "#C259E0"
+            }
+          ]
+        },
+        {
+          "id": "source-9-3",
+          "kind": "row",
+          "name": "Linha 3 · 3 produtos",
+          "h": 134,
+          "appearance": {
+            "minHeight": 134,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "Avon",
+              "name": "Far Away Beyond the Moon · Deo Parfum Feminino 50ml",
+              "de": "119,99",
+              "por": "39,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#C259E0"
+            },
+            {
+              "brand": "Avon",
+              "name": "Pur Blanca · Colônia Feminina 75ml Todas as fragrâncias, exceto Tradicional",
+              "de": "74,90",
+              "por": "49,99",
+              "cada": "CADA",
+              "tag": "wide",
+              "badgeColor": "#C259E0"
+            },
+            {
+              "brand": "Avon",
+              "name": "Black Essential · Colônia Masculina 100ml Secret ou Dark",
+              "de": "99,90",
+              "por": "49,99",
+              "cada": "CADA",
+              "tag": "wide",
+              "badgeColor": "#C259E0"
+            }
+          ]
+        },
+        {
+          "id": "source-9-4",
+          "kind": "row",
+          "name": "Linha 4 · 3 produtos",
+          "h": 134,
+          "appearance": {
+            "minHeight": 134,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "Eudora",
+              "name": "Imensi · Colônia Feminina 100ml Tradicional ou Infinite",
+              "de": "154,90",
+              "por": "119,90",
+              "cada": "CADA",
+              "tag": "wide",
+              "badgeColor": "#C259E0"
+            },
+            {
+              "brand": "Eudora",
+              "name": "H · Colônia Masculina 100ml Consulte fragrâncias disponíveis",
+              "de": "114,90",
+              "por": "79,99",
+              "cada": "CADA",
+              "tag": "wide",
+              "badgeColor": "#C259E0"
+            },
+            {
+              "brand": "Eudora",
+              "name": "Lyra Joy · Colônia Feminina 75ml",
+              "de": "169,90",
+              "por": "99,90",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#C259E0"
+            }
+          ]
+        },
+        {
+          "id": "source-9-5",
+          "kind": "footsite",
+          "name": "Rodapé · contato e condições",
+          "h": 60,
+          "appearance": {
+            "minHeight": 60,
+            "vertical": false
+          },
+          "fields": [
+            {
+              "key": "field-9-0",
+              "label": "Loja",
+              "value": "D&D Cosméticos"
+            },
+            {
+              "key": "field-9-1",
+              "label": "Contato",
+              "value": "Adicione seu site, telefone e redes sociais"
+            },
+            {
+              "key": "field-9-2",
+              "label": "Condições",
+              "value": "Edite a validade e as condições desta campanha."
+            }
+          ]
+        }
+      ],
+      "verso": [
+        {
+          "id": "source-10-0",
+          "kind": "header",
+          "name": "Cabeçalho da campanha",
+          "h": 60,
+          "appearance": {
+            "minHeight": 60,
+            "vertical": false
+          },
+          "fields": [
+            {
+              "key": "field-10-0",
+              "label": "Tema",
+              "value": "OFERTAS · D&D COSMÉTICOS"
+            },
+            {
+              "key": "field-10-1",
+              "label": "Título",
+              "value": "Jequiti"
+            }
+          ]
+        },
+        {
+          "id": "source-10-1",
+          "kind": "row",
+          "name": "Linha 1 · 3 produtos",
+          "h": 128,
+          "appearance": {
+            "minHeight": 128,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "Jequiti",
+              "name": "Batons 3,5g · Hidratante Ellas, Matte Brilham ou Capricho Pinkverse Pink Diva",
+              "de": "21,90",
+              "por": "10,90",
+              "cada": "CADA",
+              "tag": "wide",
+              "badgeColor": "#C14BD9"
+            },
+            {
+              "brand": "Jequiti",
+              "name": "Ellas Roll On · Gloss Labial 3,5ml Morango, Melancia ou Tutti Frutti",
+              "de": "21,90",
+              "por": "10,90",
+              "cada": "CADA",
+              "tag": "wide",
+              "badgeColor": "#C14BD9"
+            },
+            {
+              "brand": "Jequiti",
+              "name": "Ellas · Lápis para Olhos Preto Kajal 1,2g",
+              "de": "26,90",
+              "por": "10,90",
+              "cada": "CADA",
+              "tag": "wide",
+              "badgeColor": "#C14BD9"
+            }
+          ]
+        },
+        {
+          "id": "source-10-2",
+          "kind": "row",
+          "name": "Linha 2 · 4 produtos",
+          "h": 118,
+          "appearance": {
+            "minHeight": 118,
+            "vertical": false
+          },
+          "cols": 4,
+          "products": [
+            {
+              "brand": "Avon",
+              "name": "Color Trend Super Looong Disney · Máscara de Cílios Preta 7ml",
+              "de": "27,99",
+              "por": "14,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#C14BD9"
+            },
+            {
+              "brand": "Avon",
+              "name": "Hydramatic · Batom Matte 3,6g Consulte cores disponíveis",
+              "de": "49,99",
+              "por": "29,99",
+              "cada": "CADA",
+              "tag": "wide",
+              "badgeColor": "#C14BD9"
+            },
+            {
+              "brand": "Eudora",
+              "name": "Eudora Make · Quarteto Turbo 8g Paleta de Sombras",
+              "de": "55,99",
+              "por": "39,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#C14BD9"
+            },
+            {
+              "brand": "Eudora",
+              "name": "Eudora Make · Turbo Dimension 10g Máscara para Cílios",
+              "de": "54,99",
+              "por": "39,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#C14BD9"
+            }
+          ]
+        },
+        {
+          "id": "source-10-3",
+          "kind": "row",
+          "name": "Linha 3 · 3 produtos",
+          "h": 130,
+          "appearance": {
+            "minHeight": 130,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "Jequiti",
+              "name": "Óllio · Óleo Amêndoas Doces 200ml",
+              "de": "54,90",
+              "por": "22,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#C14BD9"
+            },
+            {
+              "brand": "Avon",
+              "name": "Aquavibe · Body Splash 300ml Consulte fragrâncias disponíveis",
+              "de": "21,90",
+              "por": "19,99",
+              "cada": "CADA",
+              "tag": "wide",
+              "badgeColor": "#C14BD9"
+            },
+            {
+              "brand": "Eudora",
+              "name": "Instance · Body Spray Ameixa e Praliné 200ml",
+              "de": "72,99",
+              "por": "34,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#C14BD9"
+            }
+          ]
+        },
+        {
+          "id": "source-10-4",
+          "kind": "row",
+          "name": "Linha 4 · 4 produtos",
+          "h": 118,
+          "appearance": {
+            "minHeight": 118,
+            "vertical": false
+          },
+          "cols": 4,
+          "products": [
+            {
+              "brand": "Jequiti",
+              "name": "Vida + Relax · Hidratante Lavanda 240ml",
+              "de": "44,90",
+              "por": "19,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#C14BD9"
+            },
+            {
+              "brand": "Jequiti",
+              "name": "Vida + Relax · Body Splash Lavanda 250ml",
+              "de": "46,90",
+              "por": "19,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#C14BD9"
+            },
+            {
+              "brand": "Jequiti",
+              "name": "Eu Gold Bomb · Hidratante 200ml",
+              "de": "42,90",
+              "por": "19,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#C14BD9"
+            },
+            {
+              "brand": "Jequiti",
+              "name": "Eu Gold Bomb · Body Splash 200ml",
+              "de": "54,90",
+              "por": "19,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#C14BD9"
+            }
+          ]
+        },
+        {
+          "id": "source-10-5",
+          "kind": "row",
+          "name": "Linha 5 · 2 produtos",
+          "h": 150,
+          "appearance": {
+            "minHeight": 150,
+            "vertical": false
+          },
+          "cols": 2,
+          "products": [
+            {
+              "brand": "",
+              "name": "Nutri Rosé · Shampoo + Condicionador + Máscara Capilar + Nécessaire",
+              "de": "167,97",
+              "por": "0,00",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#C14BD9"
+            },
+            {
+              "brand": "Eudora",
+              "name": "Combos Siàge",
+              "de": "",
+              "por": "99,90",
+              "cada": "CADA",
+              "tag": "wide",
+              "badgeColor": "#A6E22E"
+            }
+          ]
+        },
+        {
+          "id": "source-10-6",
+          "kind": "row",
+          "name": "Linha 6 · 2 produtos",
+          "h": 128,
+          "appearance": {
+            "minHeight": 128,
+            "vertical": false
+          },
+          "cols": 2,
+          "products": [
+            {
+              "brand": "",
+              "name": "Resgate Imediato · Shampoo + Condicionador + Máscara",
+              "de": "167,97",
+              "por": "0,00",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#C14BD9"
+            },
+            {
+              "brand": "",
+              "name": "Pro Cronology Curvas · Shampoo + Condicionador + Creme para Pentear",
+              "de": "147,97",
+              "por": "0,00",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#C14BD9"
+            }
+          ]
+        },
+        {
+          "id": "source-10-7",
+          "kind": "footsite",
+          "name": "Rodapé · contato e condições",
+          "h": 60,
+          "appearance": {
+            "minHeight": 60,
+            "vertical": false
+          },
+          "fields": [
+            {
+              "key": "field-10-0",
+              "label": "Loja",
+              "value": "D&D Cosméticos"
+            },
+            {
+              "key": "field-10-1",
+              "label": "Contato",
+              "value": "Adicione seu site, telefone e redes sociais"
+            },
+            {
+              "key": "field-10-2",
+              "label": "Condições",
+              "value": "Edite a validade e as condições desta campanha."
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "mm-ruby-rose",
+    "name": "MM · Consumidor + Ruby Rose",
+    "description": "Frente MM com verso Ruby Rose",
+    "sources": [
+      "MMConsumidorFrente.dc.html",
+      "MMRubyRoseVerso.dc.html"
+    ],
+    "document": {
+      "layout": {
+        "format": "185x270",
+        "name": "MM · Consumidor + Ruby Rose",
+        "accent": "#C259E0",
+        "priceColor": "#C259E0",
+        "background": "#FFF1DA"
+      },
+      "frente": [
+        {
+          "id": "source-9-0",
+          "kind": "header",
+          "name": "Cabeçalho da campanha",
+          "h": 110,
+          "appearance": {
+            "minHeight": 110,
+            "vertical": false
+          },
+          "fields": [
+            {
+              "key": "field-9-0",
+              "label": "Tema",
+              "value": "D&D COSMÉTICOS"
+            },
+            {
+              "key": "field-9-1",
+              "label": "Título",
+              "value": "Consumidor + Ruby Rose"
+            }
+          ]
+        },
+        {
+          "id": "source-9-1",
+          "kind": "row",
+          "name": "Linha 1 · 2 produtos",
+          "h": 175,
+          "appearance": {
+            "minHeight": 175,
+            "vertical": false
+          },
+          "cols": 2,
+          "products": [
+            {
+              "brand": "Fhader",
+              "name": "Eau de Parfum · Masculino ou Feminino Qualquer fragrância",
+              "de": "99,90",
+              "por": "69,90",
+              "cada": "CADA",
+              "tag": "wide",
+              "badgeColor": "#C259E0"
+            },
+            {
+              "brand": "Fhader",
+              "name": "Kit Fhader · Body Splash 200ml + Hidratante 200ml Qualquer fragrância",
+              "de": "89,98",
+              "por": "54,90",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#C259E0"
+            }
+          ]
+        },
+        {
+          "id": "source-9-2",
+          "kind": "row",
+          "name": "Linha 2 · 3 produtos",
+          "h": 134,
+          "appearance": {
+            "minHeight": 134,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "O Boticário",
+              "name": "Thaty · Boticollection Colônia Feminina 100ml",
+              "de": "174,90",
+              "por": "99,90",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#C259E0"
+            },
+            {
+              "brand": "O Boticário",
+              "name": "Liz · Colônia Feminina 100ml",
+              "de": "174,90",
+              "por": "119,90",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#C259E0"
+            },
+            {
+              "brand": "O Boticário",
+              "name": "Arbo · Colônia Masculina 100ml Botanic ou Forest",
+              "de": "179,90",
+              "por": "129,90",
+              "cada": "CADA",
+              "tag": "wide",
+              "badgeColor": "#C259E0"
+            }
+          ]
+        },
+        {
+          "id": "source-9-3",
+          "kind": "row",
+          "name": "Linha 3 · 3 produtos",
+          "h": 134,
+          "appearance": {
+            "minHeight": 134,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "Avon",
+              "name": "Far Away Beyond the Moon · Deo Parfum Feminino 50ml",
+              "de": "119,99",
+              "por": "39,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#C259E0"
+            },
+            {
+              "brand": "Avon",
+              "name": "Pur Blanca · Colônia Feminina 75ml Todas as fragrâncias, exceto Tradicional",
+              "de": "74,90",
+              "por": "49,99",
+              "cada": "CADA",
+              "tag": "wide",
+              "badgeColor": "#C259E0"
+            },
+            {
+              "brand": "Avon",
+              "name": "Black Essential · Colônia Masculina 100ml Secret ou Dark",
+              "de": "99,90",
+              "por": "49,99",
+              "cada": "CADA",
+              "tag": "wide",
+              "badgeColor": "#C259E0"
+            }
+          ]
+        },
+        {
+          "id": "source-9-4",
+          "kind": "row",
+          "name": "Linha 4 · 3 produtos",
+          "h": 134,
+          "appearance": {
+            "minHeight": 134,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "Eudora",
+              "name": "Imensi · Colônia Feminina 100ml Tradicional ou Infinite",
+              "de": "154,90",
+              "por": "119,90",
+              "cada": "CADA",
+              "tag": "wide",
+              "badgeColor": "#C259E0"
+            },
+            {
+              "brand": "Eudora",
+              "name": "H · Colônia Masculina 100ml Consulte fragrâncias disponíveis",
+              "de": "114,90",
+              "por": "79,99",
+              "cada": "CADA",
+              "tag": "wide",
+              "badgeColor": "#C259E0"
+            },
+            {
+              "brand": "Eudora",
+              "name": "Lyra Joy · Colônia Feminina 75ml",
+              "de": "169,90",
+              "por": "99,90",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#C259E0"
+            }
+          ]
+        },
+        {
+          "id": "source-9-5",
+          "kind": "footsite",
+          "name": "Rodapé · contato e condições",
+          "h": 60,
+          "appearance": {
+            "minHeight": 60,
+            "vertical": false
+          },
+          "fields": [
+            {
+              "key": "field-9-0",
+              "label": "Loja",
+              "value": "D&D Cosméticos"
+            },
+            {
+              "key": "field-9-1",
+              "label": "Contato",
+              "value": "Adicione seu site, telefone e redes sociais"
+            },
+            {
+              "key": "field-9-2",
+              "label": "Condições",
+              "value": "Edite a validade e as condições desta campanha."
+            }
+          ]
+        }
+      ],
+      "verso": [
+        {
+          "id": "source-11-0",
+          "kind": "header",
+          "name": "Cabeçalho da campanha",
+          "h": 60,
+          "appearance": {
+            "minHeight": 60,
+            "vertical": false
+          },
+          "fields": [
+            {
+              "key": "field-11-0",
+              "label": "Tema",
+              "value": "OFERTAS · D&D COSMÉTICOS"
+            },
+            {
+              "key": "field-11-1",
+              "label": "Título",
+              "value": "Ruby Rose"
+            }
+          ]
+        },
+        {
+          "id": "source-11-1",
+          "kind": "row",
+          "name": "Linha 1 · 3 produtos",
+          "h": 118,
+          "appearance": {
+            "minHeight": 118,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "Ruby Rose",
+              "name": "Obsidian · Blush Duo 3,2/4,7g Consulte cores",
+              "de": "",
+              "por": "14,99",
+              "cada": "cada",
+              "tag": "wide",
+              "badgeColor": "#DE3A78"
+            },
+            {
+              "brand": "Ruby Rose",
+              "name": "Obsidian · Pó Compacto 9,6g Consulte cores",
+              "de": "",
+              "por": "9,99",
+              "cada": "cada",
+              "tag": "wide",
+              "badgeColor": "#DE3A78"
+            },
+            {
+              "brand": "Ruby Rose",
+              "name": "Obsidian · Lip Balm Jelly Jewel 10ml Consulte cores",
+              "de": "",
+              "por": "9,99",
+              "cada": "cada",
+              "tag": "wide",
+              "badgeColor": "#DE3A78"
+            }
+          ]
+        },
+        {
+          "id": "source-11-2",
+          "kind": "row",
+          "name": "Linha 2 · 3 produtos",
+          "h": 118,
+          "appearance": {
+            "minHeight": 118,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "Ruby Rose",
+              "name": "Melu Made In · Batom Líquido Lipstick 4ml Consulte cores",
+              "de": "",
+              "por": "9,99",
+              "cada": "cada",
+              "tag": "wide",
+              "badgeColor": "#DE3A78"
+            },
+            {
+              "brand": "Ruby Rose",
+              "name": "Melu Made In · Corretivo Líquido 6ml Consulte cores",
+              "de": "",
+              "por": "9,99",
+              "cada": "cada",
+              "tag": "wide",
+              "badgeColor": "#DE3A78"
+            },
+            {
+              "brand": "Ruby Rose",
+              "name": "Melu Made In · Gloss Tint 4ml Consulte cores",
+              "de": "",
+              "por": "9,99",
+              "cada": "cada",
+              "tag": "wide",
+              "badgeColor": "#DE3A78"
+            }
+          ]
+        },
+        {
+          "id": "source-11-3",
+          "kind": "row",
+          "name": "Linha 3 · 3 produtos",
+          "h": 118,
+          "appearance": {
+            "minHeight": 118,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "Ruby Rose",
+              "name": "Melu Made In · Base Líquida 30ml Consulte cores",
+              "de": "",
+              "por": "9,99",
+              "cada": "cada",
+              "tag": "wide",
+              "badgeColor": "#DE3A78"
+            },
+            {
+              "brand": "Ruby Rose",
+              "name": "Melu Made In · Pó Solto 15g Consulte cores",
+              "de": "",
+              "por": "9,99",
+              "cada": "cada",
+              "tag": "wide",
+              "badgeColor": "#DE3A78"
+            },
+            {
+              "brand": "Carmed",
+              "name": "Hidratante Labial 10g · Consulte fragrâncias",
+              "de": "",
+              "por": "14,99",
+              "cada": "cada",
+              "tag": "wide",
+              "badgeColor": "#DE3A78"
+            }
+          ]
+        },
+        {
+          "id": "source-11-4",
+          "kind": "row",
+          "name": "Linha 4 · 4 produtos",
+          "h": 122,
+          "appearance": {
+            "minHeight": 122,
+            "vertical": false
+          },
+          "cols": 4,
+          "products": [
+            {
+              "brand": "Ruby Rose",
+              "name": "Natalia Beauty · Brown Boss Gel para Sobrancelhas 4ml",
+              "de": "",
+              "por": "9,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#DE3A78"
+            },
+            {
+              "brand": "Ruby Rose",
+              "name": "Natalia Beauty · Lip Oil Flowing 4ml",
+              "de": "",
+              "por": "9,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#DE3A78"
+            },
+            {
+              "brand": "Ruby Rose",
+              "name": "Natalia Beauty · Two Much Sérum para Cílios e Sobrancelhas 3,8ml",
+              "de": "",
+              "por": "9,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#DE3A78"
+            },
+            {
+              "brand": "Ruby Rose",
+              "name": "Luluca by Melu · Máscara de Cílios Incolor 6ml",
+              "de": "",
+              "por": "9,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#DE3A78"
+            }
+          ]
+        },
+        {
+          "id": "source-11-5",
+          "kind": "row",
+          "name": "Linha 5 · 4 produtos",
+          "h": 122,
+          "appearance": {
+            "minHeight": 122,
+            "vertical": false
+          },
+          "cols": 4,
+          "products": [
+            {
+              "brand": "Ruby Rose",
+              "name": "Luluca by Melu · Lip Oil Frosty Look 6ml, Gloss Fairy Glitz 6ml ou Lip Tint 5ml",
+              "de": "",
+              "por": "9,99",
+              "cada": "cada",
+              "tag": "wide",
+              "badgeColor": "#DE3A78"
+            },
+            {
+              "brand": "Ruby Rose",
+              "name": "Luluca by Melu · Blush, Batom e Sombra 3,5ml 3 em 1",
+              "de": "",
+              "por": "9,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#DE3A78"
+            },
+            {
+              "brand": "Avon",
+              "name": "Color Trend Disney · Máscara para Cílios Super Looong 7ml",
+              "de": "29,99",
+              "por": "14,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#DE3A78"
+            },
+            {
+              "brand": "Avon",
+              "name": "Exxtravagant · Máscara a Prova d’Água 9,5ml",
+              "de": "59,99",
+              "por": "29,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#DE3A78"
+            }
+          ]
+        },
+        {
+          "id": "source-11-6",
+          "kind": "row",
+          "name": "Linha 6 · 4 produtos",
+          "h": 122,
+          "appearance": {
+            "minHeight": 122,
+            "vertical": false
+          },
+          "cols": 4,
+          "products": [
+            {
+              "brand": "Avon",
+              "name": "Make Up Remover · Loção Removedora de Maquiagem para Olhos 60ml",
+              "de": "23,99",
+              "por": "15,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#DE3A78"
+            },
+            {
+              "brand": "Avon",
+              "name": "Magix · Controle de Brilho e Oleosidade 30ml",
+              "de": "49,99",
+              "por": "24,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#DE3A78"
+            },
+            {
+              "brand": "Avon",
+              "name": "Hydramatic Batom · Matte ou Radiante 3,6g Consulte cores",
+              "de": "49,99",
+              "por": "29,99",
+              "cada": "cada",
+              "tag": "wide",
+              "badgeColor": "#DE3A78"
+            },
+            {
+              "brand": "Avon",
+              "name": "Color Trend · Lápis para Delinear 1,1g Preto",
+              "de": "15,99",
+              "por": "9,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#DE3A78"
+            }
+          ]
+        },
+        {
+          "id": "source-11-7",
+          "kind": "footsite",
+          "name": "Rodapé · contato e condições",
+          "h": 60,
+          "appearance": {
+            "minHeight": 60,
+            "vertical": false
+          },
+          "fields": [
+            {
+              "key": "field-11-0",
+              "label": "Loja",
+              "value": "D&D Cosméticos"
+            },
+            {
+              "key": "field-11-1",
+              "label": "Contato",
+              "value": "Adicione seu site, telefone e redes sociais"
+            },
+            {
+              "key": "field-11-2",
+              "label": "Condições",
+              "value": "Edite a validade e as condições desta campanha."
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "nordeste-verao",
+    "name": "Nordeste · Verão",
+    "description": "Frente e verso",
+    "sources": [
+      "NordesteVeraoFrente.dc.html",
+      "NordesteVeraoVerso.dc.html"
+    ],
+    "document": {
+      "layout": {
+        "format": "153x207",
+        "name": "Nordeste · Verão",
+        "accent": "#1FA0B7",
+        "priceColor": "#FFC400",
+        "background": "#FFF2D3"
+      },
+      "frente": [
+        {
+          "id": "source-12-0",
+          "kind": "header",
+          "name": "Cabeçalho da campanha",
+          "h": 110,
+          "appearance": {
+            "minHeight": 110,
+            "vertical": false
+          },
+          "fields": [
+            {
+              "key": "field-12-0",
+              "label": "Tema",
+              "value": "D&D COSMÉTICOS"
+            },
+            {
+              "key": "field-12-1",
+              "label": "Título",
+              "value": "Verão"
+            }
+          ]
+        },
+        {
+          "id": "source-12-1",
+          "kind": "row",
+          "name": "Linha 1 · 3 produtos",
+          "h": 118,
+          "appearance": {
+            "minHeight": 118,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "Avon",
+              "name": "Care Sun+ Rosto · Protetor Solar Controle de Brilho FPS50 40g",
+              "de": "51,90",
+              "por": "32,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#FFC400"
+            },
+            {
+              "brand": "Avon",
+              "name": "Care Sun+ · Protetor Solar Corporal FPS30 120g ou Controle de Brilho Rosto FPS30 40g",
+              "de": "44,99",
+              "por": "29,99",
+              "cada": "(CADA)",
+              "tag": "wide",
+              "badgeColor": "#FFC400"
+            },
+            {
+              "brand": "Avon",
+              "name": "Care Sun+ · Protetor Solar Corporal FPS60 120g",
+              "de": "",
+              "por": "59,00",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#FFC400"
+            }
+          ]
+        },
+        {
+          "id": "source-12-2",
+          "kind": "row",
+          "name": "Linha 2 · 3 produtos",
+          "h": 118,
+          "appearance": {
+            "minHeight": 118,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "Avon",
+              "name": "Care 3 em 1 · Creme Depilatório Corporal 125g",
+              "de": "39,99",
+              "por": "35,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#FFC400"
+            },
+            {
+              "brand": "Avon",
+              "name": "Care · Hidratante Cereja 700ml",
+              "de": "44,99",
+              "por": "29,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#FFC400"
+            },
+            {
+              "brand": "Avon",
+              "name": "Care Mãos · Luvas de Silicone 75g Erva Doce e Lavanda, Original ou Macadâmia",
+              "de": "17,99",
+              "por": "14,99",
+              "cada": "(CADA)",
+              "tag": "wide",
+              "badgeColor": "#FFC400"
+            }
+          ]
+        },
+        {
+          "id": "source-12-3",
+          "kind": "row",
+          "name": "Linha 3 · 3 produtos",
+          "h": 118,
+          "appearance": {
+            "minHeight": 118,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "Avon",
+              "name": "Ultra Color · Lip Paint 7ml Consulte cores disponíveis",
+              "de": "37,99",
+              "por": "24,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#FFC400"
+            },
+            {
+              "brand": "Jequiti",
+              "name": "Eu Amo Chocolate · Colônia Splash 200ml",
+              "de": "54,90",
+              "por": "14,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#FFC400"
+            },
+            {
+              "brand": "Jequiti",
+              "name": "Cebolinha · Colônia 25ml",
+              "de": "34,90",
+              "por": "24,90",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#FFC400"
+            }
+          ]
+        },
+        {
+          "id": "source-12-4",
+          "kind": "row",
+          "name": "Linha 4 · 3 produtos",
+          "h": 118,
+          "appearance": {
+            "minHeight": 118,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "Fhader",
+              "name": "Eau de Parfum 100ml · Consulte fragrâncias disponíveis",
+              "de": "99,90",
+              "por": "69,99",
+              "cada": "(CADA)",
+              "tag": "wide",
+              "badgeColor": "#FFC400"
+            },
+            {
+              "brand": "Fhader",
+              "name": "Body Splash 200ml · Consulte fragrâncias disponíveis",
+              "de": "49,99",
+              "por": "29,99",
+              "cada": "(CADA)",
+              "tag": "wide",
+              "badgeColor": "#FFC400"
+            },
+            {
+              "brand": "Fhader",
+              "name": "Hidratante 200ml · Consulte fragrâncias disponíveis",
+              "de": "79,90",
+              "por": "29,99",
+              "cada": "(CADA)",
+              "tag": "wide",
+              "badgeColor": "#FFC400"
+            }
+          ]
+        },
+        {
+          "id": "source-12-5",
+          "kind": "footsite",
+          "name": "Rodapé · contato e condições",
+          "h": 60,
+          "appearance": {
+            "minHeight": 60,
+            "vertical": false
+          },
+          "fields": [
+            {
+              "key": "field-12-0",
+              "label": "Loja",
+              "value": "D&D Cosméticos"
+            },
+            {
+              "key": "field-12-1",
+              "label": "Contato",
+              "value": "Adicione seu site, telefone e redes sociais"
+            },
+            {
+              "key": "field-12-2",
+              "label": "Condições",
+              "value": "Edite a validade e as condições desta campanha."
+            }
+          ]
+        }
+      ],
+      "verso": [
+        {
+          "id": "source-13-0",
+          "kind": "header",
+          "name": "Cabeçalho da campanha",
+          "h": 60,
+          "appearance": {
+            "minHeight": 60,
+            "vertical": false
+          },
+          "fields": [
+            {
+              "key": "field-13-0",
+              "label": "Tema",
+              "value": "OFERTAS · D&D COSMÉTICOS"
+            },
+            {
+              "key": "field-13-1",
+              "label": "Título",
+              "value": "Verão"
+            }
+          ]
+        },
+        {
+          "id": "source-13-1",
+          "kind": "row",
+          "name": "Linha 1 · 3 produtos",
+          "h": 108,
+          "appearance": {
+            "minHeight": 108,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "Avon",
+              "name": "Aquavibe · Body Splash 300ml Consulte fragrâncias disponíveis",
+              "de": "39,99",
+              "por": "21,99",
+              "cada": "(CADA)",
+              "tag": "wide",
+              "badgeColor": "#FFC400"
+            },
+            {
+              "brand": "Avon",
+              "name": "Aquavibe · Body Splash 1L Consulte fragrâncias disponíveis",
+              "de": "79,90",
+              "por": "59,99",
+              "cada": "(CADA)",
+              "tag": "wide",
+              "badgeColor": "#FFC400"
+            },
+            {
+              "brand": "Avon",
+              "name": "Petit · Colônia 50ml Consulte fragrâncias disponíveis",
+              "de": "64,90",
+              "por": "39,99",
+              "cada": "(CADA)",
+              "tag": "wide",
+              "badgeColor": "#FFC400"
+            }
+          ]
+        },
+        {
+          "id": "source-13-2",
+          "kind": "row",
+          "name": "Linha 2 · 4 produtos",
+          "h": 112,
+          "appearance": {
+            "minHeight": 112,
+            "vertical": false
+          },
+          "cols": 4,
+          "products": [
+            {
+              "brand": "O Boticário",
+              "name": "Floratta Romance de Verão · Colônia Feminina 75ml",
+              "de": "164,90",
+              "por": "129,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#FFC400"
+            },
+            {
+              "brand": "Eudora",
+              "name": "Velvet Sensual · Colônia Feminina 100ml",
+              "de": "119,90",
+              "por": "79,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#FFC400"
+            },
+            {
+              "brand": "Avon",
+              "name": "Pur Blanca · Colônia Feminina 75ml Consulte fragrâncias",
+              "de": "74,90",
+              "por": "49,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#FFC400"
+            },
+            {
+              "brand": "O Boticário",
+              "name": "Celebre Sua Força · Colônia Feminina 100ml",
+              "de": "119,90",
+              "por": "89,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#FFC400"
+            }
+          ]
+        },
+        {
+          "id": "source-13-3",
+          "kind": "row",
+          "name": "Linha 3 · 3 produtos",
+          "h": 110,
+          "appearance": {
+            "minHeight": 110,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "Eudora",
+              "name": "Instance Pistacchio · Body Splash 200ml",
+              "de": "69,99",
+              "por": "39,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#FFC400"
+            },
+            {
+              "brand": "Eudora",
+              "name": "Combo Siàge · Shampoo 250ml + Condicionador 200ml Nutri Óleos ou Glow Expert",
+              "de": "97,98",
+              "por": "59,99",
+              "cada": "(CADA)",
+              "tag": "wide",
+              "badgeColor": "#FFC400"
+            },
+            {
+              "brand": "Eudora",
+              "name": "Siàge Hidratação Micelar · Máscara Capilar 250g",
+              "de": "69,99",
+              "por": "49,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#FFC400"
+            }
+          ]
+        },
+        {
+          "id": "source-13-4",
+          "kind": "row",
+          "name": "Linha 4 · 3 produtos",
+          "h": 108,
+          "appearance": {
+            "minHeight": 108,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "Avon",
+              "name": "Color Trend 7ml · Máscara Super Looong, Mega Bff ou Gravity Free",
+              "de": "29,99",
+              "por": "19,99",
+              "cada": "(CADA)",
+              "tag": "wide",
+              "badgeColor": "#FFC400"
+            },
+            {
+              "brand": "Avon",
+              "name": "Ultra Color · Ultra Color Batom 3,6g Consulte cores disponíveis",
+              "de": "37,99",
+              "por": "29,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#FFC400"
+            },
+            {
+              "brand": "Avon",
+              "name": "Color Trend Kiss Hidra · Batom Bala 3,6g",
+              "de": "21,99",
+              "por": "13,99",
+              "cada": "(CADA)",
+              "tag": "wide",
+              "badgeColor": "#FFC400"
+            }
+          ]
+        },
+        {
+          "id": "source-13-5",
+          "kind": "row",
+          "name": "Linha 5 · 3 produtos",
+          "h": 108,
+          "appearance": {
+            "minHeight": 108,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "Avon",
+              "name": "Color Trend · Pó Compacto Bege Médio FPS15 4,5g",
+              "de": "24,99",
+              "por": "19,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#FFC400"
+            },
+            {
+              "brand": "Avon",
+              "name": "Color Trend · Base Líquida Matte Real FPS15 20ml Consulte cores disponíveis",
+              "de": "29,99",
+              "por": "24,99",
+              "cada": "(CADA)",
+              "tag": "wide",
+              "badgeColor": "#FFC400"
+            },
+            {
+              "brand": "Avon",
+              "name": "Magix Primer · Controle de Brilho e Oleosidade 30ml",
+              "de": "49,99",
+              "por": "24,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#FFC400"
+            }
+          ]
+        },
+        {
+          "id": "source-13-6",
+          "kind": "footsite",
+          "name": "Rodapé · contato e condições",
+          "h": 60,
+          "appearance": {
+            "minHeight": 60,
+            "vertical": false
+          },
+          "fields": [
+            {
+              "key": "field-13-0",
+              "label": "Loja",
+              "value": "D&D Cosméticos"
+            },
+            {
+              "key": "field-13-1",
+              "label": "Contato",
+              "value": "Adicione seu site, telefone e redes sociais"
+            },
+            {
+              "key": "field-13-2",
+              "label": "Condições",
+              "value": "Edite a validade e as condições desta campanha."
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "nordeste-liquida",
+    "name": "Nordeste · Liquida D&D",
+    "description": "Somente frente · verso livre para montar",
+    "sources": [
+      "NordesteLiquida.dc.html"
+    ],
+    "document": {
+      "layout": {
+        "format": "153x207",
+        "name": "Nordeste · Liquida D&D",
+        "accent": "#D63A7A",
+        "priceColor": "#D63A7A",
+        "background": "#FCE5EF"
+      },
+      "frente": [
+        {
+          "id": "source-14-0",
+          "kind": "header",
+          "name": "Cabeçalho da campanha",
+          "h": 110,
+          "appearance": {
+            "minHeight": 110,
+            "vertical": false
+          },
+          "fields": [
+            {
+              "key": "field-14-0",
+              "label": "Tema",
+              "value": "D&D COSMÉTICOS"
+            },
+            {
+              "key": "field-14-1",
+              "label": "Título",
+              "value": "Liquida D&D"
+            }
+          ]
+        },
+        {
+          "id": "source-14-1",
+          "kind": "row",
+          "name": "Linha 1 · 3 produtos",
+          "h": 112,
+          "appearance": {
+            "minHeight": 112,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "Fhader",
+              "name": "Presente Fhader · Eau de Parfum 100ml Consulte fragrâncias",
+              "de": "99,90",
+              "por": "69,90",
+              "cada": "cada",
+              "tag": "wide",
+              "badgeColor": "#D63A7A"
+            },
+            {
+              "brand": "Fhader",
+              "name": "Presente Fhader · Eau de Parfum + Body Splash + Hidratante Consulte fragrâncias",
+              "de": "189,88",
+              "por": "109,90",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#D63A7A"
+            },
+            {
+              "brand": "Fhader",
+              "name": "Presente Fhader · Body Splash 200ml + Hidratante 200ml",
+              "de": "89,98",
+              "por": "54,90",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#D63A7A"
+            }
+          ]
+        },
+        {
+          "id": "source-14-2",
+          "kind": "row",
+          "name": "Linha 2 · 3 produtos",
+          "h": 112,
+          "appearance": {
+            "minHeight": 112,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "O Boticário",
+              "name": "Acqua Fresca · Colônia Feminina Boticollection 100ml",
+              "de": "179,90",
+              "por": "99,90",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#D63A7A"
+            },
+            {
+              "brand": "O Boticário",
+              "name": "Malbec · Colônia Masculina 100ml Flame ou Icon",
+              "de": "249,90",
+              "por": "159,90",
+              "cada": "cada",
+              "tag": "wide",
+              "badgeColor": "#D63A7A"
+            },
+            {
+              "brand": "O Boticário",
+              "name": "Liz · Colônia Feminina 100ml",
+              "de": "179,90",
+              "por": "129,90",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#D63A7A"
+            }
+          ]
+        },
+        {
+          "id": "source-14-3",
+          "kind": "row",
+          "name": "Linha 3 · 4 produtos",
+          "h": 96,
+          "appearance": {
+            "minHeight": 96,
+            "vertical": false
+          },
+          "cols": 4,
+          "products": [
+            {
+              "brand": "Eudora",
+              "name": "Chic · Colônia Feminina 95ml",
+              "de": "129,90",
+              "por": "89,90",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#D63A7A"
+            },
+            {
+              "brand": "Eudora",
+              "name": "La Victorie Intense · Colônia Feminina 75ml",
+              "de": "269,90",
+              "por": "199,90",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#D63A7A"
+            },
+            {
+              "brand": "Lou de Pre",
+              "name": "Eau de Parfum Árabe 90ml · Consulte fragrâncias",
+              "de": "",
+              "por": "149,90",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#D63A7A"
+            },
+            {
+              "brand": "Style & Scents",
+              "name": "Eau de Parfum Árabe 90ml · Consulte fragrâncias",
+              "de": "",
+              "por": "199,90",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#D63A7A"
+            }
+          ]
+        },
+        {
+          "id": "source-14-4",
+          "kind": "row",
+          "name": "Linha 4 · 3 produtos",
+          "h": 110,
+          "appearance": {
+            "minHeight": 110,
+            "vertical": false
+          },
+          "cols": 3,
+          "products": [
+            {
+              "brand": "Avon",
+              "name": "Petit · Colônia Feminina 50ml Consulte fragrâncias",
+              "de": "64,90",
+              "por": "34,90",
+              "cada": "cada",
+              "tag": "wide",
+              "badgeColor": "#D63A7A"
+            },
+            {
+              "brand": "Avon",
+              "name": "Pur Blanca · Colônia Feminina 75ml Consulte fragrâncias",
+              "de": "74,90",
+              "por": "39,90",
+              "cada": "cada",
+              "tag": "wide",
+              "badgeColor": "#D63A7A"
+            },
+            {
+              "brand": "Avon",
+              "name": "LovIU a Touch · Deo Parfum Feminino 75ml",
+              "de": "139,90",
+              "por": "49,99",
+              "cada": "",
+              "tag": "wide",
+              "badgeColor": "#D63A7A"
+            }
+          ]
+        },
+        {
+          "id": "source-14-5",
+          "kind": "footsite",
+          "name": "Rodapé · contato e condições",
+          "h": 60,
+          "appearance": {
+            "minHeight": 60,
+            "vertical": false
+          },
+          "fields": [
+            {
+              "key": "field-14-0",
+              "label": "Loja",
+              "value": "D&D Cosméticos"
+            },
+            {
+              "key": "field-14-1",
+              "label": "Contato",
+              "value": "Adicione seu site, telefone e redes sociais"
+            },
+            {
+              "key": "field-14-2",
+              "label": "Condições",
+              "value": "Edite a validade e as condições desta campanha."
+            }
+          ]
+        }
+      ],
+      "verso": []
+    }
+  }
+]

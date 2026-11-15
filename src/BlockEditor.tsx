@@ -5,6 +5,9 @@ import type { Block, Document, Product, Side } from './block-model'
 import './block-editor.css'
 import { MAX_PROJECT_BYTES, parseProject, ProjectImportError } from './project-import'
 import { parsePrice, priceIssues } from './prices'
+import { formats } from './layout-settings'
+import { replaceDraft } from './draft-library'
+import TemplateGallery from './TemplateGallery'
 
 function PriceTag({ product: p, index = 0 }: { product: Product; index?: number }) {
   const tag = p.tag || 'wide'
@@ -12,7 +15,7 @@ function PriceTag({ product: p, index = 0 }: { product: Product; index?: number 
   const sale = parsePrice(p.por), before = parsePrice(p.de, true)
   if (!sale.ok || !before.ok) return <span className="price-tag invalid-price">Revisar preço</span>
   const priceSize = Math.min(40, 84 / (parts.integer.length * .65 + 1.3))
-  return <span className={`price-tag tag-${tag}`} style={{ '--price-font': `${priceSize}cqw`, '--price-narrow-font': `${priceSize * .75}cqw`, '--promo-color': ['#244cff', '#29b52a', '#a02eef'][index % 3] } as CSSProperties}>
+  return <span className={`price-tag tag-${tag}`} style={{ '--price-font': `${priceSize}cqw`, '--price-narrow-font': `${priceSize * .75}cqw`, '--promo-color': p.badgeColor || ['#244cff', '#29b52a', '#a02eef'][index % 3], ...(p.badgeColor ? { '--template-price': p.badgeColor } : {}) } as CSSProperties}>
     <span className="price-top">{tag === 'offer' ? 'Por Apenas' : before.normalized ? `DE: R$ ${before.normalized}` : 'POR APENAS'}</span>
     {tag === 'progressive' && <span className="price-quantity">LEVE {index + 1}</span>}
     <span className="price-value" aria-label={`Por R$ ${sale.normalized}${p.cada ? ' ' + p.cada : ''}`}>
@@ -30,12 +33,22 @@ function FlyerBlock({ block: b, pick, selected, productIndex }: { block: Block; 
         {b.products?.map((p, i) => <button type="button" key={i} className={`product-card ${selected && productIndex === i ? 'is-picked' : ''}`}
           aria-label={`Editar produto ${i + 1}: ${p.name}`} onClick={e => { e.stopPropagation(); pick?.(i) }}>
           <span className="product-photo">{p.photo ? <img src={p.photo} alt={p.name} draggable={false} /> : <span className="photo-placeholder">＋<small>Foto</small></span>}</span>
-          <span className="product-copy" title={`${p.brand} ${p.name}`}><b>{p.brand}</b><span>{p.name}</span></span>
+          <span className="product-copy" title={`${p.brand} ${p.name}`}>{p.label && <em className="product-label">{p.label}</em>}<b>{p.brand}</b><span>{p.name}</span></span>
           <PriceTag product={p} index={i} />
         </button>)}
       </div></>
   const hasLargeTags = b.products?.some(p => p.tag === 'offer' || p.tag === 'before')
-  return <div className={`flyer-block kind-${b.kind} ${b.kind !== 'hero3' ? 'side-by-side' : ''} ${hasLargeTags ? 'has-large-tags' : ''} ${selected ? 'is-selected' : ''}`} onClick={() => pick?.()}>{content}</div>
+  return <div className={`flyer-block kind-${b.kind} ${b.kind !== 'hero3' && !b.appearance?.vertical ? 'side-by-side' : ''} ${b.appearance ? 'template-block' : ''} ${hasLargeTags ? 'has-large-tags' : ''} ${selected ? 'is-selected' : ''}`} onClick={() => pick?.()}>{content}</div>
+}
+
+function sheetStyle(doc: Document): CSSProperties {
+  const size = formats[doc.layout?.format || '153x207']
+  return { '--sheet-width': `${size.width}px`, '--sheet-height': `${size.height}px`, '--sheet-width-mm': `${size.widthMm}mm`, '--sheet-height-mm': `${size.heightMm}mm`, ...(doc.layout ? { '--template-accent': doc.layout.accent, '--template-price': doc.layout.priceColor, '--template-background': doc.layout.background } : {}) } as CSSProperties
+}
+function templatePreview(doc: Document, side: Side, width: number) {
+  const size = formats[doc.layout?.format || '153x207'], scale = width / size.width
+  const page = paginate(doc[side], size.height)[0]
+  return <div className="template-preview" style={{ width, height: size.height * scale }}><div className="flyer-sheet themed-sheet" style={{ ...sheetStyle(doc), transform: `scale(${scale})`, gridTemplateRows: page.map(b => `minmax(${minHeight(b)}px, ${Math.max(1, b.h)}fr)`).join(' ') }}>{page.map(b => <FlyerBlock key={b.id} block={b} />)}</div></div>
 }
 
 function downloadText(text: string, filename: string) {
@@ -58,18 +71,21 @@ export default function BlockEditor() {
   const [over, setOver] = useState<string | null>(null)
   const [history, setHistory] = useState<{ past: Document[]; future: Document[] }>({ past: [], future: [] })
   const [printSides, setPrintSides] = useState<'both' | Side>('both')
+  const [galleryOpen, setGalleryOpen] = useState(false)
+  const lastSaved = useRef<string | null>(null)
   const fileInput = useRef<HTMLInputElement>(null)
   const latestDoc = useRef(doc)
   const importRequest = useRef(0)
   const blocks = doc[side]
   const current = blocks.find(b => b.id === selected)
   const product = current?.products?.[productIndex]
-  const pages = paginate(blocks)
+  const size = formats[doc.layout?.format || '153x207']
+  const pages = paginate(blocks, size.height)
   const issues = priceIssues(doc)
   const printIssues = priceIssues(doc, printSides === 'both' ? ['frente', 'verso'] : [printSides])
   const deResult = product ? parsePrice(product.de, true) : null
   const porResult = product ? parsePrice(product.por) : null
-  useEffect(() => { try { if (saveDraft(doc, draft)) setSaveError(false) } catch { setSaveError(true) } }, [doc, draft])
+  useEffect(() => { try { if (saveDraft(doc, draft)) { lastSaved.current = JSON.stringify(doc); setSaveError(false) } } catch { setSaveError(true) } }, [doc, draft])
 
   function recover(choice: 'recovered' | 'new') {
     const message = choice === 'new'
@@ -102,6 +118,17 @@ export default function BlockEditor() {
     const previous = latestDoc.current
     latestDoc.current = next
     setHistory(h => ({ past: [...h.past.slice(-19), previous], future: [] })); setDoc(next)
+  }
+  function useTemplate(next: Document) {
+    try { replaceDraft(latestDoc.current, next, lastSaved.current) }
+    catch (reason) {
+      if (reason instanceof Error && reason.message.includes('outra aba')) throw reason
+      throw new Error('Não foi possível guardar a cópia e salvar o novo projeto. Baixe o rascunho atual e libere espaço no navegador antes de tentar novamente.')
+    }
+    lastSaved.current = JSON.stringify(next)
+    ++importRequest.current
+    commit(next); setSide('frente'); setSelected(null); setProductIndex(0); setPrintSides(next.verso.length ? 'both' : 'frente'); setGalleryOpen(false)
+    setNotice('Projeto aberto. O anterior está em + Novo → Rascunhos guardados. Você também pode desfazer.')
   }
   async function importProject(input: HTMLInputElement) {
     const file = input.files?.[0]
@@ -189,6 +216,7 @@ export default function BlockEditor() {
   return <>
     <div className="builder-app" onDragEnd={() => { setDragging(false); setOver(null) }}>
       <header className="app-header"><div className="app-brand"><span>▦</span><div><strong>Monta panfleto</strong><small>Escolha, arraste e edite.</small></div></div>
+        <button className="primary new-project" onClick={() => setGalleryOpen(true)}>+ Novo</button>
         <nav aria-label="Lado do panfleto">{(['frente', 'verso'] as Side[]).map(s => <button key={s} aria-pressed={side === s} onClick={() => { setSide(s); setSelected(null) }}>{s === 'frente' ? 'Frente' : 'Verso'}</button>)}</nav>
         <span className={`save-state ${saveError ? 'error' : ''}`}>{saveError ? 'Não foi possível salvar. Baixe o projeto.' : '✓ Salvo neste navegador'}</span>
         <button onClick={() => download(doc)}>Baixar projeto</button><button onClick={() => fileInput.current?.click()}>Abrir projeto</button>
@@ -204,8 +232,8 @@ export default function BlockEditor() {
           <div className="order-end" onDragOver={e => e.preventDefault()} onDrop={e => drop(e)}>Solte aqui para mover ao final</div>
         </aside>
         <main className="canvas-area"><div className="canvas-toolbar"><span><b>2</b> Arraste para organizar · clique para editar</span><div><button aria-label="Desfazer" disabled={!history.past.length} onClick={undo}>↶</button><button aria-label="Refazer" disabled={!history.future.length} onClick={redo}>↷</button><button aria-label="Diminuir zoom" onClick={() => setZoom(z => Math.max(.5, z - .1))}>−</button><output>{Math.round(zoom * 100)}%</output><button aria-label="Aumentar zoom" onClick={() => setZoom(z => Math.min(1.5, z + .1))}>＋</button></div></div>
-          <div className="status-line" role="status">{notice || `${pages.length} ${pages.length === 1 ? 'página' : 'páginas'} · 153 × 207 mm · encaixe automático`}</div>
-          {pages.map((page, pi) => <section className="page-stage" key={pi} style={{ width: 578 * zoom, height: 782 * zoom }} aria-label={`Página ${pi + 1} da ${side}`}><div className="flyer-sheet" style={{ transform: `scale(${zoom})`, gridTemplateRows: page.map(b => `minmax(${minHeight(b)}px, ${Math.max(1, b.h)}fr)`).join(' ') }}>
+          <div className="status-line" role="status">{notice || `${pages.length} ${pages.length === 1 ? 'página' : 'páginas'} · ${size.widthMm} × ${size.heightMm} mm · encaixe automático`}</div>
+          {pages.map((page, pi) => <section className="page-stage" key={pi} style={{ width: size.width * zoom, height: size.height * zoom }} aria-label={`Página ${pi + 1} da ${side}`}><div className={`flyer-sheet ${doc.layout ? 'themed-sheet' : ''}`} style={{ ...sheetStyle(doc), transform: `scale(${zoom})`, gridTemplateRows: page.map(b => `minmax(${minHeight(b)}px, ${Math.max(1, b.h)}fr)`).join(' ') }}>
             {page.map(b => <div key={b.id} data-block-id={b.id} className={`block-slot ${over === b.id ? 'drop-active' : ''}`} onDragOver={e => { e.preventDefault(); setOver(b.id) }} onDrop={e => drop(e, b.id)}>
               <div className="block-controls"><button draggable onDragStart={e => beginDrag(e, `block:${b.id}`)} aria-label={`Arrastar ${b.name}`}>⠿</button><button onClick={() => pick(b.id)}>{b.name}</button></div>
               <FlyerBlock block={b} selected={selected === b.id} productIndex={productIndex} pick={i => pick(b.id, i)} />
@@ -225,16 +253,20 @@ export default function BlockEditor() {
                 <label>Nome do produto<textarea rows={3} value={product.name} onChange={e => changeProduct({ name: e.target.value })} /></label>
                 <div className="price-fields"><label>De (R$)<input inputMode="decimal" value={product.de} aria-invalid={deResult?.ok === false} aria-describedby="de-price-help" onChange={e => changeProduct({ de: e.target.value })} onBlur={() => formatPrice('de')} /><small id="de-price-help">{deResult?.ok === false ? deResult.message : 'Opcional. Ex.: 29,90'}</small></label><label>Por (R$)<input inputMode="decimal" value={product.por} aria-invalid={porResult?.ok === false} aria-describedby="por-price-help" onChange={e => changeProduct({ por: e.target.value })} onBlur={() => formatPrice('por')} /><small id="por-price-help">{porResult?.ok === false ? porResult.message : 'Obrigatório. Ex.: 19,90'}</small></label></div>
                 <label>Complemento<input placeholder="Ex.: cada, unidade, kit" value={product.cada} onChange={e => changeProduct({ cada: e.target.value })} /></label>
+                {doc.layout && <><label>Chamada promocional<input value={product.label || ''} onChange={e => changeProduct({ label: e.target.value })} /></label><label>Cor da etiqueta<input type="color" value={product.badgeColor || doc.layout.priceColor} onChange={e => changeProduct({ badgeColor: e.target.value })} /></label></>}
                 <h3>Etiqueta de preço</h3><p className="muted">Escolha o formato da etiqueta.</p><div className="tag-options">{tags.map(t => <button key={t.id} aria-pressed={(product.tag || 'wide') === t.id} onClick={() => changeProduct({ tag: t.id })}><PriceTag product={{ ...product, tag: t.id, por: '129,90', de: '159,90', cada: 'cada' }} /><span>{t.name}</span></button>)}</div>
                 <button className="full" onClick={() => changeBlock(b => { b.products!.forEach(p => { p.tag = product.tag || 'wide' }) })}>Aplicar etiqueta ao bloco</button>
                 <button className="danger full" disabled={current.products.length <= 1} onClick={() => { changeBlock(b => { b.products!.splice(productIndex, 1); b.cols = b.products!.length }); setProductIndex(Math.max(0, productIndex - 1)) }}>Remover este produto</button>
               </>}
             </> : null}
           </>}
-          <details className="print-options"><summary>Impressão / PDF</summary><label>Páginas para imprimir<select value={printSides} onChange={e => setPrintSides(e.target.value as typeof printSides)}><option value="both">Frente e verso</option><option value="frente">Só frente</option><option value="verso">Só verso</option></select></label><p>Escolha “Salvar como PDF”, escala 100%, sem margens e com gráficos de fundo na janela de impressão. Sem sangria.</p></details>
+          {doc.layout && <details className="print-options"><summary>Cores do modelo</summary>{([['accent', 'Cor da campanha'], ['priceColor', 'Cor padrão das etiquetas'], ['background', 'Fundo do cabeçalho']] as const).map(([key, label]) => <label key={key}>{label}<input type="color" value={doc.layout![key]} onChange={e => commit({ ...doc, layout: { ...doc.layout!, [key]: e.target.value } })} /></label>)}</details>}
+          <details className="print-options"><summary>Impressão / PDF</summary><label>Páginas para imprimir<select value={printSides} onChange={e => setPrintSides(e.target.value as typeof printSides)}><option value="both">Frente e verso</option><option value="frente">Só frente</option><option value="verso">Só verso</option></select></label><p>{size.label}. Escolha “Salvar como PDF”, escala 100%, sem margens e com gráficos de fundo na janela de impressão. Sem sangria.</p></details>
         </aside>
       </div>
     </div>
-    <div className="print-document">{printIssues.length ? <p role="alert">Impressão bloqueada: corrija os preços inválidos dos lados escolhidos no editor.</p> : (['frente', 'verso'] as Side[]).filter(s => printSides === 'both' || printSides === s).flatMap(s => paginate(doc[s]).map((page, pi) => <div key={`${s}-${pi}`} className="flyer-sheet" style={{ gridTemplateRows: page.map(b => `minmax(${minHeight(b)}px, ${Math.max(1, b.h)}fr)`).join(' ') }}>{page.map(b => <FlyerBlock key={b.id} block={b} />)}</div>))}</div>
+    {galleryOpen && <TemplateGallery onClose={() => setGalleryOpen(false)} onUse={useTemplate} onDownload={download} preview={templatePreview} />}
+    <style>{`@media print { @page { size: ${size.widthMm}mm ${size.heightMm}mm; margin: 0; } }`}</style>
+    <div className="print-document">{printIssues.length ? <p role="alert">Impressão bloqueada: corrija os preços inválidos dos lados escolhidos no editor.</p> : (['frente', 'verso'] as Side[]).filter(s => (printSides === 'both' || printSides === s) && doc[s].length).flatMap(s => paginate(doc[s], size.height).map((page, pi) => <div key={`${s}-${pi}`} className={`flyer-sheet ${doc.layout ? 'themed-sheet' : ''}`} style={{ ...sheetStyle(doc), gridTemplateRows: page.map(b => `minmax(${minHeight(b)}px, ${Math.max(1, b.h)}fr)`).join(' ') }}>{page.map(b => <FlyerBlock key={b.id} block={b} />)}</div>))}</div>
   </>
 }

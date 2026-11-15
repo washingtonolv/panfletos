@@ -2,6 +2,8 @@
 
 Derivados do README e do código; revisão no navegador pendente.
 
+Fluxo AIDF-005 verificado: + Novo → buscar/filtrar → Ver modelo → conferir frente/verso → Usar este modelo → confirmar → guardar cópia e abrir no editor. Cancelar/Escape não alteram o projeto. + Novo → Rascunhos guardados permite baixar ou restaurar; restaurar guarda o trabalho ativo antes de substituir. Quota e conflito de outra aba bloqueiam a troca.
+
 | ID | Passos | Resultado esperado | Regressões |
 |---|---|---|---|
 | UF-01 | Abrir a URL principal | Carregar rascunho ou documento inicial | v3, migração v2/v1, registro ilegível, armazenamento indisponível. |
