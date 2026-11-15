@@ -149,12 +149,6 @@ interface State {
   loadAnniversary: () => void
 }
 
-const samples: Product[] = [
-  { brand: 'EUDORA', name: 'H Colônia Masculina 100ml', de: '124,90', por: '74,99', cada: 'cada' },
-  { brand: 'EUDORA', name: 'Pulse Colônia Masculina 100ml', de: '94,95', por: '69,99', cada: 'cada' },
-  { brand: 'EUDORA', name: 'Chic Retrô Colônia Feminina 95ml', de: '109,90', por: '79,99', cada: 'cada' },
-]
-
 const initial: Pages = anniversaryTemplate()
 
 export const useDoc = create<State>((set, get) => {
