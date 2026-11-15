@@ -20,6 +20,10 @@ Essas faixas não equivalem a versões instaladas. O workflow usa Node 22; o tes
 | scripts/block-model.test.mjs | Seis testes do modelo na baseline. |
 
 ## Dados e persistência
+Na AIDF-006, Block.image e Block.imageFit opcionais armazenam a arte de cabeçalhos/rodapés sem apagar fields. A importação valida a URL com as mesmas regras das fotos e aceita apenas contain/cover nos tipos de bloco apropriados. editor-images.ts captura o bloco alvo e recusa aplicar resultados quando o bloco mudou durante a leitura (incluindo deslocamento dos índices dos produtos). BlockEditor usa sequência por alvo e época de documento para descartar uploads atrasados após remoção, undo/redo, importação ou troca de modelo. Arquivos de até 20 MiB são decodificados e reduzidos para WebP: 900 px produtos, 1800 px cabeçalhos/rodapés.
+
+CanvasViewport.tsx gerencia mão/seleção, captura de ponteiro, rolagem e atalhos. Ctrl/Cmd+wheel usa listener não passivo no canvas e compensação de scroll após o layout para manter a âncora do cursor; padding lateral garante espaço de navegação. Zoom fica em estado de interface, sem modificar modelo ou folhas de impressão. Inputs/contenteditable e galeria aberta não recebem atalhos globais.
+
 Modelos em src/layout-templates.json são validados por src/layout-templates.ts e clonados com novos IDs. TemplateGallery.tsx contém galeria modal/busca/filtro/prévias e biblioteca local. layout-settings.ts define os dois tamanhos e valida metadados opcionais. draft-library.ts arquiva e verifica o documento anterior antes da troca; localStorage panfletos:saved:<UUID> usa registros versionados, sem exclusão ou migração das chaves existentes. Consulte LAYOUT_TEMPLATES.md.
 src/prices.ts fornece parsePrice e priceIssues, compartilhados entre importação e montador. Centavos são montados com BigInt e limitados ao inteiro seguro antes de conversão para number; não se usa ponto flutuante para interpretar dinheiro. Dados de rascunhos não passam por migração numérica: texto inválido permanece editável, sinalizado e excluído das ofertas imprimíveis. O campo válido é formatado ao perder foco; a impressão valida apenas os lados escolhidos.
 

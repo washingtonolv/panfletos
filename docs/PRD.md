@@ -21,6 +21,7 @@ Hipótese de público: responsáveis por materiais promocionais de lojas. Perfil
 São critérios derivados do código, não uma declaração de testes de navegador concluídos.
 
 ## Próxima evolução
+AIDF-006 implementa fotos com acesso direto e remoção, arte de cabeçalho/rodapé e navegação de canvas com barra flutuante, mão, seleção, histórico e zoom por Ctrl+rolagem. Preservar conteúdos existentes, textos sob imagens, histórico/JSON e tamanhos físicos de impressão.
 A galeria aprovada em tasks/AIDF-005.md acrescenta + Novo, nove modelos editáveis em dois tamanhos e cópias locais recuperáveis antes da substituição. Contratos e origem em LAYOUT_TEMPLATES.md. A autorização inclui testes e deploy.
 A terceira melhoria aprovada é validar numericamente De/Por, com avisos na edição, validação de arquivos e bloqueio de impressão dos lados com erros, conforme tasks/AIDF-004.md. De é opcional; Por obrigatório; zero permitido. Relação entre os preços e outras regras comerciais dependem de decisão futura.
 A segunda melhoria é validar integralmente a estrutura dos arquivos importados antes de substituir o documento, conforme tasks/AIDF-003.md. Erros mantêm o documento e o histórico intactos; a validação numérica foi acrescentada na AIDF-004.

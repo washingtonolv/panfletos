@@ -5,7 +5,7 @@ import type { Layout, Appearance } from './layout-settings.ts'
 
 export type Tag = 'offer' | 'before' | 'pill' | 'wide' | 'progressive'
 export type Product = { brand: string; name: string; de: string; por: string; cada: string; photo?: string; tag?: Tag; badgeColor?: string; label?: string }
-export type Block = { id: string; kind: string; name: string; h: number; cols?: number; fields?: { key: string; label: string; value: string }[]; products?: Product[]; appearance?: Appearance }
+export type Block = { id: string; kind: string; name: string; h: number; cols?: number; fields?: { key: string; label: string; value: string }[]; products?: Product[]; appearance?: Appearance; image?: string; imageFit?: 'contain' | 'cover' }
 export type Document = { frente: Block[]; verso: Block[]; layout?: Layout }
 export type Side = 'frente' | 'verso'
 export const STORAGE = 'panfletos:montador:v3'
@@ -49,7 +49,9 @@ export function normalize(value: unknown, upgradeHero = false): Document {
       }))
       return { id: typeof b.id === 'string' ? b.id : uid(), kind: b.kind, name: String(b.name), h: Number(b.h) || 130,
         cols: products?.length, products, fields: b.fields?.map(f => ({ key: String(f.key), label: String(f.label), value: String(f.value) })),
-        ...(b.appearance !== undefined ? { appearance: readAppearance(b.appearance) } : {}) }
+        ...(b.appearance !== undefined ? { appearance: readAppearance(b.appearance) } : {}),
+        ...(typeof b.image === 'string' && /^(data:image\/(png|jpeg|webp);base64,|https?:\/\/)/.test(b.image) ? { image: b.image } : {}),
+        ...(b.imageFit === 'contain' || b.imageFit === 'cover' ? { imageFit: b.imageFit } : {}) }
     })
   }
   return { frente: side('frente'), verso: side('verso'), ...(input.layout !== undefined ? { layout: readLayout(input.layout) } : {}) }

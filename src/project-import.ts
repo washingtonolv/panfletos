@@ -52,6 +52,11 @@ export function validateProject(value: unknown): Document {
       try { readAppearance(block.appearance) } catch (error) { fail(path, (error as Error).message) }
       identifier(block.id, `${path}, id`, ids)
       if (typeof block.kind !== 'string' || !['header', 'hero3', 'hero2', 'row', 'footsite', 'footpay'].includes(block.kind)) fail(path, 'tipo de bloco desconhecido.')
+      if (block.image !== undefined) {
+        if (!['header', 'footsite', 'footpay'].includes(block.kind)) fail(path, 'imagem de bloco só é permitida em cabeçalhos e rodapés.')
+        validPhoto(block.image, `${path}, imagem`)
+      }
+      if (block.imageFit !== undefined && (!['header', 'footsite', 'footpay'].includes(block.kind) || !['contain', 'cover'].includes(block.imageFit as string))) fail(path, 'ajuste da imagem inválido.')
       text(block.name, `${path}, nome`)
       if (typeof block.h !== 'number' || !Number.isFinite(block.h) || block.h <= 0) fail(path, 'altura deve ser um número positivo e finito.')
       const hasProducts = ['hero3', 'hero2', 'row'].includes(block.kind as string)

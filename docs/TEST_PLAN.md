@@ -1,5 +1,13 @@
 # Verificação — Panfletos
 
+## AIDF-006 — imagens e navegação (2026-11-15)
+- Lint sem erros, cinco avisos já existentes; TypeScript/build aprovados. Nenhuma dependência ou workflow alterado.
+- 31 testes de modelo passaram; novos casos cobrem imagem/ajuste de cabeçalhos/rodapés no JSON e rascunho, preservação dos textos, rejeição de URLs/ajustes/tipos inválidos e descarte de alvos obsoletos.
+- Sete cenários Edge em scripts/editor-tools.browser.mjs: foto direta/troca/remoção/histórico/backup; cabeçalho/rodapé nos dois lados/JSON/print; erros/cancelamento/tamanho; uploads atrasados/remoção/edição/concorrência/undo/importação/modelo; zoom ancorado/rolagem/mão sem edição; atalhos e inputs/galeria; celular e impressão sem barra. Todos passaram no build local.
+- Seis cenários da galeria, seis de recuperação, seis de importação e cinco de preços passaram no mesmo build (30 cenários de navegador no total), sem erros JavaScript.
+- Screenshots revisados em 1397 × 929 e 390 × 844. Mídia print verificou imagens, ausência da barra e largura física preservada. Sem impressão física nem auditoria completa de acessibilidade.
+- Runner usa PLAYWRIGHT_MODULE opcional, BROWSER_CHANNEL (padrão msedge), EDITOR_TEST_URL (padrão localhost:4177/panfletos), EDITOR_SCREENSHOT_DIR opcional e EDITOR_SCENARIO opcional para filtrar. Contextos isolados, sem perfis reais. Nenhuma dependência de produção adicionada.
+
 ## AIDF-005 — galeria de modelos (2026-11-15)
 - npm ci pelo lockfile; 28 testes de modelo aprovados, incluindo todos os nove modelos / 15 fontes, contagens de produtos, IDs independentes, metadados/JSON, preservação de rascunhos inválidos, quota, conflitos, verificação de cópia e restauração.
 - Lint sem erros e cinco avisos existentes. TypeScript e build de produção aprovados. Nenhuma dependência ou workflow alterado.
