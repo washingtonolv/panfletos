@@ -52,3 +52,8 @@
 .side-by-side .tag-pill .price-top,.side-by-side .tag-wide .price-top{font-size:clamp(3px,8cqw,8px)}
 .side-by-side .price-tag .price-unit{font-size:clamp(3px,6cqw,6px)}
 .side-by-side .tag-offer .price-top,.side-by-side .tag-before .price-top{font-size:clamp(3px,7cqw,9px)}
+
+/* Recovery must remain usable before the editor and on small screens. */
+.draft-recovery{max-width:720px;margin:5vh auto;padding:24px;background:#fff;border:1px solid #ddd5e5;border-radius:12px;overflow-wrap:anywhere}
+.draft-recovery h1{font-size:24px;margin:0 0 16px}.draft-recovery p{font-size:15px;line-height:1.6;margin:14px 0}.recovery-actions{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0}.draft-recovery [role=alert]{color:#9c2439}.draft-recovery button{min-height:44px;font-size:14px}
+@media(max-width:780px){.draft-recovery{margin:16px;padding:20px}.recovery-actions{flex-direction:column}.recovery-actions button{width:100%}}

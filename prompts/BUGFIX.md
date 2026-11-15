@@ -1,0 +1,1 @@
+Reproduce the reported bug first where possible. Separate symptoms from root cause; list expected vs actual, smallest safe fix, regression test, affected flows and rollback. Do not refactor unrelated areas.

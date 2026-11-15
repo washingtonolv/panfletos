@@ -1,5 +1,17 @@
 # Panfletos
 
+## Desenvolvimento com AIDF 1.0
+
+O projeto usa o AIDF para orientar a evolução do editor existente. Comece por [AGENTS.md](AGENTS.md) e pelo [contexto inicial](docs/AIDF_BASELINE.md).
+
+- [Requisitos](docs/PRD.md), [arquitetura](docs/ARCHITECTURE.md), [contrato visual](docs/DESIGN_SYSTEM.md) e [fluxos](docs/USER_FLOWS.md).
+- [Plano e evidências de verificação](docs/TEST_PLAN.md).
+- Use `templates/EXISTING_PROJECT.md` e `templates/TASK.md` para especificar a próxima melhoria; os prompts de planejamento, implementação, revisão e correção ficam em `prompts/`.
+- Os guias em `integrations/` são opcionais; não indicam serviços configurados.
+- Alterações na `main` publicam automaticamente no GitHub Pages. Prepare mudanças em branch e PR; não faça merge sem autorização para publicar.
+
+O próximo recurso ainda será definido. A adoção do AIDF não altera o funcionamento do editor.
+
 Editor de panfletos 153 × 207 mm (frente e verso). Elementos em milímetros, mover/redimensionar com react-moveable, desfazer/refazer com Zustand + Immer.
 
 ```
@@ -8,6 +20,8 @@ npm run dev
 ```
 
 ## Montador visual
+
+Se o rascunho não puder ser aberto, o editor bloqueia o salvamento e mostra as opções de recuperação. Use **Baixar original** para guardar o conteúdo sem alterações. Você pode tentar novamente, usar uma versão anterior encontrada ou confirmar o início de um novo documento com o modelo inicial. Antes de liberar o salvamento, o editor guarda e verifica uma cópia local dos originais que falharam. Se faltar espaço para essa cópia, os originais continuam protegidos; libere espaço e tente novamente. A recuperação não repara automaticamente arquivos inválidos.
 
 O endereço principal abre o montador React: escolha um bloco na biblioteca, arraste os blocos pela alça e clique em um produto para editar foto, marca, nome e preços. Nas linhas e no destaque duplo, a foto fica à esquerda e o nome e a etiqueta à direita, como no panfleto de referência. Cada produto ocupa uma célula com alinhamento automático. O destaque progressivo mantém as fotos acima dos preços coloridos. Os modelos de etiqueta incluem Por apenas, De/Por, D&D compacta, Etiqueta D&D e Leve 1, 2 e 3.
 
