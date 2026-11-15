@@ -27,7 +27,7 @@ function Field({ label, value, onChange, area }: { label: string; value: string;
 }
 
 export default function App() {
-  const { pages, page, sel, past, future, select, setPage, update, add, addBlock, resetBlock, remove, undo, redo } = useDoc()
+  const { pages, page, sel, past, future, select, setPage, update, add, addBlock, resetBlock, remove, undo, redo, loadAnniversary } = useDoc()
   const [zoom, setZoom] = useState(1)
   const S = 3.78 * zoom // px por mm
   const els = pages[page]
@@ -106,6 +106,7 @@ export default function App() {
     <div className="app">
       <header className="bar">
         <strong>Panfletos</strong>
+        <button className="template-btn" onClick={() => { if (window.confirm("Carregar modelo Aniversário D&D? O documento atual será substituído (você pode desfazer).")) loadAnniversary() }}>Modelo Aniversário D&amp;D</button>
         <div className="grp">
           <button className={page === 0 ? 'on' : ''} onClick={() => setPage(0)}>Frente</button>
           <button className={page === 1 ? 'on' : ''} onClick={() => setPage(1)}>Verso</button>
