@@ -60,8 +60,10 @@ export function minHeight(b: Block) {
   if (b.kind === 'header') return 108
   if (b.kind.startsWith('foot')) return b.kind === 'footpay' ? 88 : 56
   const n = Math.max(1, b.products?.length || 1)
-  const square = b.products?.some(p => p.tag === 'offer' || p.tag === 'before')
-  return Math.ceil((square ? (554 / n - 10) * .72 : 58) + 72 + (b.fields?.length ? 24 : 0))
+  const largeTag = b.products?.some(p => p.tag === 'offer' || p.tag === 'before')
+  // The badge stays compact; reserve the extra height for the photo instead.
+  const photoReserve = largeTag ? Math.max(24, Math.min(64, (554 / n - 10) * .24)) : 0
+  return Math.ceil(58 + 72 + photoReserve + (b.fields?.length ? 24 : 0))
 }
 export function paginate(blocks: Block[]): Block[][] {
   const pages: Block[][] = [[]]

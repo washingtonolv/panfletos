@@ -4,3 +4,15 @@
 @media print{@page{size:153mm 207mm;margin:0}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}html,body,#root{margin:0!important;padding:0!important;height:auto!important;overflow:visible!important;background:white}.builder-app{display:none!important}.print-document{display:block}.print-document .flyer-sheet{width:153mm;height:207mm;break-after:page;break-inside:avoid;transform:none}.print-document .flyer-sheet:last-child{break-after:auto}.flyer-block{outline:none!important}.product-card{box-shadow:none!important;background:white!important}.photo-placeholder{visibility:hidden}}
 .price-value strong,.tag-offer .price-value strong,.tag-before .price-value strong,.tag-pill .price-value strong,.tag-wide .price-value strong{font-size:var(--price-font)}
 .tag-pill,.tag-wide{height:58px;padding:3px 7px;gap:1px}.price-value strong,.tag-offer .price-value strong,.tag-before .price-value strong,.tag-pill .price-value strong,.tag-wide .price-value strong{font-size:clamp(9px,var(--price-font),24px)}
+
+/* All products in a row share the same badge height, including mixed models. */
+.tag-offer,.tag-before{height:58px;aspect-ratio:auto;padding:4px 7px;gap:1px;clip-path:polygon(8px 0,calc(100% - 8px) 0,100% 8px,100% calc(100% - 8px),calc(100% - 8px) 100%,8px 100%,0 calc(100% - 8px),0 8px)}
+.tag-offer .price-top{font-size:clamp(7px,8cqw,11px)}
+.tag-offer .price-value small,.tag-before .price-value small{font-size:clamp(7px,11cqw,13px)}
+.tag-offer .price-unit{font-size:8px}
+.tag-before{padding:3px 7px}
+.tag-before .price-top{font-size:clamp(6px,7cqw,9px)}
+.tag-before .price-por{font-size:6px;line-height:1;margin-left:5%}
+.tag-before .price-value strong{font-size:clamp(9px,var(--price-font),20px)}
+.tag-before .price-unit{font-size:7px}
+.has-large-tags .product-photo{min-height:42px}

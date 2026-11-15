@@ -27,7 +27,8 @@ function FlyerBlock({ block: b, pick, selected, productIndex }: { block: Block; 
           <PriceTag product={p} />
         </button>)}
       </div></>
-  return <div className={`flyer-block kind-${b.kind} ${selected ? 'is-selected' : ''}`} onClick={() => pick?.()}>{content}</div>
+  const hasLargeTags = b.products?.some(p => p.tag === 'offer' || p.tag === 'before')
+  return <div className={`flyer-block kind-${b.kind} ${hasLargeTags ? 'has-large-tags' : ''} ${selected ? 'is-selected' : ''}`} onClick={() => pick?.()}>{content}</div>
 }
 
 function download(data: Document) {
