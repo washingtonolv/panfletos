@@ -35,3 +35,19 @@
 .tag-progressive .price-value{flex:initial;gap:3px;align-items:baseline}
 .tag-progressive .price-number{font-size:clamp(10px,var(--price-font),20px)}
 .tag-progressive .price-value .price-currency{flex-direction:row;gap:2px;font-size:clamp(5px,7cqw,9px);font-weight:800}
+
+/* Reference product rows: photo on the left, copy and price on the right. */
+.side-by-side .product-card{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);grid-template-rows:minmax(0,1fr) 58px;column-gap:4px;row-gap:5px;text-align:left;align-items:stretch}
+.side-by-side .product-photo{grid-column:1;grid-row:1 / 3;min-width:0;min-height:0;height:100%;background:transparent;border-radius:2px}
+.side-by-side .product-photo img{object-fit:contain;user-select:none}
+.side-by-side .product-copy{grid-column:2;grid-row:1;min-width:0;height:auto;justify-content:flex-start;text-align:left;gap:3px;padding-top:2px}
+.side-by-side .product-copy b{font-size:clamp(6px,8cqw,12px);font-weight:800;white-space:normal;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.side-by-side .product-copy>span{font-size:clamp(6px,6cqw,10px);line-height:1.2;-webkit-line-clamp:4}
+.side-by-side .product-card>.price-tag{grid-column:2;grid-row:2;justify-self:start;align-self:end;width:86px;max-width:100%;height:58px}
+.side-by-side .product-card>.tag-pill{width:76px}
+.block-controls{top:2px;left:2px;transform:none}
+.block-controls button[draggable]{min-width:24px;min-height:22px;font-size:15px;touch-action:none}
+.side-by-side .price-number{font-size:clamp(5px,var(--price-narrow-font),30px)}
+.side-by-side .price-tag .price-value .price-currency{font-size:clamp(3.5px,7cqw,7px)}
+.side-by-side .tag-pill .price-top,.side-by-side .tag-wide .price-top{font-size:clamp(3px,8cqw,8px)}
+.side-by-side .price-tag .price-unit{font-size:clamp(3px,6cqw,6px)}

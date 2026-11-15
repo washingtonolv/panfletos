@@ -8,7 +8,7 @@ function PriceTag({ product: p, index = 0 }: { product: Product; index?: number 
   const tag = p.tag || 'wide'
   const parts = priceParts(p.por)
   const priceSize = Math.min(40, 84 / (parts.integer.length * .65 + 1.3))
-  return <span className={`price-tag tag-${tag}`} style={{ '--price-font': `${priceSize}cqw`, '--promo-color': ['#244cff', '#29b52a', '#a02eef'][index % 3] } as CSSProperties}>
+  return <span className={`price-tag tag-${tag}`} style={{ '--price-font': `${priceSize}cqw`, '--price-narrow-font': `${priceSize * .75}cqw`, '--promo-color': ['#244cff', '#29b52a', '#a02eef'][index % 3] } as CSSProperties}>
     <span className="price-top">{tag === 'offer' ? 'Por Apenas' : p.de ? `DE: R$ ${p.de}` : 'POR APENAS'}</span>
     {tag === 'progressive' && <span className="price-quantity">LEVE {index + 1}</span>}
     <span className="price-value" aria-label={`Por R$ ${p.por || '0,00'}${p.cada ? ' ' + p.cada : ''}`}>
@@ -25,13 +25,13 @@ function FlyerBlock({ block: b, pick, selected, productIndex }: { block: Block; 
       <div className="product-grid" style={{ gridTemplateColumns: `repeat(${b.products?.length || 1}, minmax(0, 1fr))` }}>
         {b.products?.map((p, i) => <button type="button" key={i} className={`product-card ${selected && productIndex === i ? 'is-picked' : ''}`}
           aria-label={`Editar produto ${i + 1}: ${p.name}`} onClick={e => { e.stopPropagation(); pick?.(i) }}>
-          <span className="product-photo">{p.photo ? <img src={p.photo} alt={p.name} /> : <span className="photo-placeholder">＋<small>Foto</small></span>}</span>
+          <span className="product-photo">{p.photo ? <img src={p.photo} alt={p.name} draggable={false} /> : <span className="photo-placeholder">＋<small>Foto</small></span>}</span>
           <span className="product-copy" title={`${p.brand} ${p.name}`}><b>{p.brand}</b><span>{p.name}</span></span>
           <PriceTag product={p} index={i} />
         </button>)}
       </div></>
   const hasLargeTags = b.products?.some(p => p.tag === 'offer' || p.tag === 'before')
-  return <div className={`flyer-block kind-${b.kind} ${hasLargeTags ? 'has-large-tags' : ''} ${selected ? 'is-selected' : ''}`} onClick={() => pick?.()}>{content}</div>
+  return <div className={`flyer-block kind-${b.kind} ${b.kind !== 'hero3' ? 'side-by-side' : ''} ${hasLargeTags ? 'has-large-tags' : ''} ${selected ? 'is-selected' : ''}`} onClick={() => pick?.()}>{content}</div>
 }
 
 function download(data: Document) {
@@ -153,7 +153,7 @@ export default function BlockEditor() {
                 <label>Nome do produto<textarea rows={3} value={product.name} onChange={e => changeProduct({ name: e.target.value })} /></label>
                 <div className="price-fields"><label>De (R$)<input inputMode="decimal" value={product.de} onChange={e => changeProduct({ de: e.target.value })} /></label><label>Por (R$)<input inputMode="decimal" value={product.por} onChange={e => changeProduct({ por: e.target.value })} /></label></div>
                 <label>Complemento<input placeholder="Ex.: cada, unidade, kit" value={product.cada} onChange={e => changeProduct({ cada: e.target.value })} /></label>
-                <h3>Etiqueta de preço</h3><p className="muted">Os quatro modelos das suas referências.</p><div className="tag-options">{tags.map(t => <button key={t.id} aria-pressed={(product.tag || 'wide') === t.id} onClick={() => changeProduct({ tag: t.id })}><PriceTag product={{ ...product, tag: t.id, por: '129,90', de: '159,90', cada: 'cada' }} /><span>{t.name}</span></button>)}</div>
+                <h3>Etiqueta de preço</h3><p className="muted">Escolha o formato da etiqueta.</p><div className="tag-options">{tags.map(t => <button key={t.id} aria-pressed={(product.tag || 'wide') === t.id} onClick={() => changeProduct({ tag: t.id })}><PriceTag product={{ ...product, tag: t.id, por: '129,90', de: '159,90', cada: 'cada' }} /><span>{t.name}</span></button>)}</div>
                 <button className="full" onClick={() => changeBlock(b => { b.products!.forEach(p => { p.tag = product.tag || 'wide' }) })}>Aplicar etiqueta ao bloco</button>
                 <button className="danger full" disabled={current.products.length <= 1} onClick={() => { changeBlock(b => { b.products!.splice(productIndex, 1); b.cols = b.products!.length }); setProductIndex(Math.max(0, productIndex - 1)) }}>Remover este produto</button>
               </>}
