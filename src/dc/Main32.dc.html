@@ -33,7 +33,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
       <span style="font-size:12px;color:#5E5868">15,3 × 20,7 cm · frente e verso · dados de exemplo</span>
     </div>
     <span style="font-size:12px;font-weight:700;color:#7A4A00;background:#FDEBC8;border-radius:999px;padding:4px 10px">Rascunho</span>
-    <sc-if value="{{ hasPending }}" hint-placeholder-val="{{ false }}"><span title="Produtos importados que ainda precisam de foto" style="font-size:12px;font-weight:700;color:#3D3A44;background:#E7E4EC;border-radius:999px;padding:4px 10px">{{ pendingLabel }}</span></sc-if>
+    <sc-if value="{{ hasPending }}" hint-placeholder-val="{{ false }}"><span title="Produtos que ainda precisam de foto" style="font-size:12px;font-weight:700;color:#3D3A44;background:#E7E4EC;border-radius:999px;padding:4px 10px">{{ pendingLabel }}</span></sc-if>
 
     <div style="margin:0 auto;display:flex;padding:3px;background:#EFE9F5;border-radius:10px;gap:2px">
       <button type="button" onClick="{{ goFrente }}" aria-pressed="{{ isFrente }}" style="{{ segF }}">Frente</button>
@@ -42,8 +42,8 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
 
     <div style="display:flex;gap:8px">
       <button type="button" onClick="{{ openImp }}" aria-haspopup="dialog" style="height:36px;padding:0 14px;border-radius:8px;border:1px solid #6A2C91;background:#fff;font-size:13px;font-weight:700;color:#4B1E6B;cursor:pointer;display:flex;align-items:center;gap:7px"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#4B1E6B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 11V2M4.5 5.5L8 2l3.5 3.5M2 10v3.5h12V10"></path></svg>Importar planilha</button>
-      <button type="button" style="height:36px;padding:0 14px;border-radius:8px;border:1px solid #C9C2D3;background:#fff;font-size:13px;font-weight:600;color:#1F1B24;cursor:pointer">Comentários</button>
-      <button type="button" style="height:36px;padding:0 14px;border-radius:8px;border:1px solid #C9C2D3;background:#fff;font-size:13px;font-weight:600;color:#1F1B24;cursor:pointer">Enviar para aprovação</button>
+      <button type="button" style="height:36px;padding:0 14px;border-radius:8px;border:1px solid #C9C2D3;background:#fff;font-size:13px;font-weight:600;color:#1F1B24;cursor:not-allowed;opacity:.5" disabled title="Chega junto com login e aprovação (próxima fase)">Comentários</button>
+      <button type="button" style="height:36px;padding:0 14px;border-radius:8px;border:1px solid #C9C2D3;background:#fff;font-size:13px;font-weight:600;color:#1F1B24;cursor:not-allowed;opacity:.5" disabled title="Chega junto com login e aprovação (próxima fase)">Enviar para aprovação</button>
       <button type="button" onClick="{{ toggleExp }}" aria-haspopup="dialog" aria-expanded="{{ expOpen }}" style="height:36px;padding:0 14px 0 16px;border-radius:8px;border:0;background:#6A2C91;font-size:13px;font-weight:700;color:#fff;cursor:pointer;display:flex;align-items:center;gap:8px">Exportar <span aria-hidden="true" style="font-size:9px">▼</span></button>
     </div>
   </header>
@@ -70,10 +70,10 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
 
       <section>
         <h2 style="margin:0 0 4px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5E5868">Adicionar bloco</h2>
-        <p style="margin:0 0 8px;font-size:12px;color:#5E5868;line-height:1.4">Arraste para a página ou clique para inserir após o bloco selecionado.</p>
+        <p style="margin:0 0 8px;font-size:12px;color:#5E5868;line-height:1.4">Clique para inserir após o bloco selecionado.</p>
         <div style="display:flex;flex-direction:column;gap:4px">
           <sc-for list="{{ library }}" as="l" hint-placeholder-count="8">
-            <button type="button" style="display:flex;align-items:center;gap:10px;width:100%;padding:6px 8px;border:1px dashed #C9C2D3;border-radius:8px;background:#FBFAFD;cursor:grab;text-align:left;color:#1F1B24">
+            <button type="button" onClick="{{ l.add }}" style="display:flex;align-items:center;gap:10px;width:100%;padding:6px 8px;border:1px dashed #C9C2D3;border-radius:8px;background:#FBFAFD;cursor:pointer;text-align:left;color:#1F1B24">
               <span style="width:44px;height:28px;flex:none;display:flex;gap:2px;padding:3px;box-sizing:border-box;border-radius:5px;background:#EFE6F6">
                 <sc-for list="{{ l.cells }}" as="c" hint-placeholder-count="3">
                   <span style="flex:1;border-radius:2px;background:#9A6BBE"></span>
@@ -158,14 +158,14 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
       </sc-if>
       <div data-canvas="1" style="{{ canvasStyle }}">
        <div style="{{ outerStyle }}">
-        <div style="width:578px;transform:scale({{ zoom }});transform-origin:top left;display:flex;flex-direction:column;align-items:center;gap:8px">
+        <div data-zoomwrap="1" style="width:578px;transform:scale({{ zoom }});transform-origin:top left;display:flex;flex-direction:column;align-items:center;gap:8px">
       <div style="display:flex;align-items:center;gap:12px;height:22px;font-size:12px;color:#5E5868">
         <span style="font-weight:600;color:#1F1B24">{{ sideLabel }}</span>
         <span>153 × 207 mm · zoom {{ zoomLabel }}</span>
-        <span>sangria de 3 a 5 mm adicionada na exportação</span>
+        <span style="{{ fillStyle }}">{{ fillText }}</span>
       </div>
 
-      <div style="width:578px;height:782px;flex:none;background:#fff;box-shadow:0 1px 2px rgba(31,27,36,.18),0 8px 28px rgba(31,27,36,.16);display:flex;flex-direction:column;overflow:hidden">
+      <div data-flyer="1" style="width:578px;height:782px;flex:none;background:#fff;box-shadow:0 1px 2px rgba(31,27,36,.18),0 8px 28px rgba(31,27,36,.16);display:flex;flex-direction:column;overflow:hidden">
         <sc-for list="{{ blocks }}" as="b" hint-placeholder-count="6">
           <div role="button" tabindex="0" aria-label="{{ b.name }}" onClick="{{ b.select }}" style="{{ b.btnStyle }}">
 
@@ -175,23 +175,23 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
                 <span style="position:absolute;left:34px;top:70px;width:54px;height:54px;border-radius:50%;background:#F4B71E"></span>
                 <span style="position:absolute;right:-34px;top:-20px;width:104px;height:104px;border-radius:50%;background:#F08A2E"></span>
                 <span style="position:absolute;right:30px;top:86px;width:40px;height:40px;border-radius:50%;background:#7B3FB0"></span>
-                <span style="position:absolute;left:0;right:0;top:12px;text-align:center;font-size:9px;font-weight:600;letter-spacing:.22em;color:#5C2A7E">TEMPO DE FLORESCER</span>
-                <span style="position:absolute;left:96px;top:28px;font-size:39px;font-weight:800;letter-spacing:-.01em;line-height:1;color:#D4153B">ANIVERSÁRIO</span>
-                <span style="position:absolute;left:96px;top:66px;font-size:46px;font-weight:800;letter-spacing:-.01em;line-height:1;color:#6A2C91">D&amp;D</span>
-                <span style="position:absolute;right:92px;top:44px;width:104px;height:54px;border:1.5px dashed #6A2C91;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#6A2C91;text-align:center;line-height:1.1">logo<br>da loja</span>
+                <span style="position:absolute;left:0;right:0;top:12px;text-align:center;font-size:9px;font-weight:600;letter-spacing:.22em;color:#5C2A7E">{{ b.hTop }}</span>
+                <span style="position:absolute;left:96px;top:28px;font-size:39px;font-weight:800;letter-spacing:-.01em;line-height:1;color:#D4153B">{{ b.hA }}</span>
+                <span style="position:absolute;left:96px;top:66px;font-size:46px;font-weight:800;letter-spacing:-.01em;line-height:1;color:#6A2C91">{{ b.hB }}</span>
+                <sc-if value="{{ b.noLogo }}" hint-placeholder-val="{{ true }}"><span style="position:absolute;right:92px;top:44px;width:104px;height:54px;border:1.5px dashed #6A2C91;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#6A2C91;text-align:center;line-height:1.1">logo<br>da loja</span></sc-if><sc-if value="{{ b.hasLogo }}" hint-placeholder-val="{{ false }}"><img src="{{ b.logo }}" alt="Logo da loja" style="position:absolute;right:92px;top:44px;width:104px;height:54px;object-fit:contain"></sc-if>
               </span>
             </sc-if>
 
             <sc-if value="{{ b.isHero3 }}" hint-placeholder-val="{{ false }}">
               <span style="position:absolute;inset:0;display:flex;padding:6px 14px 8px;box-sizing:border-box">
                 <span style="flex:1;border:2px solid #D4153B;border-radius:16px;display:flex;flex-direction:column;padding:8px 12px 6px;gap:4px;box-sizing:border-box">
-                  <span style="display:flex;align-items:center;justify-content:center;gap:10px;font-size:14px;font-weight:800;color:#6A2C91;letter-spacing:.01em">APROVEITE O DESCONTO PROGRESSIVO <span style="font-size:16px;color:#1F1B24">FHADER</span></span>
+                  <span style="display:flex;align-items:center;justify-content:center;gap:10px;font-size:14px;font-weight:800;color:#6A2C91;letter-spacing:.01em">{{ b.h3T }} <span style="font-size:16px;color:#1F1B24">{{ b.h3M }}</span></span>
                   <span style="flex:1;min-height:0;display:flex;gap:13px">
                     <sc-for list="{{ b.products }}" as="p" hint-placeholder-count="3">
                       <span style="flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:2px">
-                        <span style="{{ p.imgStyle }}"><span style="{{ p.bottleStyle }}"></span><span style="{{ p.bottleStyle }}"></span><span style="{{ p.bottleStyle }}"></span></span>
+                        <span style="{{ p.imgStyle }}"><sc-if value="{{ p.hasPhoto }}" hint-placeholder-val="{{ false }}"><img src="{{ p.photo }}" alt="" style="width:100%;height:100%;object-fit:contain"></sc-if><sc-if value="{{ p.noPhoto }}" hint-placeholder-val="{{ true }}"><span style="{{ p.bottleStyle }}"></span><span style="{{ p.bottleStyle }}"></span><span style="{{ p.bottleStyle }}"></span></sc-if></span>
                         <span style="{{ p.accentStyle }}">{{ p.brand }}</span>
-                        <span style="{{ p.boxStyle }}"><button type="button" onClick="{{ p.pick }}" aria-label="Selecionar preço {{ p.brand }}" style="{{ p.badgeStyle }}"><span style="{{ p.tagPillStyle }}">{{ p.tag }}</span><span style="{{ p.tagPriceStyle }}">R$ {{ p.por }}</span></button><sc-if value="{{ p.sel }}" hint-placeholder-val="{{ false }}"><span aria-hidden="true" style="position:absolute;inset:-3px;border:1.5px solid #6A2C91;border-radius:6px;pointer-events:none"></span><span aria-hidden="true" onMouseDown="{{ p.rzNW }}" style="position:absolute;left:-7px;top:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:nwse-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzNE }}" style="position:absolute;right:-7px;top:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:nesw-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzSW }}" style="position:absolute;left:-7px;bottom:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:nesw-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzSE }}" style="position:absolute;right:-7px;bottom:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:nwse-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzS }}" style="position:absolute;left:calc(50% - 4px);bottom:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:ns-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzE }}" style="position:absolute;right:-7px;top:calc(50% - 4px);width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:ew-resize;z-index:5"></span></sc-if></span>
+                        <span style="{{ p.boxStyle }}"><button type="button" onClick="{{ p.pick }}" aria-label="Selecionar preço {{ p.brand }}" style="{{ p.badgeStyle }}"><span style="{{ p.tagPillStyle }}">{{ p.tag }}</span><span style="{{ p.tagPriceStyle }}">R$ {{ p.por }}</span></button><sc-if value="{{ p.sel }}" hint-placeholder-val="{{ false }}"><span data-np="1" aria-hidden="true" style="position:absolute;inset:-3px;border:1.5px solid #6A2C91;border-radius:6px;pointer-events:none"></span><span aria-hidden="true" onMouseDown="{{ p.rzNW }}" style="position:absolute;left:-7px;top:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:nwse-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzNE }}" style="position:absolute;right:-7px;top:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:nesw-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzSW }}" style="position:absolute;left:-7px;bottom:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:nesw-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzSE }}" style="position:absolute;right:-7px;bottom:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:nwse-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzS }}" style="position:absolute;left:calc(50% - 4px);bottom:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:ns-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzE }}" style="position:absolute;right:-7px;top:calc(50% - 4px);width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:ew-resize;z-index:5"></span></sc-if></span>
                       </span>
                     </sc-for>
                   </span>
@@ -203,11 +203,11 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
               <span style="position:absolute;inset:0;display:flex;gap:10px;padding:8px 14px;box-sizing:border-box">
                 <sc-for list="{{ b.products }}" as="p" hint-placeholder-count="2">
                   <span style="{{ p.frameStyle }}">
-                    <span style="width:46%;flex:none;display:flex"><span style="{{ p.imgStyle }}"><span style="{{ p.bottleStyle }}"></span><span style="{{ p.bottleStyle }}"></span></span></span>
+                    <span style="width:46%;flex:none;display:flex"><span style="{{ p.imgStyle }}"><sc-if value="{{ p.hasPhoto }}" hint-placeholder-val="{{ false }}"><img src="{{ p.photo }}" alt="" style="width:100%;height:100%;object-fit:contain"></sc-if><sc-if value="{{ p.noPhoto }}" hint-placeholder-val="{{ true }}"><span style="{{ p.bottleStyle }}"></span><span style="{{ p.bottleStyle }}"></span></sc-if></span></span>
                     <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;justify-content:center">
-                      <span style="font-size:12px;font-weight:800;color:#1F1B24;text-transform:uppercase">{{ p.brand }}</span>
+                      <sc-if value="{{ p.noLogo }}" hint-placeholder-val="{{ true }}"><span style="font-size:12px;font-weight:800;color:#1F1B24;text-transform:uppercase">{{ p.brand }}</span></sc-if><sc-if value="{{ p.hasLogo }}" hint-placeholder-val="{{ false }}"><img src="{{ p.logo }}" alt="{{ p.brand }}" style="height:15px;width:auto;max-width:100%;object-fit:contain;object-position:left"></sc-if>
                       <span style="font-size:10px;color:#4A4553;line-height:1.2">{{ p.name }}</span>
-                      <span style="{{ p.boxStyle }}"><button type="button" onClick="{{ p.pick }}" aria-label="Selecionar preço {{ p.brand }}" style="{{ p.badgeStyle }}"><span style="{{ p.tagPillStyle }}">{{ p.tag }}</span><span style="{{ p.tagPriceStyle }}">R$ {{ p.por }}</span></button><sc-if value="{{ p.sel }}" hint-placeholder-val="{{ false }}"><span aria-hidden="true" style="position:absolute;inset:-3px;border:1.5px solid #6A2C91;border-radius:6px;pointer-events:none"></span><span aria-hidden="true" onMouseDown="{{ p.rzNW }}" style="position:absolute;left:-7px;top:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:nwse-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzNE }}" style="position:absolute;right:-7px;top:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:nesw-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzSW }}" style="position:absolute;left:-7px;bottom:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:nesw-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzSE }}" style="position:absolute;right:-7px;bottom:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:nwse-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzS }}" style="position:absolute;left:calc(50% - 4px);bottom:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:ns-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzE }}" style="position:absolute;right:-7px;top:calc(50% - 4px);width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:ew-resize;z-index:5"></span></sc-if></span>
+                      <span style="{{ p.boxStyle }}"><button type="button" onClick="{{ p.pick }}" aria-label="Selecionar preço {{ p.brand }}" style="{{ p.badgeStyle }}"><span style="{{ p.tagPillStyle }}">{{ p.tag }}</span><span style="{{ p.tagPriceStyle }}">R$ {{ p.por }}</span></button><sc-if value="{{ p.sel }}" hint-placeholder-val="{{ false }}"><span data-np="1" aria-hidden="true" style="position:absolute;inset:-3px;border:1.5px solid #6A2C91;border-radius:6px;pointer-events:none"></span><span aria-hidden="true" onMouseDown="{{ p.rzNW }}" style="position:absolute;left:-7px;top:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:nwse-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzNE }}" style="position:absolute;right:-7px;top:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:nesw-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzSW }}" style="position:absolute;left:-7px;bottom:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:nesw-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzSE }}" style="position:absolute;right:-7px;bottom:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:nwse-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzS }}" style="position:absolute;left:calc(50% - 4px);bottom:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:ns-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzE }}" style="position:absolute;right:-7px;top:calc(50% - 4px);width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:ew-resize;z-index:5"></span></sc-if></span>
                       <span style="font-size:9px;font-weight:700;color:#D4153B">{{ p.cada }}</span>
                     </span>
                   </span>
@@ -219,11 +219,11 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
               <span style="position:absolute;inset:0;display:flex;gap:9px;padding:6px 13px 6px;box-sizing:border-box">
                 <sc-for list="{{ b.products }}" as="p" hint-placeholder-count="4">
                   <span style="flex:1;min-width:0;position:relative;display:flex;flex-direction:column;gap:1px">
-                    <span style="font-size:10px;font-weight:800;color:#1F1B24;line-height:1.1;text-transform:uppercase">{{ p.brand }}</span>
+                    <sc-if value="{{ p.noLogo }}" hint-placeholder-val="{{ true }}"><span style="font-size:10px;font-weight:800;color:#1F1B24;line-height:1.1;text-transform:uppercase">{{ p.brand }}</span></sc-if><sc-if value="{{ p.hasLogo }}" hint-placeholder-val="{{ false }}"><img src="{{ p.logo }}" alt="{{ p.brand }}" style="height:12px;width:auto;max-width:100%;object-fit:contain;object-position:left"></sc-if>
                     <span style="font-size:8.5px;color:#4A4553;line-height:1.15;height:20px;overflow:hidden">{{ p.name }}</span>
-                    <span style="{{ p.imgStyle }}"><span style="{{ p.bottleStyle }}"></span><span style="{{ p.bottleStyle }}"></span></span>
+                    <span style="{{ p.imgStyle }}"><sc-if value="{{ p.hasPhoto }}" hint-placeholder-val="{{ false }}"><img src="{{ p.photo }}" alt="" style="width:100%;height:100%;object-fit:contain"></sc-if><sc-if value="{{ p.noPhoto }}" hint-placeholder-val="{{ true }}"><span style="{{ p.bottleStyle }}"></span><span style="{{ p.bottleStyle }}"></span></sc-if></span>
                     <span style="position:absolute;left:0;right:0;bottom:0;display:flex;flex-direction:column;gap:1px">
-                      <span style="{{ p.boxStyle }}"><button type="button" onClick="{{ p.pick }}" aria-label="Selecionar preço {{ p.brand }}" style="{{ p.badgeStyle }}"><span style="{{ p.tagPillStyle }}">{{ p.tag }}</span><span style="{{ p.tagPriceStyle }}">R$ {{ p.por }}</span></button><sc-if value="{{ p.sel }}" hint-placeholder-val="{{ false }}"><span aria-hidden="true" style="position:absolute;inset:-3px;border:1.5px solid #6A2C91;border-radius:6px;pointer-events:none"></span><span aria-hidden="true" onMouseDown="{{ p.rzNW }}" style="position:absolute;left:-7px;top:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:nwse-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzNE }}" style="position:absolute;right:-7px;top:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:nesw-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzSW }}" style="position:absolute;left:-7px;bottom:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:nesw-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzSE }}" style="position:absolute;right:-7px;bottom:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:nwse-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzS }}" style="position:absolute;left:calc(50% - 4px);bottom:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:ns-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzE }}" style="position:absolute;right:-7px;top:calc(50% - 4px);width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:ew-resize;z-index:5"></span></sc-if></span>
+                      <span style="{{ p.boxStyle }}"><button type="button" onClick="{{ p.pick }}" aria-label="Selecionar preço {{ p.brand }}" style="{{ p.badgeStyle }}"><span style="{{ p.tagPillStyle }}">{{ p.tag }}</span><span style="{{ p.tagPriceStyle }}">R$ {{ p.por }}</span></button><sc-if value="{{ p.sel }}" hint-placeholder-val="{{ false }}"><span data-np="1" aria-hidden="true" style="position:absolute;inset:-3px;border:1.5px solid #6A2C91;border-radius:6px;pointer-events:none"></span><span aria-hidden="true" onMouseDown="{{ p.rzNW }}" style="position:absolute;left:-7px;top:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:nwse-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzNE }}" style="position:absolute;right:-7px;top:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:nesw-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzSW }}" style="position:absolute;left:-7px;bottom:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:nesw-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzSE }}" style="position:absolute;right:-7px;bottom:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:nwse-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzS }}" style="position:absolute;left:calc(50% - 4px);bottom:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:ns-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzE }}" style="position:absolute;right:-7px;top:calc(50% - 4px);width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:ew-resize;z-index:5"></span></sc-if></span>
                       <sc-if value="{{ p.hasCada }}" hint-placeholder-val="{{ false }}"><span style="font-size:7.5px;font-weight:700;color:#4A4553;text-align:center;font-style:italic">{{ p.cada }}</span></sc-if>
                     </span>
                   </span>
@@ -234,8 +234,8 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
             <sc-if value="{{ b.isFootSite }}" hint-placeholder-val="{{ false }}">
               <span style="position:absolute;inset:0;background:#fff;display:block">
                 <span style="position:absolute;left:0;right:0;bottom:0;height:46px;background:#6A2C91;display:flex;align-items:center;justify-content:center;gap:44px;color:#fff;font-size:13px;font-weight:600">
-                  <span>dedcosmeticosonline.com.br</span>
-                  <span>@dedcosmeticosonline</span>
+                  <span>{{ b.siteT }}</span>
+                  <span>{{ b.siteI }}</span>
                 </span>
               </span>
             </sc-if>
@@ -243,15 +243,9 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
             <sc-if value="{{ b.isFootPay }}" hint-placeholder-val="{{ false }}">
               <span style="position:absolute;inset:0;background:#6A2C91;display:flex;align-items:center;gap:16px;padding:0 18px;box-sizing:border-box;color:#fff">
                 <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:6px">
-                  <span style="display:flex;align-items:center;gap:8px"><span style="font-size:10px;font-weight:700">EM ATÉ</span><span style="background:#fff;color:#6A2C91;border-radius:8px;padding:2px 8px;font-size:18px;font-weight:800;line-height:1.1">6x</span><span style="font-size:10px;font-weight:700;line-height:1.1">SEM JUROS<br>NOS CARTÕES</span></span>
-                  <span style="display:flex;gap:5px;flex-wrap:wrap">
-                    <span style="background:#fff;color:#1F1B24;border-radius:4px;padding:2px 6px;font-size:10px;font-weight:800">VISA</span>
-                    <span style="background:#fff;color:#1F1B24;border-radius:4px;padding:2px 6px;font-size:10px;font-weight:800">master</span>
-                    <span style="background:#fff;color:#1F1B24;border-radius:4px;padding:2px 6px;font-size:10px;font-weight:800">elo</span>
-                    <span style="background:#fff;color:#1F1B24;border-radius:4px;padding:2px 6px;font-size:10px;font-weight:800">PicPay</span>
-                    <span style="background:#fff;color:#1F1B24;border-radius:4px;padding:2px 6px;font-size:10px;font-weight:800">pix</span>
-                  </span>
-                  <span style="font-size:8.5px;line-height:1.3;opacity:.95">Parcela mínima de R$ 30,00. Ofertas válidas até 07.11.26 enquanto durarem os estoques. Imagens meramente ilustrativas.</span>
+                  <span style="font-size:13px;font-weight:800;line-height:1.15">{{ b.fpParc }}</span>
+                  <span style="display:flex;gap:5px;flex-wrap:wrap"><sc-for list="{{ b.fpChips }}" as="c" hint-placeholder-count="4"><span style="background:#fff;color:#1F1B24;border-radius:4px;padding:2px 6px;font-size:10px;font-weight:800">{{ c.t }}</span></sc-for></span>
+                  <span style="font-size:8.5px;line-height:1.3;opacity:.95">Parcela mínima de {{ b.fpMin }}. Ofertas válidas {{ b.fpVal }}. Imagens meramente ilustrativas.</span>
                 </span>
                 <span style="width:100px;flex:none;display:flex;align-items:center;gap:8px">
                   <span style="width:78px;height:78px;background:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#6A2C91;flex:none">QR</span>
@@ -260,9 +254,9 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
               </span>
             </sc-if>
 
-            <span style="{{ b.ringStyle }}"></span>
+            <span data-np="1" style="{{ b.ringStyle }}"></span>
             <sc-if value="{{ b.selected }}" hint-placeholder-val="{{ false }}">
-              <span style="position:absolute;left:0;top:0;background:#6A2C91;color:#fff;font-size:11px;font-weight:700;padding:3px 8px;border-radius:0 0 8px 0;z-index:2">{{ b.tag }}</span>
+              <span data-np="1" style="position:absolute;left:0;top:0;background:#6A2C91;color:#fff;font-size:11px;font-weight:700;padding:3px 8px;border-radius:0 0 8px 0;z-index:2">{{ b.tag }}</span>
             </sc-if>
           </div>
         </sc-for>
@@ -290,6 +284,11 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
           <span style="font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5E5868">Bloco selecionado</span>
           <h2 style="margin:4px 0 2px;font-size:17px;font-weight:700;line-height:1.25">{{ cur.name }}</h2>
           <span style="font-size:12.5px;color:#5E5868">{{ cur.mm }} de altura · largura total · {{ cur.hint }}</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:center;gap:8px"><span style="flex:1;font-size:12.5px;font-weight:600">Altura do bloco</span><button type="button" onClick="{{ cur.hMinus }}" aria-label="Diminuir altura" style="width:32px;height:32px;border-radius:8px;border:1px solid #C9C2D3;background:#fff;font-size:16px;cursor:pointer">−</button><span style="min-width:48px;text-align:center;font-size:13px;font-weight:700">{{ cur.mm }}</span><button type="button" onClick="{{ cur.hPlus }}" aria-label="Aumentar altura" style="width:32px;height:32px;border-radius:8px;border:1px solid #C9C2D3;background:#fff;font-size:16px;cursor:pointer">+</button></div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap"><button type="button" onClick="{{ cur.up }}" style="height:32px;padding:0 10px;border-radius:8px;border:1px solid #C9C2D3;background:#fff;font-size:12.5px;font-weight:600;color:#1F1B24;cursor:pointer">↑ Subir</button><button type="button" onClick="{{ cur.down }}" style="height:32px;padding:0 10px;border-radius:8px;border:1px solid #C9C2D3;background:#fff;font-size:12.5px;font-weight:600;color:#1F1B24;cursor:pointer">↓ Descer</button><button type="button" onClick="{{ cur.dup }}" style="height:32px;padding:0 10px;border-radius:8px;border:1px solid #C9C2D3;background:#fff;font-size:12.5px;font-weight:600;color:#1F1B24;cursor:pointer">Duplicar</button><button type="button" onClick="{{ cur.del }}" style="height:32px;padding:0 10px;border-radius:8px;border:1px solid #C9C2D3;background:#fff;font-size:12.5px;font-weight:600;color:#1F1B24;cursor:pointer;color:#8A1230;border-color:#E9B6C1">Excluir</button></div>
+          <sc-if value="{{ cur.isHeader }}" hint-placeholder-val="{{ false }}"><div style="display:flex;gap:8px;align-items:center"><label style="height:34px;padding:0 12px;border-radius:8px;border:1px solid #6A2C91;background:#fff;color:#4B1E6B;font-size:12.5px;font-weight:700;cursor:pointer;display:flex;align-items:center;box-sizing:border-box"><input type="file" accept="image/*" onChange="{{ cur.upLogo }}" style="display:none">Enviar logo da loja (PNG)</label><sc-if value="{{ cur.hasLogo }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ cur.delLogo }}" style="height:34px;padding:0 10px;border-radius:8px;border:1px solid #C9C2D3;background:#fff;font-size:12.5px;font-weight:600;cursor:pointer">Remover</button></sc-if></div></sc-if>
         </div>
       </sc-if>
 
@@ -455,10 +454,10 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
           <span id="lbl-cols" style="display:block;margin-bottom:6px;font-size:12.5px;font-weight:600">Produtos por linha</span>
           <div role="group" aria-labelledby="lbl-cols" style="display:flex;gap:6px">
             <sc-for list="{{ colChips }}" as="c" hint-placeholder-count="4">
-              <button type="button" aria-pressed="{{ c.on }}" style="{{ c.style }}">{{ c.n }}</button>
+              <button type="button" aria-pressed="{{ c.on }}" onClick="{{ c.pick }}" style="{{ c.style }}">{{ c.n }}</button>
             </sc-for>
           </div>
-          <span style="display:block;margin-top:6px;font-size:12px;color:#5E5868;line-height:1.4">Trocar o número de colunas redistribui os produtos e reajusta fontes e selos.</span>
+          <span style="display:block;margin-top:6px;font-size:12px;color:#5E5868;line-height:1.4">Trocar o número de colunas acrescenta espaços em branco ou tira os últimos produtos.</span>
         </div>
       </sc-if>
 
@@ -468,7 +467,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
           <sc-for list="{{ cur.fields }}" as="f" hint-placeholder-count="3">
             <div style="display:flex;flex-direction:column;gap:4px">
               <label for="{{ f.id }}" style="font-size:12.5px;font-weight:600">{{ f.label }}</label>
-              <input id="{{ f.id }}" type="text" value="{{ f.value }}" style="height:36px;box-sizing:border-box;border:1px solid #C9C2D3;border-radius:8px;padding:0 10px;font-size:13px;color:#1F1B24;background:#fff">
+              <input id="{{ f.id }}" type="text" value="{{ f.value }}" onInput="{{ f.input }}" style="height:36px;box-sizing:border-box;border:1px solid #C9C2D3;border-radius:8px;padding:0 10px;font-size:13px;color:#1F1B24;background:#fff">
             </div>
           </sc-for>
         </div>
@@ -482,24 +481,24 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
             <div style="border:1px solid #DDD8E3;border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:8px;background:#FBFAFD">
               <span style="font-size:13px;font-weight:700;line-height:1.25">{{ p.title }}</span>
               <div style="display:flex;align-items:center;gap:10px">
-                <span style="width:44px;height:44px;flex:none;box-sizing:border-box;border:1.5px dashed #8B849A;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#5E5868">foto</span>
-                <button type="button" style="height:34px;padding:0 12px;border-radius:8px;border:1px solid #6A2C91;background:#fff;color:#4B1E6B;font-size:12.5px;font-weight:700;cursor:pointer">Enviar foto PNG</button>
+                <span style="width:44px;height:44px;flex:none;box-sizing:border-box;border:1.5px dashed #8B849A;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#5E5868;overflow:hidden;background:#fff"><sc-if value="{{ p.hasPhoto }}" hint-placeholder-val="{{ false }}"><img src="{{ p.photo }}" alt="" style="width:100%;height:100%;object-fit:contain"></sc-if><sc-if value="{{ p.noPhoto }}" hint-placeholder-val="{{ true }}">foto</sc-if></span><label style="height:34px;padding:0 12px;border-radius:8px;border:1px solid #6A2C91;background:#fff;color:#4B1E6B;font-size:12.5px;font-weight:700;cursor:pointer;display:flex;align-items:center;box-sizing:border-box"><input type="file" accept="image/*" onChange="{{ p.upPhoto }}" style="display:none">Enviar foto PNG</label><sc-if value="{{ p.hasPhoto }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ p.delPhoto }}" style="height:34px;padding:0 10px;border-radius:8px;border:1px solid #C9C2D3;background:#fff;font-size:12.5px;font-weight:600;cursor:pointer">Remover</button></sc-if>
               </div>
               <div style="display:flex;align-items:center;gap:10px">
-                <span style="width:44px;height:28px;flex:none;box-sizing:border-box;border:1.5px dashed #8B849A;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#5E5868">logo</span>
+                <span style="width:44px;height:28px;flex:none;box-sizing:border-box;border:1.5px dashed #8B849A;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#5E5868;overflow:hidden;background:#fff"><sc-if value="{{ p.hasLogo }}" hint-placeholder-val="{{ false }}"><img src="{{ p.logo }}" alt="" style="width:100%;height:100%;object-fit:contain"></sc-if><sc-if value="{{ p.noLogo }}" hint-placeholder-val="{{ true }}">logo</sc-if></span>
                 <div style="flex:1;display:flex;flex-direction:column;gap:3px">
                   <label for="{{ p.idMarca }}" style="font-size:12px;font-weight:600">Marca (a logo entra sozinha)</label>
-                  <select id="{{ p.idMarca }}" style="height:34px;width:100%;box-sizing:border-box;border:1px solid #C9C2D3;border-radius:8px;padding:0 8px;font-size:13px;background:#fff"><option>{{ p.brand }}</option><option>Outra marca cadastrada…</option><option>+ Cadastrar nova marca</option></select>
+                  <input id="{{ p.idMarca }}" type="text" value="{{ p.brand }}" onInput="{{ p.inBrand }}" style="height:34px;width:100%;box-sizing:border-box;border:1px solid #C9C2D3;border-radius:8px;padding:0 8px;font-size:13px;background:#fff"><label style="margin-top:2px;font-size:12px;color:#4B1E6B;font-weight:700;cursor:pointer"><input type="file" accept="image/*" onChange="{{ p.upLogo }}" style="display:none">Enviar logo da marca</label>
                 </div>
               </div>
+              <div style="display:flex;flex-direction:column;gap:3px"><label for="{{ p.idNome }}" style="font-size:12px;font-weight:600">Nome do produto</label><input id="{{ p.idNome }}" type="text" value="{{ p.name }}" onInput="{{ p.inName }}" style="height:34px;width:100%;box-sizing:border-box;border:1px solid #C9C2D3;border-radius:8px;padding:0 8px;font-size:13px;background:#fff"></div>
               <div style="display:flex;gap:8px">
                 <div style="flex:1;display:flex;flex-direction:column;gap:3px">
                   <label for="{{ p.idDe }}" style="font-size:12px;font-weight:600">De (R$)</label>
-                  <input id="{{ p.idDe }}" type="text" value="{{ p.de }}" style="height:34px;width:100%;box-sizing:border-box;border:1px solid #C9C2D3;border-radius:8px;padding:0 8px;font-size:13px;background:#fff">
+                  <input id="{{ p.idDe }}" type="text" value="{{ p.de }}" onInput="{{ p.inDe }}" style="height:34px;width:100%;box-sizing:border-box;border:1px solid #C9C2D3;border-radius:8px;padding:0 8px;font-size:13px;background:#fff">
                 </div>
                 <div style="flex:1;display:flex;flex-direction:column;gap:3px">
                   <label for="{{ p.idPor }}" style="font-size:12px;font-weight:600">Por (R$)</label>
-                  <input id="{{ p.idPor }}" type="text" value="{{ p.por }}" style="height:34px;width:100%;box-sizing:border-box;border:1px solid #6A2C91;border-radius:8px;padding:0 8px;font-size:13px;font-weight:700;background:#fff">
+                  <input id="{{ p.idPor }}" type="text" value="{{ p.por }}" onInput="{{ p.inPor }}" style="height:34px;width:100%;box-sizing:border-box;border:1px solid #6A2C91;border-radius:8px;padding:0 8px;font-size:13px;font-weight:700;background:#fff">
                 </div>
               </div>
             </div>
@@ -641,24 +640,25 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
               <sc-if value="{{ impNoFile }}" hint-placeholder-val="{{ true }}">
                 <div style="border:2px dashed #B9A5CC;border-radius:14px;background:#FBF8FD;padding:36px 20px;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center">
                   <svg width="34" height="34" viewBox="0 0 16 16" fill="none" stroke="#6A2C91" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 11V2M4.5 5.5L8 2l3.5 3.5M2 10v3.5h12V10"></path></svg>
-                  <span style="font-size:15px;font-weight:700">Arraste a planilha (.xlsx ou .csv) para cá</span>
+                  <span style="font-size:15px;font-weight:700">Escolha a planilha (.xlsx ou .csv)</span>
                   <span style="font-size:13px;color:#5E5868">A planilha traz só texto e preços. As fotos continuam sendo enviadas à mão.</span>
                   <div style="display:flex;gap:10px">
-                    <button type="button" onClick="{{ impLoad }}" style="height:38px;padding:0 16px;border-radius:9px;border:0;background:#6A2C91;color:#fff;font-size:13.5px;font-weight:700;cursor:pointer">Escolher arquivo</button>
-                    <button type="button" onClick="{{ impLoad }}" style="height:38px;padding:0 16px;border-radius:9px;border:1px solid #C9C2D3;background:#fff;font-size:13.5px;font-weight:600;cursor:pointer">Usar planilha de exemplo</button>
+                    <label style="\1;display:flex;align-items:center;box-sizing:border-box"><input type="file" accept=".xlsx,.xls,.csv" onChange="{{ impPick }}" style="display:none">Escolher arquivo</label>
+                    <button type="button" onClick="{{ impSample }}" style="height:38px;padding:0 16px;border-radius:9px;border:1px solid #C9C2D3;background:#fff;font-size:13.5px;font-weight:600;cursor:pointer">Usar planilha de exemplo</button>
                   </div>
                 </div>
               </sc-if>
+              <sc-if value="{{ impErr }}" hint-placeholder-val="{{ false }}"><div role="alert" style="background:#FBE3E8;border-radius:10px;padding:10px 14px;font-size:13px;color:#5A0A1E">{{ impErr }}</div></sc-if>
               <sc-if value="{{ impHasFile }}" hint-placeholder-val="{{ false }}">
                 <div style="border:1px solid #BFE3CB;background:#EFF9F2;border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:14px">
                   <span aria-hidden="true" style="width:40px;height:40px;border-radius:8px;background:#1F7A45;color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center">XLS</span>
-                  <span style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font-size:14px;font-weight:700">produtos-aniversario-dd.xlsx</span><span style="font-size:12.5px;color:#3D3A44">10 linhas · 7 colunas · aba "Produtos"</span></span>
+                  <span style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font-size:14px;font-weight:700">{{ impFileName }}</span><span style="font-size:12.5px;color:#3D3A44">{{ impFileInfo }}</span></span>
                   <button type="button" onClick="{{ impUnload }}" style="height:34px;padding:0 12px;border-radius:8px;border:1px solid #C9C2D3;background:#fff;font-size:13px;font-weight:600;cursor:pointer">Trocar arquivo</button>
                 </div>
               </sc-if>
               <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;background:#F7F2FB;border:1px solid #E2D6EE;border-radius:10px;padding:12px 14px">
                 <span style="font-size:13px;line-height:1.45;color:#2D2833"><b>Primeira vez?</b> Use o modelo com as colunas certas: código, marca, nome, preço de, preço por e bloco.</span>
-                <a href="https://claude.ai/artifact/LiEpBwsUA6eAoiiipzJasj" target="_blank" rel="noopener" style="flex:none;height:34px;padding:0 14px;border-radius:8px;border:1px solid #6A2C91;color:#4B1E6B;font-size:13px;font-weight:700;text-decoration:none;display:flex;align-items:center">Baixar modelo</a>
+                <button type="button" onClick="{{ impTemplate }}" style="flex:none;height:34px;padding:0 14px;border-radius:8px;border:1px solid #6A2C91;color:#4B1E6B;font-size:13px;font-weight:700;text-decoration:none;display:flex;align-items:center;background:#fff;cursor:pointer">Baixar modelo</button>
               </div>
             </div>
           </sc-if>
@@ -673,7 +673,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
                     <span style="width:200px;font-weight:600">{{ m.src }}</span>
                     <span style="width:240px;color:#5E5868;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ m.sample }}</span>
                     <span style="flex:1;display:flex;align-items:center;gap:10px">
-                      <select aria-label="Campo para {{ m.src }}" style="height:32px;border:1px solid #C9C2D3;border-radius:8px;padding:0 8px;font-size:13px;background:#fff"><option>{{ m.target }}</option><option>código</option><option>marca</option><option>nome</option><option>preço de</option><option>preço por</option><option>bloco</option><option>Ignorar coluna</option></select>
+                      <select aria-label="Campo para {{ m.src }}" onChange="{{ m.change }}" style="height:32px;border:1px solid #C9C2D3;border-radius:8px;padding:0 8px;font-size:13px;background:#fff"><sc-for list="{{ m.opts }}" as="o" hint-placeholder-count="7"><option value="{{ o.v }}" selected="{{ o.sel }}">{{ o.t }}</option></sc-for></select>
                       <span style="{{ m.chipStyle }}">{{ m.chip }}</span>
                     </span>
                   </div>
@@ -700,8 +700,8 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
                     <span style="width:130px"><span style="{{ r.photoStyle }}">{{ r.photo }}</span></span>
                     <span style="width:260px;display:flex;align-items:center;gap:6px;flex-wrap:wrap">
                       <sc-if value="{{ r.isOk }}" hint-placeholder-val="{{ true }}"><span style="font-size:12px;font-weight:700;color:#0B4F2A;background:#DDF2E4;border-radius:999px;padding:2px 9px">Pronta</span></sc-if>
-                      <sc-if value="{{ r.showFixBrand }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#8A1230;font-weight:600">Marca não cadastrada</span><button type="button" onClick="{{ r.fixBrand }}" style="height:26px;padding:0 9px;border-radius:6px;border:1px solid #6A2C91;background:#fff;color:#4B1E6B;font-size:12px;font-weight:700;cursor:pointer">Usar AVON</button></sc-if>
-                      <sc-if value="{{ r.showPor }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#8A1230;font-weight:600">“Por” maior que “de”:</span><input type="text" value="{{ r.porVal }}" onInput="{{ r.porInput }}" aria-label="Corrigir preço por da linha {{ r.n }}" style="width:62px;height:26px;box-sizing:border-box;border:1.5px solid #D4153B;border-radius:6px;padding:0 6px;font-size:12.5px;font-weight:700"></sc-if>
+                      <sc-if value="{{ r.showFixBrand }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#8A1230;font-weight:600">Falta a marca:</span><input type="text" value="{{ r.brandVal }}" onInput="{{ r.brandInput }}" aria-label="Marca da linha {{ r.n }}" style="width:84px;height:26px;box-sizing:border-box;border:1.5px solid #D4153B;border-radius:6px;padding:0 6px;font-size:12px;font-weight:700"></sc-if>
+                      <sc-if value="{{ r.showPor }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#8A1230;font-weight:600">“Por” vazio ou maior que “de”:</span><input type="text" value="{{ r.porVal }}" onInput="{{ r.porInput }}" aria-label="Corrigir preço por da linha {{ r.n }}" style="width:62px;height:26px;box-sizing:border-box;border:1.5px solid #D4153B;border-radius:6px;padding:0 6px;font-size:12.5px;font-weight:700"></sc-if>
                       <sc-if value="{{ r.showIgnore }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ r.ignore }}" style="height:26px;padding:0 9px;border-radius:6px;border:1px solid #C9C2D3;background:#fff;font-size:12px;font-weight:600;cursor:pointer">Ignorar</button></sc-if>
                       <sc-if value="{{ r.showUndo }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#5E5868;font-weight:600">Linha ignorada</span><button type="button" onClick="{{ r.unignore }}" style="height:26px;padding:0 9px;border-radius:6px;border:1px solid #C9C2D3;background:#fff;font-size:12px;font-weight:600;cursor:pointer">Desfazer</button></sc-if>
                     </span>
@@ -806,16 +806,17 @@ class Component extends DCLogic {
     }, true);
   }
   renderVals() {
+    if (!this._ld) { this._ld = true; try { const sv = localStorage.getItem('panfletos:v1'); if (sv) this.state = Object.assign({}, this.state, { data: JSON.parse(sv) }); } catch (err) {} }
     const st = this.state || {};
     const side = st.side || 'frente';
     const P = '#6A2C91';
     const mk = (brand, name, de, por, cada, hue) => ({ brand, name, de, por, cada: cada || '', hue: hue });
     const hues = [330, 200, 150, 40, 270, 20, 180, 300];
-    const fld = (id, label, value) => ({ id, label, value });
+    const fld = (key, label, value) => ({ key, label, value });
 
-    const frente = [
+    const defF = [
       { id: 'f0', kind: 'header', h: 136, name: 'Cabeçalho da campanha', mm: '36 mm', hint: 'fixo em todas as páginas',
-        fields: [fld('ff0a', 'Chamada superior', 'TEMPO DE FLORESCER'), fld('ff0b', 'Título da campanha', 'ANIVERSÁRIO D&D'), fld('ff0c', 'Logo da loja', 'dd-cosmeticos.svg'), fld('ff0d', 'Arte de fundo', 'Floral · pêssego')] },
+        fields: [fld('ff0a', 'Chamada superior', 'TEMPO DE FLORESCER'), fld('ff0b', 'Título da campanha', 'ANIVERSÁRIO D&D')] },
       { id: 'f1', kind: 'hero3', h: 204, name: 'Destaque · Leve 1, 2 e 3', mm: '54 mm', hint: 'desconto progressivo',
         fields: [fld('ff1a', 'Título', 'APROVEITE O DESCONTO PROGRESSIVO'), fld('ff1b', 'Marca parceira', 'FHADER')],
         products: [mk('Leve 1', 'Eau de Parfum 100ml Masculino ou Feminino', '99,90', '69,90', '', 330), mk('Leve 2', 'Eau de Parfum 100ml Masculino ou Feminino', '199,90', '110,00', '', 150), mk('Leve 3', 'Eau de Parfum 100ml Masculino ou Feminino', '299,70', '150,00', '', 200)] },
@@ -828,9 +829,9 @@ class Component extends DCLogic {
       { id: 'f5', kind: 'footsite', h: 74, name: 'Rodapé · site e redes', mm: '20 mm', hint: 'fixo em todas as páginas',
         fields: [fld('ff5a', 'Site', 'dedcosmeticosonline.com.br'), fld('ff5b', 'Instagram', '@dedcosmeticosonline')] }
     ];
-    const verso = [
+    const defV = [
       { id: 'v0', kind: 'header', h: 136, name: 'Cabeçalho da campanha', mm: '36 mm', hint: 'fixo em todas as páginas',
-        fields: [fld('fv0a', 'Chamada superior', 'TEMPO DE FLORESCER'), fld('fv0b', 'Título da campanha', 'ANIVERSÁRIO D&D'), fld('fv0c', 'Logo da loja', 'dd-cosmeticos.svg'), fld('fv0d', 'Arte de fundo', 'Floral · pêssego')] },
+        fields: [fld('fv0a', 'Chamada superior', 'TEMPO DE FLORESCER'), fld('fv0b', 'Título da campanha', 'ANIVERSÁRIO D&D')] },
       { id: 'v1', kind: 'hero2', h: 132, name: 'Destaque duplo', mm: '35 mm', hint: 'dois produtos grandes',
         products: [mk('JEQUITI', 'Cebolinha Colônia Masculina 25ml', '39,90', '19,99', '', 150), mk('CICLO', 'Deo Colônia Infantil Cici 100ml — Mel, Zoe ou Bella', '75,90', '64,99', 'CADA', 50)] },
       { id: 'v2', kind: 'row', cols: 5, h: 128, name: 'Linha · 5 produtos', mm: '34 mm', hint: 'produtos compactos',
@@ -843,13 +844,38 @@ class Component extends DCLogic {
         fields: [fld('fv5a', 'Parcelamento', 'Em até 6x sem juros nos cartões'), fld('fv5b', 'Parcela mínima', 'R$ 30,00'), fld('fv5c', 'Formas de pagamento', 'Visa · Master · Elo · Amex · PicPay · Pix'), fld('fv5d', 'Link do QR Code', 'Instagram da loja'), fld('fv5e', 'Validade', 'até 07.11.26 enquanto durarem os estoques')] }
     ];
 
-    const applied = st.impApplied;
-    if (applied) {
-      let ix = 0;
-      frente.forEach((b) => { if (b.kind === 'row') { b.products = applied.slice(ix, ix + b.cols).map((q, k) => mk(q.brand, q.name, q.de, q.por, '', hues[(ix + k) % hues.length])); ix += b.cols; } });
-    }
-    const list = side === 'frente' ? frente : verso;
-    const selId = list.some((b) => b.id === st.sel) ? st.sel : list[1].id;
+    const D = st.data || { frente: defF, verso: defV, brands: {}, photos: {} };
+    const brands = D.brands || {}, photos = D.photos || {};
+    const mut = (fn) => {
+      const nd = JSON.parse(JSON.stringify(D)); nd.brands = nd.brands || {}; nd.photos = nd.photos || {};
+      fn(nd); this.setState({ data: nd });
+      try { localStorage.setItem('panfletos:v1', JSON.stringify(nd)); } catch (err) {}
+    };
+    const ev = (e) => String(e && e.target && e.target.value != null ? e.target.value : '');
+    const bk = (x) => String(x == null ? '' : x).trim().toUpperCase();
+    const pkey = (brand, name) => bk(brand) + '|' + bk(name);
+    const uid = () => 'b' + Math.random().toString(36).slice(2, 8);
+    const blank = (k, brand) => mk(brand || 'MARCA', 'Nome do produto', '0,00', '0,00', '', hues[k % hues.length]);
+    const readImg = (e, cb) => {
+      const f = e && e.target && e.target.files && e.target.files[0];
+      if (!f) return;
+      const rd = new FileReader();
+      rd.onload = () => { const im = new Image(); im.onload = () => { const s0 = Math.min(1, 700 / Math.max(im.width, im.height)); const c = document.createElement('canvas'); c.width = Math.max(1, Math.round(im.width * s0)); c.height = Math.max(1, Math.round(im.height * s0)); c.getContext('2d').drawImage(im, 0, 0, c.width, c.height); cb(c.toDataURL('image/png')); }; im.src = String(rd.result); };
+      rd.readAsDataURL(f);
+    };
+    const ROWH = { 5: 128, 4: 108, 3: 130, 2: 150 };
+    const newBlock = (kind, cols) => {
+      const id = uid();
+      if (kind === 'header') return { id, kind, h: 136, name: 'Cabeçalho da campanha', hint: 'fixo em todas as páginas', fields: [fld('k0', 'Chamada superior', 'TEMA DA CAMPANHA'), fld('k1', 'Título da campanha', 'TÍTULO DA CAMPANHA')] };
+      if (kind === 'hero3') return { id, kind, h: 204, name: 'Destaque · Leve 1, 2 e 3', hint: 'desconto progressivo', fields: [fld('k0', 'Título', 'TÍTULO DO DESTAQUE'), fld('k1', 'Marca parceira', 'MARCA')], products: [blank(0, 'Leve 1'), blank(1, 'Leve 2'), blank(2, 'Leve 3')] };
+      if (kind === 'hero2') return { id, kind, h: 132, name: 'Destaque duplo', hint: 'dois produtos grandes', products: [blank(0), blank(1)] };
+      if (kind === 'footsite') return { id, kind, h: 74, name: 'Rodapé · site e redes', hint: 'fixo em todas as páginas', fields: [fld('k0', 'Site', 'seusite.com.br'), fld('k1', 'Instagram', '@seuinstagram')] };
+      if (kind === 'footpay') return { id, kind, h: 122, name: 'Rodapé · pagamento + QR', hint: 'condições e validade', fields: [fld('k0', 'Parcelamento', 'Em até 6x sem juros nos cartões'), fld('k1', 'Parcela mínima', 'R$ 30,00'), fld('k2', 'Formas de pagamento', 'Visa · Master · Elo · Pix'), fld('k3', 'Link do QR Code', 'Instagram da loja'), fld('k4', 'Validade', 'até 00.00.00 enquanto durarem os estoques')] };
+      const n = cols || 3;
+      return { id, kind: 'row', cols: n, h: ROWH[n] || 130, name: 'Linha · ' + n + ' produtos', hint: 'produtos', products: Array.from({ length: n }, (x, k) => blank(k)) };
+    };
+    const list = D[side] || [];
+    const selId = list.some((b) => b.id === st.sel) ? st.sel : (list[1] || list[0] || { id: '' }).id;
     const props = st.props || {};
     const scope = st.scope || 'one';
     const tool = st.tool || 'select';
@@ -958,16 +984,35 @@ class Component extends DCLogic {
       window.addEventListener('mouseup', up);
     };
 
-    const blocks = list.map((b) => {
+    const fillTotal = list.reduce((acc, b) => acc + b.h, 0);
+    const fillDiff = 782 - fillTotal;
+    const mmOf = (px) => Math.round(Math.abs(px) * 153 / 578);
+    const fillText = fillDiff >= 0 ? mmOf(fillDiff) + ' mm livres na página' : 'passou ' + mmOf(fillDiff) + ' mm da página';
+    const fillStyle = fillDiff >= 0 ? 'color:#5E5868' : 'color:#D4153B;font-weight:700';
+    const noPhotoN = [].concat(D.frente || [], D.verso || []).reduce((acc, b) => acc + (b.products || []).filter((q) => !q.photo).length, 0);
+    const blocks = list.map((b, bi) => {
       const selected = b.id === selId;
+      const mmS = Math.round(b.h * 153 / 578) + ' mm';
+      const bid = b.id;
+      const blk = (nd) => nd[side].find((x) => x.id === bid);
+      const fv = (n) => ((b.fields && b.fields[n]) ? b.fields[n].value : '');
+      const tw = fv(1).trim().split(/\s+/);
       const prods = (b.products || []).map((p, i) => {
         const hue = p.hue;
         const key = b.id + ':' + i;
+        const setP = (k, v) => mut((nd) => { blk(nd).products[i][k] = v; });
+        const logoUrl = b.kind !== 'hero3' ? (brands[bk(p.brand)] || '') : '';
         const pp = getP(key, b.kind);
         const isSel = key === selKey;
         const big = b.kind === 'hero3' || b.kind === 'hero2';
         return {
           brand: p.brand, name: p.name, de: p.de, por: p.por, cada: p.cada,
+          hasPhoto: !!p.photo, noPhoto: !p.photo, photo: p.photo || '', hasLogo: !!logoUrl, noLogo: !logoUrl, logo: logoUrl,
+          inBrand: (e) => setP('brand', ev(e)), inName: (e) => setP('name', ev(e)), inDe: (e) => setP('de', ev(e)), inPor: (e) => setP('por', ev(e)),
+          upPhoto: (e) => readImg(e, (url) => mut((nd) => { blk(nd).products[i].photo = url; nd.photos[pkey(p.brand, p.name)] = url; })),
+          upLogo: (e) => readImg(e, (url) => mut((nd) => { nd.brands[bk(p.brand)] = url; })),
+          delPhoto: () => setP('photo', ''),
+          idNome: b.id + 'n' + i,
           sel: isSel,
           pick: (e) => { if (e && e.stopPropagation) e.stopPropagation(); const changing = st.selP !== key; this.setState(Object.assign({ sel: b.id, selP: key, menu: null, rtab: 'props' }, changing ? { tbMode: 'text' } : {})); },
           rzNW: rz(key, b.kind, -1, -1), rzNE: rz(key, b.kind, 1, -1), rzSW: rz(key, b.kind, -1, 1), rzSE: rz(key, b.kind, 1, 1), rzE: rz(key, b.kind, 1, 0), rzS: rz(key, b.kind, 0, 1),
@@ -984,19 +1029,36 @@ class Component extends DCLogic {
             : 'border:0;position:static;cursor:' + (tool === 'move' ? 'grab' : 'pointer') + ';' + (pp.w ? 'width:' + pp.w + 'px;min-width:0;' : 'min-width:' + (big ? 'auto' : (Math.max(56, Math.round(pp.pt * 4.2)) + 'px')) + ';') + (pp.h ? 'height:' + pp.h + 'px;box-sizing:border-box;overflow:hidden;' : '') + 'margin-top:0;padding:' + Math.max(3, Math.round(pp.pt * (big ? 0.3 : 0.4))) + 'px ' + Math.max(5, Math.round(pp.pt * (big ? 0.48 : 0.6))) + 'px ' + Math.max(6, Math.round(pp.pt * (big ? 0.52 : 0.68))) + 'px;border-radius:' + Math.max(11, Math.round(pp.pt * (big ? 1.2 : 1.35))) + 'px;display:flex;flex-direction:column;align-items:stretch;justify-content:' + (pp.h ? 'center' : 'flex-start') + ';gap:' + Math.max(3, Math.round(pp.pt * (big ? 0.26 : 0.36))) + 'px;background:' + rgba(pp.color, pp.alpha) + ';font-family:\'' + pp.font + '\',sans-serif',
           title: (b.kind === 'hero3' ? p.brand + ' · ' : 'Produto ' + (i + 1) + ' · ') + p.brand + (b.kind === 'hero3' ? '' : ' ' + p.name),
           idMarca: b.id + 'm' + i, idDe: b.id + 'de' + i, idPor: b.id + 'por' + i,
-          imgStyle: 'flex:1;min-height:0;display:flex;align-items:flex-end;justify-content:center;gap:4px;padding:6px 4px;box-sizing:border-box;border-radius:8px;width:100%;background:hsl(' + hue + ',55%,91%)',
+          imgStyle: 'flex:1;min-height:0;display:flex;align-items:flex-end;justify-content:center;gap:4px;padding:6px 4px;box-sizing:border-box;border-radius:8px;width:100%;background:' + (p.photo ? 'transparent' : 'hsl(' + hue + ',55%,91%)'),
           bottleStyle: 'width:' + (big ? 18 : 22) + '%;height:' + (big ? 74 : 70) + '%;border-radius:4px 4px 3px 3px;background:hsl(' + hue + ',42%,60%)',
           accentStyle: 'font-size:20px;font-weight:800;line-height:1;color:' + tierColors[i % 3],
           frameStyle: 'flex:1;min-width:0;display:flex;gap:8px;padding:8px;box-sizing:border-box;border-radius:14px;' + (i === 0 ? 'border:2px solid #D4153B' : 'border:2px solid transparent')
         };
       });
       return {
-        id: b.id, kind: b.kind, name: b.name, mm: b.mm, hint: b.hint, selected,
-        tag: b.name + ' · ' + b.mm,
+        id: b.id, kind: b.kind, name: b.name, mm: mmS, hint: b.hint, selected,
+        tag: b.name + ' · ' + mmS,
+        hTop: fv(0), hA: tw[0] || '', hB: tw.slice(1).join(' '), h3T: fv(0), h3M: fv(1), siteT: fv(0), siteI: fv(1),
+        fpParc: fv(0), fpMin: fv(1), fpVal: fv(4), fpChips: fv(2).split(/[·,|\/]/).map((t) => ({ t: t.trim() })).filter((c) => c.t),
+        hasLogo: !!b.logo, noLogo: !b.logo, logo: b.logo || '',
+        upLogo: (e) => readImg(e, (url) => mut((nd) => { blk(nd).logo = url; })),
+        delLogo: () => mut((nd) => { delete blk(nd).logo; }),
+        hMinus: () => mut((nd) => { const x = blk(nd); x.h = Math.max(40, x.h - 4); }),
+        hPlus: () => mut((nd) => { const x = blk(nd); x.h = x.h + 4; }),
+        up: () => { if (bi > 0) mut((nd) => { const a = nd[side]; const t = a[bi]; a[bi] = a[bi - 1]; a[bi - 1] = t; }); },
+        down: () => { if (bi < list.length - 1) mut((nd) => { const a = nd[side]; const t = a[bi]; a[bi] = a[bi + 1]; a[bi + 1] = t; }); },
+        dup: () => {
+          const nid = uid();
+          mut((nd) => { const c = JSON.parse(JSON.stringify(blk(nd))); c.id = nid; nd[side].splice(bi + 1, 0, c); });
+          const np = Object.assign({}, props);
+          Object.keys(props).forEach((k) => { if (k.indexOf(bid + ':') === 0) np[nid + k.slice(bid.length)] = props[k]; });
+          this.setState({ props: np, sel: nid, selP: null });
+        },
+        del: () => { if (list.length < 2) return; const nxt = (list[bi + 1] || list[bi - 1]).id; mut((nd) => { nd[side].splice(bi, 1); }); this.setState({ sel: nxt, selP: null }); },
         isHeader: b.kind === 'header', isHero3: b.kind === 'hero3', isHero2: b.kind === 'hero2',
         isRow: b.kind === 'row', isFootSite: b.kind === 'footsite', isFootPay: b.kind === 'footpay',
         cols: b.cols || 0,
-        hasFields: !!(b.fields && b.fields.length), fields: b.fields || [],
+        hasFields: !!(b.fields && b.fields.length), fields: (b.fields || []).map((f) => ({ id: b.id + '_' + f.key, label: f.label, value: f.value, input: (e) => mut((nd) => { blk(nd).fields.find((x) => x.key === f.key).value = ev(e); }) })),
         hasProducts: prods.length > 0, products: prods,
         btnStyle: 'display:block;position:relative;flex:none;width:578px;height:' + b.h + 'px;padding:0;margin:0;border:0;background:transparent;cursor:pointer;text-align:left;font:inherit;color:inherit;overflow:hidden',
         ringStyle: 'position:absolute;inset:0;pointer-events:none;box-sizing:border-box;z-index:1;' + (selected ? 'border:3px solid ' + P : 'border:0'),
@@ -1008,22 +1070,22 @@ class Component extends DCLogic {
     const cur = blocks.find((b) => b.selected);
     const colChips = [2, 3, 4, 5].map((n) => {
       const on = n === cur.cols;
-      return { n, on, style: 'width:44px;height:36px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;' + (on ? 'background:' + P + ';color:#fff;border:1px solid ' + P : 'background:#fff;color:#1F1B24;border:1px solid #C9C2D3') };
+      return { n, on, pick: () => { if (cur.cols === n) return; mut((nd) => { const x = nd[side].find((q) => q.id === cur.id); x.cols = n; while (x.products.length < n) x.products.push(blank(x.products.length)); x.products.length = n; x.name = 'Linha · ' + n + ' produtos'; x.h = ROWH[n] || x.h; }); }, style: 'width:44px;height:36px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;' + (on ? 'background:' + P + ';color:#fff;border:1px solid ' + P : 'background:#fff;color:#1F1B24;border:1px solid #C9C2D3') };
     });
 
     const seg = (on) => 'height:32px;padding:0 22px;border-radius:8px;border:0;font-size:13px;font-weight:700;cursor:pointer;' + (on ? 'background:#fff;color:' + P + ';box-shadow:0 1px 3px rgba(31,27,36,.2)' : 'background:transparent;color:#5E5868');
 
     const library = [
-      { name: 'Cabeçalho da campanha', sub: 'tema, título e logo', cells: [1] },
-      { name: 'Destaque · Leve 1, 2 e 3', sub: 'desconto progressivo', cells: [1, 2, 3] },
-      { name: 'Destaque duplo', sub: '2 produtos grandes', cells: [1, 2] },
-      { name: 'Linha · 5 produtos', sub: 'compacta', cells: [1, 2, 3, 4, 5] },
-      { name: 'Linha · 4 produtos', sub: 'compacta', cells: [1, 2, 3, 4] },
-      { name: 'Linha · 3 produtos', sub: 'média', cells: [1, 2, 3] },
-      { name: 'Linha · 2 produtos', sub: 'grande', cells: [1, 2] },
-      { name: 'Rodapé · site e redes', sub: 'faixa roxa', cells: [1] },
-      { name: 'Rodapé · pagamento + QR', sub: 'parcelas, bandeiras, validade', cells: [1, 2] }
-    ];
+      { kind: 'header', name: 'Cabeçalho da campanha', sub: 'tema, título e logo', cells: [1] },
+      { kind: 'hero3', name: 'Destaque · Leve 1, 2 e 3', sub: 'desconto progressivo', cells: [1, 2, 3] },
+      { kind: 'hero2', name: 'Destaque duplo', sub: '2 produtos grandes', cells: [1, 2] },
+      { kind: 'row', cols: 5, name: 'Linha · 5 produtos', sub: 'compacta', cells: [1, 2, 3, 4, 5] },
+      { kind: 'row', cols: 4, name: 'Linha · 4 produtos', sub: 'compacta', cells: [1, 2, 3, 4] },
+      { kind: 'row', cols: 3, name: 'Linha · 3 produtos', sub: 'média', cells: [1, 2, 3] },
+      { kind: 'row', cols: 2, name: 'Linha · 2 produtos', sub: 'grande', cells: [1, 2] },
+      { kind: 'footsite', name: 'Rodapé · site e redes', sub: 'faixa roxa', cells: [1] },
+      { kind: 'footpay', name: 'Rodapé · pagamento + QR', sub: 'parcelas, bandeiras, validade', cells: [1, 2] }
+    ].map((l) => Object.assign({}, l, { add: () => { const nb = newBlock(l.kind, l.cols); mut((nd) => { const a = nd[side]; const at = a.findIndex((x) => x.id === selId); a.splice(at + 1, 0, nb); }); this.setState({ sel: nb.id, selP: null, rtab: 'bloco', menu: null }); } }));
 
     const tb = (b) => 'width:30px;height:30px;border-radius:7px;border:0;cursor:pointer;display:flex;align-items:center;justify-content:center;background:' + (b ? P : 'transparent');
     const pb = (b) => 'flex:1;height:28px;border-radius:5px;border:0;cursor:pointer;display:flex;align-items:center;justify-content:center;background:' + (b ? '#6A2C91' : 'transparent');
@@ -1144,7 +1206,7 @@ class Component extends DCLogic {
     else filesTxt = isBothE ? base + '-frente.png e ' + base + '-verso.png' : base + '-' + eSide + '.png';
     const bleedPx = Math.max(0, eBleed) * 3;
     const exportCount = isPdfE ? (isBothE && eFile === 'sep' ? 2 : 1) : (isBothE ? 2 : 1);
-    const IMP = [
+    const IMPS = [
       { cod: '7891234000035', brand: 'AVON', name: 'Supershock Máscara de Cílios 10ml', de: '42,99', por: '19,99', photo: true },
       { cod: '7891234000042', brand: 'FRAN', name: 'Liphoney Gloss Labial de Mel 5g', de: '69,90', por: '19,99', photo: false },
       { cod: '7891234000059', brand: 'AVON', name: 'Color Trend Máscara Incolor Cílios 8g', de: '29,99', por: '14,99', photo: false },
@@ -1156,34 +1218,42 @@ class Component extends DCLogic {
       { cod: '7891234000097', brand: 'EUDORA', name: 'Siàge Resgate Imediato Máscara 250g', de: '74,90', por: '99,99', photo: false },
       { cod: '7891234000103', brand: 'NUANCE', name: 'Kit Viagem Sol de Copacabana', de: '45,97', por: '24,99', photo: false }
     ];
+    const norm = (x) => String(x == null ? '' : x).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]/g, '');
+    const ALIAS = { cod: ['cod', 'codigo', 'ean', 'sku', 'codbarras'], brand: ['marca', 'brand', 'fabricante'], name: ['produto', 'descricao', 'nome', 'item', 'descr', 'nomedoproduto'], de: ['de', 'precode', 'precoantigo', 'precocheio', 'precooriginal'], por: ['por', 'precopor', 'promocao', 'precopromo', 'precofinal', 'preco'], cada: ['cada', 'obs', 'extra', 'observacao'] };
+    const detect = (h) => { const n = norm(h); for (const t of Object.keys(ALIAS)) { if (ALIAS[t].indexOf(n) >= 0) return t; } return 'ign'; };
+    const moneyFmt = (v) => { let t = String(v == null ? '' : v).replace(/R\$\s*/i, '').trim(); if (!t) return ''; const n = t.indexOf(',') >= 0 ? parseFloat(t.replace(/\./g, '').replace(',', '.')) : parseFloat(t); return isNaN(n) ? t : n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); };
+    const impRaw = st.impRaw || { headers: [], rows: [] }, impMap = st.impMap || [];
+    const IMP = impRaw.rows.map((r) => { const g = (t) => { const c = impMap.indexOf(t); return c < 0 ? '' : String(r[c] == null ? '' : r[c]).trim(); }; return { cod: g('cod'), brand: g('brand'), name: g('name'), de: moneyFmt(g('de')), por: moneyFmt(g('por')), cada: g('cada') }; }).filter((r) => r.name || r.por);
+    const setRaw = (headers, rows, fname) => this.setState({ impRaw: { headers, rows }, impMap: headers.map(detect), impFile: true, impFileName: fname, impErr: '', impEdit: {}, impIgn: {} });
     const impOpen = !!st.impOpen, impStep = st.impStep || 1, impFile = !!st.impFile;
-    const impIgn = st.impIgn || {}, impFixBrand = !!st.impFixBrand;
-    const impPorVal = st.impPor === undefined ? '99,99' : st.impPor;
+    const impIgn = st.impIgn || {}, impEdit = st.impEdit || {};
     const pnum = (v) => parseFloat(String(v).replace(/\./g, '').replace(',', '.'));
     const impRowsData = IMP.map((r, i) => {
-      const brand = (i === 3 && impFixBrand) ? 'AVON' : r.brand;
-      const por = i === 8 ? impPorVal : r.por;
-      const brandErr = i === 3 && !impFixBrand;
-      const priceErr = !(pnum(por) < pnum(r.de));
+      const ed = impEdit[i] || {};
+      const brand = ed.brand !== undefined ? ed.brand : r.brand;
+      const por = ed.por !== undefined ? ed.por : r.por;
+      const brandErr = !String(brand).trim();
+      const priceErr = isNaN(pnum(por)) || (r.de !== '' && !(pnum(por) < pnum(r.de)));
       const ignored = !!impIgn[i];
-      return { i, r, brand, por, brandErr: brandErr && !ignored, priceErr: priceErr && !ignored, ignored };
+      const photo = !!photos[pkey(brand, r.name)];
+      return { i, r, brand, por, photo, ed, brandErr: brandErr && !ignored, priceErr: priceErr && !ignored, ignored };
     });
     const impErrors = impRowsData.filter((x) => x.brandErr || x.priceErr).length;
     const impIncluded = impRowsData.filter((x) => !x.ignored);
-    const impPendingN = impIncluded.filter((x) => !x.r.photo).length;
+    const impPendingN = impIncluded.filter((x) => !x.photo).length;
     const impRows = impRowsData.map((x) => {
       const err = x.brandErr || x.priceErr;
       return {
         n: x.i + 1, brand: x.brand, name: x.r.name, de: x.r.de, por: x.por,
-        photo: x.r.photo ? 'Já cadastrada' : 'Pendente',
-        photoStyle: 'font-size:12px;font-weight:700;border-radius:999px;padding:2px 9px;' + (x.r.photo ? 'color:#0B4F2A;background:#DDF2E4' : 'color:#3D3A44;background:#E7E4EC'),
+        photo: x.photo ? 'Já cadastrada' : 'Pendente',
+        photoStyle: 'font-size:12px;font-weight:700;border-radius:999px;padding:2px 9px;' + (x.photo ? 'color:#0B4F2A;background:#DDF2E4' : 'color:#3D3A44;background:#E7E4EC'),
         rowStyle: 'display:flex;align-items:center;gap:8px;padding:8px 12px;border-top:1px solid #EFEBF3;font-size:13px;' + (err ? 'background:#FDF1F3' : x.ignored ? 'background:#F6F4F8;opacity:.7' : ''),
         brandStyle: 'width:78px;font-weight:700;' + (x.brandErr ? 'color:#D4153B' : ''),
         porStyle: 'width:70px;text-align:right;font-weight:700;' + (x.priceErr ? 'color:#D4153B' : ''),
-        isOk: !err && !x.ignored, showFixBrand: x.brandErr, showPor: x.i === 8 && !x.ignored && (x.priceErr || st.impPor !== undefined),
-        showIgnore: err, showUndo: x.ignored, porVal: x.por,
-        fixBrand: () => this.setState({ impFixBrand: true }),
-        porInput: (e) => this.setState({ impPor: String(e && e.target ? e.target.value : '') }),
+        isOk: !err && !x.ignored, showFixBrand: !x.ignored && (x.brandErr || x.ed.brand !== undefined), showPor: !x.ignored && (x.priceErr || x.ed.por !== undefined),
+        showIgnore: err, showUndo: x.ignored, porVal: x.por, brandVal: x.brand,
+        brandInput: (e) => this.setState({ impEdit: Object.assign({}, impEdit, { [x.i]: Object.assign({}, x.ed, { brand: ev(e) }) }) }),
+        porInput: (e) => this.setState({ impEdit: Object.assign({}, impEdit, { [x.i]: Object.assign({}, x.ed, { por: ev(e) }) }) }),
         ignore: () => this.setState({ impIgn: Object.assign({}, impIgn, { [x.i]: true }) }),
         unignore: () => { const n = Object.assign({}, impIgn); delete n[x.i]; this.setState({ impIgn: n }); }
       };
@@ -1191,12 +1261,21 @@ class Component extends DCLogic {
     const impSteps = ['Arquivo', 'Colunas', 'Conferência', 'Blocos'].map((l, k) => ({ n: k + 1, label: l,
       style: 'flex:1;display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:9px;font-size:13px;font-weight:700;' + (impStep === k + 1 ? 'background:#EFE6F6;color:#4B1E6B' : impStep > k + 1 ? 'background:#F1F8F3;color:#0B4F2A' : 'background:#F6F4F8;color:#8B849A'),
       numStyle: 'width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;background:' + (impStep === k + 1 ? '#6A2C91' : impStep > k + 1 ? '#1F7A45' : '#B9B2C4') }));
-    const impMaps = [['Cód', IMP[0].cod, 'código', 1], ['Marca', 'AVON', 'marca', 1], ['Descrição', IMP[0].name, 'nome', 1], ['De', '42,99', 'preço de', 1], ['Por', '19,99', 'preço por', 1], ['Bloco', '(em branco)', 'bloco', 1], ['Estoque', '120', 'Ignorar coluna', 0]].map((m) => ({ src: m[0], sample: m[1], target: m[2],
-      chip: m[3] ? 'Reconhecida' : 'Não usada', chipStyle: 'font-size:12px;font-weight:700;border-radius:999px;padding:2px 9px;' + (m[3] ? 'color:#0B4F2A;background:#DDF2E4' : 'color:#3D3A44;background:#E7E4EC') }));
-    const rowBlocks = [['Linha · 4 produtos', 4], ['Linha · 3 produtos', 3], ['Linha · 3 produtos', 3]];
+    const TG = [['cod', 'código'], ['brand', 'marca'], ['name', 'nome'], ['de', 'preço de'], ['por', 'preço por'], ['cada', 'texto extra (cada)'], ['ign', 'Ignorar coluna']];
+    const impMaps = impRaw.headers.map((h, c) => {
+      const t = impMap[c] || 'ign';
+      return { src: String(h) || ('Coluna ' + (c + 1)), sample: String((impRaw.rows[0] || [])[c] == null ? '' : (impRaw.rows[0] || [])[c]), chip: t !== 'ign' ? 'Reconhecida' : 'Não usada',
+        chipStyle: 'font-size:12px;font-weight:700;border-radius:999px;padding:2px 9px;' + (t !== 'ign' ? 'color:#0B4F2A;background:#DDF2E4' : 'color:#3D3A44;background:#E7E4EC'),
+        opts: TG.map((o) => ({ v: o[0], t: o[1], sel: o[0] === t })),
+        change: (e) => { const nm = impMap.slice(); nm[c] = ev(e); this.setState({ impMap: nm, impEdit: {}, impIgn: {} }); } };
+    });
+    const frRows = D.frente.filter((b) => b.kind === 'row');
     let pix = 0;
-    const impPlan = rowBlocks.map((b) => { const items = impIncluded.slice(pix, pix + b[1]); pix += b[1]; return { block: b[0], count: items.length + ' produtos', items: items.map((x) => x.brand + ' ' + x.r.name.split(' ').slice(0, 2).join(' ')).join(' · ') }; });
-    const impBlocked = (impStep === 1 && !impFile) || (impStep === 3 && impErrors > 0);
+    const impPlan = [];
+    frRows.forEach((b) => { const items = impIncluded.slice(pix, pix + b.cols); if (!items.length) return; pix += b.cols; impPlan.push({ block: b.name, count: items.length + ' produtos', items: items.map((x) => x.brand + ' ' + String(x.r.name).split(' ').slice(0, 2).join(' ')).join(' · ') }); });
+    if (impIncluded.length > pix) impPlan.push({ block: 'Novas linhas · 3 produtos', count: (impIncluded.length - pix) + ' produtos', items: 'blocos criados automaticamente depois das linhas' });
+    const hasNameCol = impMap.indexOf('name') >= 0, hasPorCol = impMap.indexOf('por') >= 0;
+    const impBlocked = (impStep === 1 && !impFile) || (impStep === 2 && !(hasNameCol && hasPorCol)) || (impStep === 3 && (impErrors > 0 || !impIncluded.length));
     const impLast = impStep === 4;
     const impNextStyle = 'height:38px;padding:0 18px;border-radius:9px;border:0;color:#fff;font-size:13.5px;font-weight:700;' + (impBlocked ? 'background:#B9B2C4;cursor:not-allowed' : 'background:#6A2C91;cursor:pointer');
     const impOkN = impRowsData.filter((x) => !x.brandErr && !x.priceErr && !x.ignored).length;
@@ -1234,7 +1313,22 @@ class Component extends DCLogic {
       openImp: () => this.setState({ impOpen: true, impStep: 1 }),
       impOpen, impS1: impStep === 1, impS2: impStep === 2, impS3: impStep === 3, impS4: impStep === 4,
       impNoFile: !impFile, impHasFile: impFile,
-      impLoad: () => this.setState({ impFile: true }), impUnload: () => this.setState({ impFile: false }),
+      impFileName: st.impFileName || '', impFileInfo: impRaw.rows.length + ' linhas · ' + impRaw.headers.length + ' colunas', impErr: st.impErr || '',
+      impSample: () => setRaw(['Cód', 'Marca', 'Descrição', 'De', 'Por'], IMPS.map((q) => [q.cod, q.brand, q.name, q.de, q.por]), 'planilha-de-exemplo.xlsx'),
+      impUnload: () => this.setState({ impFile: false, impRaw: null, impMap: [], impFileName: '' }),
+      impPick: (e) => {
+        const f = e && e.target && e.target.files && e.target.files[0];
+        if (!f) return;
+        const fail = (m) => this.setState({ impErr: m });
+        window.__loadXLSX().then((X) => f.arrayBuffer().then((buf) => {
+          const wb = X.read(buf, { type: 'array' });
+          const rows = X.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { header: 1, raw: false, defval: '' }).filter((r) => r.some((c) => String(c).trim() !== ''));
+          if (rows.length < 2) { fail('A planilha está vazia ou só tem o cabeçalho.'); return; }
+          const w = Math.max.apply(null, rows.map((r) => r.length));
+          setRaw(rows[0].concat(Array(Math.max(0, w - rows[0].length)).fill('')).map((h) => String(h)), rows.slice(1).map((r) => r.map((c) => String(c))), f.name);
+        })).catch(() => fail('Não consegui ler esse arquivo. Use .xlsx ou .csv.'));
+      },
+      impTemplate: () => window.__loadXLSX().then((X) => { const ws = X.utils.aoa_to_sheet([['Código', 'Marca', 'Produto', 'De', 'Por', 'Cada'], ['789000000001', 'EUDORA', 'H Colônia Masculina 100ml', '124,90', '74,99', 'cada'], ['789000000002', 'AVON', 'Supershock Máscara de Cílios 10ml', '42,99', '19,99', '']]); const wb = X.utils.book_new(); X.utils.book_append_sheet(wb, ws, 'Produtos'); X.writeFile(wb, 'modelo-produtos.xlsx'); }),
       impSteps, impMaps, impRows, impPlan, impBlocked, impNextStyle,
       impSummary: IMP.length + ' linhas lidas · ' + impOkN + ' prontas' + (impErrors ? ' · ' + impErrors + ' para corrigir' : '') + (impIgnN ? ' · ' + impIgnN + ' ignorada' + (impIgnN > 1 ? 's' : '') : ''),
       impPendingText: impPendingN + ' de ' + impIncluded.length + ' produtos ficam com foto pendente.',
@@ -1246,12 +1340,21 @@ class Component extends DCLogic {
       impNext: () => {
         if (impBlocked) return;
         if (!impLast) { this.setState({ impStep: impStep + 1 }); return; }
-        const applied = impIncluded.map((x) => ({ brand: x.brand, name: x.r.name, de: x.r.de, por: x.por }));
-        this.setState({ impApplied: applied, impPending: impPendingN, impOpen: false, side: 'frente', sel: 'f2', selP: null, impMsg: applied.length + ' produtos importados · ' + impPendingN + ' sem foto' });
+        const items = impIncluded.map((x) => ({ brand: x.brand, name: x.r.name, de: x.r.de, por: x.por, cada: x.r.cada || '', photo: photos[pkey(x.brand, x.r.name)] || '' }));
+        const mkI = (q, k) => { const p = mk(q.brand, q.name, q.de, q.por, q.cada, hues[k % hues.length]); if (q.photo) p.photo = q.photo; return p; };
+        let firstRow = '';
+        mut((nd) => {
+          let ix = 0;
+          nd.frente.filter((b) => b.kind === 'row').forEach((b) => { if (!firstRow) firstRow = b.id; for (let k = 0; k < b.cols && ix < items.length; k++, ix++) b.products[k] = mkI(items[ix], ix); });
+          let at = -1; nd.frente.forEach((b, k) => { if (b.kind === 'row') at = k; });
+          if (at < 0) at = Math.max(0, nd.frente.length - 2);
+          for (let j = ix; j < items.length; j += 3) { const ch = items.slice(j, j + 3); const nb = newBlock('row', Math.max(2, ch.length)); ch.forEach((q, k) => { nb.products[k] = mkI(q, j + k); }); if (!firstRow) firstRow = nb.id; nd.frente.splice(++at, 0, nb); }
+        });
+        this.setState({ impRaw: null, impMap: [], impFile: false, impOpen: false, side: 'frente', sel: firstRow, selP: null });
       },
-      hasPending: (st.impPending || 0) > 0, pendingLabel: (st.impPending || 0) + ' sem foto',
+      hasPending: noPhotoN > 0, pendingLabel: noPhotoN + ' sem foto', fillText, fillStyle,
       expOpen, toggleExp: () => this.setState({ expOpen: !expOpen, expDone: false }),
-      fmtOpts: segE([['pdf', 'PDF'], ['png', 'PNG']], eFmt, 'expFmt'),
+      fmtOpts: segE([['pdf', 'PDF']], 'pdf', 'expFmt'),
       sideOpts: segE([['both', 'Frente e verso'], ['frente', 'Só frente'], ['verso', 'Só verso']], eSide, 'expSide'),
       bleedOpts: segE([[0, 'Sem'], [3, '3 mm'], [5, '5 mm']], eBleed, 'expBleed'),
       fileOpts: segE([['one', '1 PDF com 2 páginas'], ['sep', '2 PDFs']], eFile, 'expFile'),
@@ -1261,10 +1364,18 @@ class Component extends DCLogic {
       bleedBoxStyle: 'flex:none;display:flex;align-items:center;justify-content:center;background:#FBE3E8;padding:' + bleedPx + 'px;margin-top:4px;border-radius:2px',
       sizeText: isPdfE ? (wMm + (eMarks ? 12 : 0)) + ' × ' + (hMm + (eMarks ? 12 : 0)) + ' mm por página (corte 153 × 207 mm' + (eBleed ? ' + sangria ' + eBleed + ' mm' : '') + ')' : wMm + ' × ' + hMm + ' mm · ' + px(wMm) + ' × ' + px(hMm) + ' px a ' + eDpi + ' dpi',
       filesText: filesTxt,
-      noteText: isPdfE ? 'PDF com fontes embutidas e cores em RGB. CMYK depende da gráfica.' : 'PNG serve para redes sociais e conferência, não para impressão.',
+      noteText: 'Por enquanto sai pela impressão do navegador (escolha “Salvar como PDF”), 153 × 207 mm, sem sangria. Sangria, marcas de corte e CMYK entram na exportação final.',
       expDone: !!st.expDone,
       exportLabel: 'Exportar ' + (isPdfE ? 'PDF' : 'PNG') + (exportCount > 1 ? ' (' + exportCount + ' arquivos)' : ''),
-      doExport: () => this.setState({ expDone: true }),
+      doExport: () => {
+        const sides = eSide === 'both' ? ['frente', 'verso'] : [eSide];
+        const orig = side;
+        const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+        (async () => {
+          for (const sd of sides) { this.setState({ side: sd, selP: null, menu: null }); await wait(250); window.print(); }
+          this.setState({ side: orig, expDone: true });
+        })();
+      },
       fields, modes, cmodeLabel: { hex: 'Hex', rgb: 'RGB', css: 'CSS', hsl: 'HSL', hsb: 'HSB' }[cmode], cmenuOpen: !!st.cmenu, toggleCmenu: () => this.setState({ cmenu: !st.cmenu }),
       svStyle: 'position:relative;height:150px;border-radius:8px;cursor:crosshair;background:linear-gradient(to top,#000,rgba(0,0,0,0)),linear-gradient(to right,#fff,hsl(' + Math.round(pk.h) + ',100%,50%))',
       svKnob: knobBase + ';left:' + (pk.s * 100) + '%;top:' + ((1 - pk.v) * 100) + '%;background:' + curHex,
