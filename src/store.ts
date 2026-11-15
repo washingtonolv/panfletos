@@ -155,10 +155,7 @@ const samples: Product[] = [
   { brand: 'EUDORA', name: 'Chic Retrô Colônia Feminina 95ml', de: '109,90', por: '79,99', cada: 'cada' },
 ]
 
-const initial: Pages = [
-  [mk('text', { x: 8, y: 8, w: 137, h: 18, text: 'OFERTAS DA SEMANA', fontPt: 28, align: 'left' }), ...buildBlock('row3', 34, samples)],
-  [],
-]
+const initial: Pages = anniversaryTemplate()
 
 export const useDoc = create<State>((set, get) => {
   const commit = (fn: (p: Pages) => void) => {
