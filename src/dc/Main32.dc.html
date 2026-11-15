@@ -189,9 +189,9 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
                   <span style="flex:1;min-height:0;display:flex;gap:13px">
                     <sc-for list="{{ b.products }}" as="p" hint-placeholder-count="3">
                       <span style="flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:2px">
-                        <span style="{{ p.imgStyle }}"><sc-if value="{{ p.hasPhoto }}" hint-placeholder-val="{{ false }}"><img src="{{ p.photo }}" alt="" style="width:100%;height:100%;object-fit:contain"></sc-if><sc-if value="{{ p.noPhoto }}" hint-placeholder-val="{{ true }}"><span style="{{ p.bottleStyle }}"></span><span style="{{ p.bottleStyle }}"></span><span style="{{ p.bottleStyle }}"></span></sc-if></span>
-                        <span style="{{ p.accentStyle }}">{{ p.brand }}</span>
-                        <span style="{{ p.boxStyle }}"><button type="button" onClick="{{ p.pick }}" aria-label="Selecionar preço {{ p.brand }}" style="{{ p.badgeStyle }}"><span style="{{ p.tagPillStyle }}">{{ p.tag }}</span><span style="{{ p.tagPriceStyle }}">R$ {{ p.por }}</span></button><sc-if value="{{ p.sel }}" hint-placeholder-val="{{ false }}"><span data-np="1" aria-hidden="true" style="position:absolute;inset:-3px;border:1.5px solid #6A2C91;border-radius:6px;pointer-events:none"></span><span aria-hidden="true" onMouseDown="{{ p.rzNW }}" style="position:absolute;left:-7px;top:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:nwse-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzNE }}" style="position:absolute;right:-7px;top:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:nesw-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzSW }}" style="position:absolute;left:-7px;bottom:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:nesw-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzSE }}" style="position:absolute;right:-7px;bottom:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:nwse-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzS }}" style="position:absolute;left:calc(50% - 4px);bottom:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:ns-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzE }}" style="position:absolute;right:-7px;top:calc(50% - 4px);width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:ew-resize;z-index:5"></span></sc-if></span>
+                        <span onMouseDown="{{ p.mvPhoto }}" style="{{ p.imgStyle }}"><sc-if value="{{ p.hasPhoto }}" hint-placeholder-val="{{ false }}"><img src="{{ p.photo }}" alt="" style="width:100%;height:100%;object-fit:contain;cursor:move;{{ p.photoXf }}"></sc-if><sc-if value="{{ p.noPhoto }}" hint-placeholder-val="{{ true }}"><span style="{{ p.bottleStyle }}"></span><span style="{{ p.bottleStyle }}"></span><span style="{{ p.bottleStyle }}"></span></sc-if></span>
+                        <span onMouseDown="{{ p.mvBrand }}" style="{{ p.accentStyle }}">{{ p.brand }}</span>
+                        <span style="{{ p.boxStyle }}"><button type="button" onMouseDown="{{ p.mvTag }}" onClick="{{ p.pick }}" aria-label="Selecionar preço {{ p.brand }}" style="{{ p.badgeStyle }}"><span style="{{ p.tagPillStyle }}">{{ p.tag }}</span><span style="{{ p.tagPriceStyle }}">R$ {{ p.por }}</span></button><sc-if value="{{ p.sel }}" hint-placeholder-val="{{ false }}"><span data-np="1" aria-hidden="true" style="position:absolute;inset:-3px;border:1.5px solid #6A2C91;border-radius:6px;pointer-events:none"></span><span aria-hidden="true" onMouseDown="{{ p.rzNW }}" style="position:absolute;left:-9px;top:-9px;width:11px;height:11px;background:#6A2C91;border:2px solid #fff;box-shadow:0 0 0 1px #6A2C91;border-radius:2px;box-sizing:border-box;cursor:nwse-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzNE }}" style="position:absolute;right:-9px;top:-9px;width:11px;height:11px;background:#6A2C91;border:2px solid #fff;box-shadow:0 0 0 1px #6A2C91;border-radius:2px;box-sizing:border-box;cursor:nesw-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzSW }}" style="position:absolute;left:-9px;bottom:-9px;width:11px;height:11px;background:#6A2C91;border:2px solid #fff;box-shadow:0 0 0 1px #6A2C91;border-radius:2px;box-sizing:border-box;cursor:nesw-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzSE }}" style="position:absolute;right:-9px;bottom:-9px;width:11px;height:11px;background:#6A2C91;border:2px solid #fff;box-shadow:0 0 0 1px #6A2C91;border-radius:2px;box-sizing:border-box;cursor:nwse-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzS }}" style="position:absolute;left:calc(50% - 6px);bottom:-9px;width:11px;height:11px;background:#6A2C91;border:2px solid #fff;box-shadow:0 0 0 1px #6A2C91;border-radius:2px;box-sizing:border-box;cursor:ns-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzE }}" style="position:absolute;right:-9px;top:calc(50% - 4px);width:11px;height:11px;background:#6A2C91;border:2px solid #fff;box-shadow:0 0 0 1px #6A2C91;border-radius:2px;box-sizing:border-box;cursor:ew-resize;z-index:5"></span></sc-if></span>
                       </span>
                     </sc-for>
                   </span>
@@ -203,11 +203,11 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
               <span style="position:absolute;inset:0;display:flex;gap:10px;padding:8px 14px;box-sizing:border-box">
                 <sc-for list="{{ b.products }}" as="p" hint-placeholder-count="2">
                   <span style="{{ p.frameStyle }}">
-                    <span style="width:46%;flex:none;display:flex"><span style="{{ p.imgStyle }}"><sc-if value="{{ p.hasPhoto }}" hint-placeholder-val="{{ false }}"><img src="{{ p.photo }}" alt="" style="width:100%;height:100%;object-fit:contain"></sc-if><sc-if value="{{ p.noPhoto }}" hint-placeholder-val="{{ true }}"><span style="{{ p.bottleStyle }}"></span><span style="{{ p.bottleStyle }}"></span></sc-if></span></span>
+                    <span style="width:46%;flex:none;display:flex"><span onMouseDown="{{ p.mvPhoto }}" style="{{ p.imgStyle }}"><sc-if value="{{ p.hasPhoto }}" hint-placeholder-val="{{ false }}"><img src="{{ p.photo }}" alt="" style="width:100%;height:100%;object-fit:contain;cursor:move;{{ p.photoXf }}"></sc-if><sc-if value="{{ p.noPhoto }}" hint-placeholder-val="{{ true }}"><span style="{{ p.bottleStyle }}"></span><span style="{{ p.bottleStyle }}"></span></sc-if></span></span>
                     <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;justify-content:center">
-                      <sc-if value="{{ p.noLogo }}" hint-placeholder-val="{{ true }}"><span style="font-size:12px;font-weight:800;color:#1F1B24;text-transform:uppercase">{{ p.brand }}</span></sc-if><sc-if value="{{ p.hasLogo }}" hint-placeholder-val="{{ false }}"><img src="{{ p.logo }}" alt="{{ p.brand }}" style="height:15px;width:auto;max-width:100%;object-fit:contain;object-position:left"></sc-if>
-                      <span style="font-size:10px;color:#4A4553;line-height:1.2">{{ p.name }}</span>
-                      <span style="{{ p.boxStyle }}"><button type="button" onClick="{{ p.pick }}" aria-label="Selecionar preço {{ p.brand }}" style="{{ p.badgeStyle }}"><span style="{{ p.tagPillStyle }}">{{ p.tag }}</span><span style="{{ p.tagPriceStyle }}">R$ {{ p.por }}</span></button><sc-if value="{{ p.sel }}" hint-placeholder-val="{{ false }}"><span data-np="1" aria-hidden="true" style="position:absolute;inset:-3px;border:1.5px solid #6A2C91;border-radius:6px;pointer-events:none"></span><span aria-hidden="true" onMouseDown="{{ p.rzNW }}" style="position:absolute;left:-7px;top:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:nwse-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzNE }}" style="position:absolute;right:-7px;top:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:nesw-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzSW }}" style="position:absolute;left:-7px;bottom:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:nesw-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzSE }}" style="position:absolute;right:-7px;bottom:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:nwse-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzS }}" style="position:absolute;left:calc(50% - 4px);bottom:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:ns-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzE }}" style="position:absolute;right:-7px;top:calc(50% - 4px);width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:ew-resize;z-index:5"></span></sc-if></span>
+                      <sc-if value="{{ p.noLogo }}" hint-placeholder-val="{{ true }}"><span onMouseDown="{{ p.mvBrand }}" style="font-size:12px;font-weight:800;color:#1F1B24;text-transform:uppercase;cursor:move;{{ p.brandXf }}">{{ p.brand }}</span></sc-if><sc-if value="{{ p.hasLogo }}" hint-placeholder-val="{{ false }}"><img onMouseDown="{{ p.mvBrand }}" src="{{ p.logo }}" alt="{{ p.brand }}" style="cursor:move;{{ p.brandXf }}height:15px;width:auto;max-width:100%;object-fit:contain;object-position:left"></sc-if>
+                      <span onMouseDown="{{ p.mvName }}" style="font-size:10px;color:#4A4553;line-height:1.2;cursor:move;{{ p.nameXf }}">{{ p.name }}</span>
+                      <span style="{{ p.boxStyle }}"><button type="button" onMouseDown="{{ p.mvTag }}" onClick="{{ p.pick }}" aria-label="Selecionar preço {{ p.brand }}" style="{{ p.badgeStyle }}"><span style="{{ p.tagPillStyle }}">{{ p.tag }}</span><span style="{{ p.tagPriceStyle }}">R$ {{ p.por }}</span></button><sc-if value="{{ p.sel }}" hint-placeholder-val="{{ false }}"><span data-np="1" aria-hidden="true" style="position:absolute;inset:-3px;border:1.5px solid #6A2C91;border-radius:6px;pointer-events:none"></span><span aria-hidden="true" onMouseDown="{{ p.rzNW }}" style="position:absolute;left:-9px;top:-9px;width:11px;height:11px;background:#6A2C91;border:2px solid #fff;box-shadow:0 0 0 1px #6A2C91;border-radius:2px;box-sizing:border-box;cursor:nwse-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzNE }}" style="position:absolute;right:-9px;top:-9px;width:11px;height:11px;background:#6A2C91;border:2px solid #fff;box-shadow:0 0 0 1px #6A2C91;border-radius:2px;box-sizing:border-box;cursor:nesw-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzSW }}" style="position:absolute;left:-9px;bottom:-9px;width:11px;height:11px;background:#6A2C91;border:2px solid #fff;box-shadow:0 0 0 1px #6A2C91;border-radius:2px;box-sizing:border-box;cursor:nesw-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzSE }}" style="position:absolute;right:-9px;bottom:-9px;width:11px;height:11px;background:#6A2C91;border:2px solid #fff;box-shadow:0 0 0 1px #6A2C91;border-radius:2px;box-sizing:border-box;cursor:nwse-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzS }}" style="position:absolute;left:calc(50% - 6px);bottom:-9px;width:11px;height:11px;background:#6A2C91;border:2px solid #fff;box-shadow:0 0 0 1px #6A2C91;border-radius:2px;box-sizing:border-box;cursor:ns-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzE }}" style="position:absolute;right:-9px;top:calc(50% - 4px);width:11px;height:11px;background:#6A2C91;border:2px solid #fff;box-shadow:0 0 0 1px #6A2C91;border-radius:2px;box-sizing:border-box;cursor:ew-resize;z-index:5"></span></sc-if></span>
                       <span style="font-size:9px;font-weight:700;color:#D4153B">{{ p.cada }}</span>
                     </span>
                   </span>
@@ -219,11 +219,11 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
               <span style="position:absolute;inset:0;display:flex;gap:9px;padding:6px 13px 6px;box-sizing:border-box">
                 <sc-for list="{{ b.products }}" as="p" hint-placeholder-count="4">
                   <span style="flex:1;min-width:0;position:relative;display:flex;flex-direction:column;gap:1px">
-                    <sc-if value="{{ p.noLogo }}" hint-placeholder-val="{{ true }}"><span style="font-size:10px;font-weight:800;color:#1F1B24;line-height:1.1;text-transform:uppercase">{{ p.brand }}</span></sc-if><sc-if value="{{ p.hasLogo }}" hint-placeholder-val="{{ false }}"><img src="{{ p.logo }}" alt="{{ p.brand }}" style="height:12px;width:auto;max-width:100%;object-fit:contain;object-position:left"></sc-if>
-                    <span style="font-size:8.5px;color:#4A4553;line-height:1.15;height:20px;overflow:hidden">{{ p.name }}</span>
-                    <span style="{{ p.imgStyle }}"><sc-if value="{{ p.hasPhoto }}" hint-placeholder-val="{{ false }}"><img src="{{ p.photo }}" alt="" style="width:100%;height:100%;object-fit:contain"></sc-if><sc-if value="{{ p.noPhoto }}" hint-placeholder-val="{{ true }}"><span style="{{ p.bottleStyle }}"></span><span style="{{ p.bottleStyle }}"></span></sc-if></span>
+                    <sc-if value="{{ p.noLogo }}" hint-placeholder-val="{{ true }}"><span onMouseDown="{{ p.mvBrand }}" style="font-size:10px;font-weight:800;color:#1F1B24;line-height:1.1;text-transform:uppercase;cursor:move;{{ p.brandXf }}">{{ p.brand }}</span></sc-if><sc-if value="{{ p.hasLogo }}" hint-placeholder-val="{{ false }}"><img onMouseDown="{{ p.mvBrand }}" src="{{ p.logo }}" alt="{{ p.brand }}" style="cursor:move;{{ p.brandXf }}height:12px;width:auto;max-width:100%;object-fit:contain;object-position:left"></sc-if>
+                    <span onMouseDown="{{ p.mvName }}" style="font-size:8.5px;color:#4A4553;line-height:1.15;height:20px;overflow:hidden;cursor:move;{{ p.nameXf }}">{{ p.name }}</span>
+                    <span onMouseDown="{{ p.mvPhoto }}" style="{{ p.imgStyle }}"><sc-if value="{{ p.hasPhoto }}" hint-placeholder-val="{{ false }}"><img src="{{ p.photo }}" alt="" style="width:100%;height:100%;object-fit:contain;cursor:move;{{ p.photoXf }}"></sc-if><sc-if value="{{ p.noPhoto }}" hint-placeholder-val="{{ true }}"><span style="{{ p.bottleStyle }}"></span><span style="{{ p.bottleStyle }}"></span></sc-if></span>
                     <span style="position:absolute;left:0;right:0;bottom:0;display:flex;flex-direction:column;gap:1px">
-                      <span style="{{ p.boxStyle }}"><button type="button" onClick="{{ p.pick }}" aria-label="Selecionar preço {{ p.brand }}" style="{{ p.badgeStyle }}"><span style="{{ p.tagPillStyle }}">{{ p.tag }}</span><span style="{{ p.tagPriceStyle }}">R$ {{ p.por }}</span></button><sc-if value="{{ p.sel }}" hint-placeholder-val="{{ false }}"><span data-np="1" aria-hidden="true" style="position:absolute;inset:-3px;border:1.5px solid #6A2C91;border-radius:6px;pointer-events:none"></span><span aria-hidden="true" onMouseDown="{{ p.rzNW }}" style="position:absolute;left:-7px;top:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:nwse-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzNE }}" style="position:absolute;right:-7px;top:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:nesw-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzSW }}" style="position:absolute;left:-7px;bottom:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:nesw-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzSE }}" style="position:absolute;right:-7px;bottom:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:nwse-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzS }}" style="position:absolute;left:calc(50% - 4px);bottom:-7px;width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:ns-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzE }}" style="position:absolute;right:-7px;top:calc(50% - 4px);width:7px;height:7px;background:#fff;border:1.5px solid #6A2C91;cursor:ew-resize;z-index:5"></span></sc-if></span>
+                      <span style="{{ p.boxStyle }}"><button type="button" onMouseDown="{{ p.mvTag }}" onClick="{{ p.pick }}" aria-label="Selecionar preço {{ p.brand }}" style="{{ p.badgeStyle }}"><span style="{{ p.tagPillStyle }}">{{ p.tag }}</span><span style="{{ p.tagPriceStyle }}">R$ {{ p.por }}</span></button><sc-if value="{{ p.sel }}" hint-placeholder-val="{{ false }}"><span data-np="1" aria-hidden="true" style="position:absolute;inset:-3px;border:1.5px solid #6A2C91;border-radius:6px;pointer-events:none"></span><span aria-hidden="true" onMouseDown="{{ p.rzNW }}" style="position:absolute;left:-9px;top:-9px;width:11px;height:11px;background:#6A2C91;border:2px solid #fff;box-shadow:0 0 0 1px #6A2C91;border-radius:2px;box-sizing:border-box;cursor:nwse-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzNE }}" style="position:absolute;right:-9px;top:-9px;width:11px;height:11px;background:#6A2C91;border:2px solid #fff;box-shadow:0 0 0 1px #6A2C91;border-radius:2px;box-sizing:border-box;cursor:nesw-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzSW }}" style="position:absolute;left:-9px;bottom:-9px;width:11px;height:11px;background:#6A2C91;border:2px solid #fff;box-shadow:0 0 0 1px #6A2C91;border-radius:2px;box-sizing:border-box;cursor:nesw-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzSE }}" style="position:absolute;right:-9px;bottom:-9px;width:11px;height:11px;background:#6A2C91;border:2px solid #fff;box-shadow:0 0 0 1px #6A2C91;border-radius:2px;box-sizing:border-box;cursor:nwse-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzS }}" style="position:absolute;left:calc(50% - 6px);bottom:-9px;width:11px;height:11px;background:#6A2C91;border:2px solid #fff;box-shadow:0 0 0 1px #6A2C91;border-radius:2px;box-sizing:border-box;cursor:ns-resize;z-index:5"></span><span aria-hidden="true" onMouseDown="{{ p.rzE }}" style="position:absolute;right:-9px;top:calc(50% - 4px);width:11px;height:11px;background:#6A2C91;border:2px solid #fff;box-shadow:0 0 0 1px #6A2C91;border-radius:2px;box-sizing:border-box;cursor:ew-resize;z-index:5"></span></sc-if></span>
                       <sc-if value="{{ p.hasCada }}" hint-placeholder-val="{{ false }}"><span style="font-size:7.5px;font-weight:700;color:#4A4553;text-align:center;font-style:italic">{{ p.cada }}</span></sc-if>
                     </span>
                   </span>
@@ -254,9 +254,9 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
               </span>
             </sc-if>
 
-            <span data-np="1" style="{{ b.ringStyle }}"></span>
+            <sc-if value="{{ b.hasImg }}" hint-placeholder-val="{{ false }}"><img src="{{ b.img }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:fill;pointer-events:none"></sc-if><span data-np="1" style="{{ b.ringStyle }}"></span>
             <sc-if value="{{ b.selected }}" hint-placeholder-val="{{ false }}">
-              <span data-np="1" style="position:absolute;left:0;top:0;background:#6A2C91;color:#fff;font-size:11px;font-weight:700;padding:3px 8px;border-radius:0 0 8px 0;z-index:2">{{ b.tag }}</span>
+              <span data-np="1" style="pointer-events:none;position:absolute;left:0;top:0;background:#6A2C91;color:#fff;font-size:11px;font-weight:700;padding:3px 8px;border-radius:0 0 8px 0;z-index:2">{{ b.tag }}</span>
             </sc-if>
           </div>
         </sc-for>
@@ -289,6 +289,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
           <div style="display:flex;align-items:center;gap:8px"><span style="flex:1;font-size:12.5px;font-weight:600">Altura do bloco</span><button type="button" onClick="{{ cur.hMinus }}" aria-label="Diminuir altura" style="width:32px;height:32px;border-radius:8px;border:1px solid #C9C2D3;background:#fff;font-size:16px;cursor:pointer">−</button><span style="min-width:48px;text-align:center;font-size:13px;font-weight:700">{{ cur.mm }}</span><button type="button" onClick="{{ cur.hPlus }}" aria-label="Aumentar altura" style="width:32px;height:32px;border-radius:8px;border:1px solid #C9C2D3;background:#fff;font-size:16px;cursor:pointer">+</button></div>
           <div style="display:flex;gap:6px;flex-wrap:wrap"><button type="button" onClick="{{ cur.up }}" style="height:32px;padding:0 10px;border-radius:8px;border:1px solid #C9C2D3;background:#fff;font-size:12.5px;font-weight:600;color:#1F1B24;cursor:pointer">↑ Subir</button><button type="button" onClick="{{ cur.down }}" style="height:32px;padding:0 10px;border-radius:8px;border:1px solid #C9C2D3;background:#fff;font-size:12.5px;font-weight:600;color:#1F1B24;cursor:pointer">↓ Descer</button><button type="button" onClick="{{ cur.dup }}" style="height:32px;padding:0 10px;border-radius:8px;border:1px solid #C9C2D3;background:#fff;font-size:12.5px;font-weight:600;color:#1F1B24;cursor:pointer">Duplicar</button><button type="button" onClick="{{ cur.del }}" style="height:32px;padding:0 10px;border-radius:8px;border:1px solid #C9C2D3;background:#fff;font-size:12.5px;font-weight:600;color:#1F1B24;cursor:pointer;color:#8A1230;border-color:#E9B6C1">Excluir</button></div>
           <sc-if value="{{ cur.isHeader }}" hint-placeholder-val="{{ false }}"><div style="display:flex;gap:8px;align-items:center"><label style="height:34px;padding:0 12px;border-radius:8px;border:1px solid #6A2C91;background:#fff;color:#4B1E6B;font-size:12.5px;font-weight:700;cursor:pointer;display:flex;align-items:center;box-sizing:border-box"><input type="file" accept="image/*" onChange="{{ cur.upLogo }}" style="display:none">Enviar logo da loja (PNG)</label><sc-if value="{{ cur.hasLogo }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ cur.delLogo }}" style="height:34px;padding:0 10px;border-radius:8px;border:1px solid #C9C2D3;background:#fff;font-size:12.5px;font-weight:600;cursor:pointer">Remover</button></sc-if></div></sc-if>
+          <sc-if value="{{ cur.canImg }}" hint-placeholder-val="{{ false }}"><div style="display:flex;flex-direction:column;gap:6px;border-top:1px solid #EFEBF3;padding-top:10px"><span style="font-size:12.5px;font-weight:600">Arte pronta</span><div style="display:flex;gap:8px;align-items:center"><label style="height:34px;padding:0 12px;border-radius:8px;border:1px solid #6A2C91;background:#fff;color:#4B1E6B;font-size:12.5px;font-weight:700;cursor:pointer;display:flex;align-items:center;box-sizing:border-box;white-space:nowrap"><input type="file" accept="image/*" onChange="{{ cur.upImg }}" style="display:none">Usar imagem pronta</label><sc-if value="{{ cur.hasImg }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ cur.delImg }}" style="height:34px;padding:0 10px;border-radius:8px;border:1px solid #C9C2D3;background:#fff;font-size:12.5px;font-weight:600;cursor:pointer">Voltar ao desenho</button></sc-if></div><span style="font-size:12px;color:#5E5868;line-height:1.4">A imagem substitui o desenho do bloco (largura total). A altura se ajusta à proporção dela.</span></div></sc-if>
         </div>
       </sc-if>
 
@@ -476,7 +477,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
       <sc-if value="{{ cur.hasProducts }}" hint-placeholder-val="{{ true }}">
         <div style="display:flex;flex-direction:column;gap:10px">
           <span style="font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5E5868">Produtos do bloco</span>
-          <span style="font-size:12.5px;line-height:1.45;color:#4A4553">Beta: escolha a marca (a logo já cadastrada entra sozinha), digite nome e preços e envie a foto sem fundo (PNG). A foto fica salva para os próximos panfletos.</span>
+          <span style="font-size:12.5px;line-height:1.45;color:#4A4553">Digite nome e preços e envie a foto sem fundo (PNG). No panfleto, arraste a etiqueta de preço, a foto, o nome e a marca; puxe os quadradinhos da etiqueta para mudar o tamanho.</span>
           <sc-for list="{{ cur.products }}" as="p" hint-placeholder-count="3">
             <div style="border:1px solid #DDD8E3;border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:8px;background:#FBFAFD">
               <span style="font-size:13px;font-weight:700;line-height:1.25">{{ p.title }}</span>
@@ -491,6 +492,8 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
                 </div>
               </div>
               <div style="display:flex;flex-direction:column;gap:3px"><label for="{{ p.idNome }}" style="font-size:12px;font-weight:600">Nome do produto</label><input id="{{ p.idNome }}" type="text" value="{{ p.name }}" onInput="{{ p.inName }}" style="height:34px;width:100%;box-sizing:border-box;border:1px solid #C9C2D3;border-radius:8px;padding:0 8px;font-size:13px;background:#fff"></div>
+              <sc-if value="{{ p.hasPhoto }}" hint-placeholder-val="{{ false }}"><div style="display:flex;flex-direction:column;gap:3px"><label style="font-size:12px;font-weight:600">Tamanho da foto ({{ p.photoS }}%)</label><input type="range" min="40" max="250" value="{{ p.photoS }}" onInput="{{ p.inPhotoS }}" style="width:100%"></div></sc-if>
+              <sc-if value="{{ p.hasO }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ p.resetO }}" style="height:30px;border-radius:8px;border:1px solid #C9C2D3;background:#fff;font-size:12.5px;font-weight:600;cursor:pointer">Voltar elementos ao lugar</button></sc-if>
               <div style="display:flex;gap:8px">
                 <div style="flex:1;display:flex;flex-direction:column;gap:3px">
                   <label for="{{ p.idDe }}" style="font-size:12px;font-weight:600">De (R$)</label>
@@ -846,21 +849,22 @@ class Component extends DCLogic {
 
     const D = st.data || { frente: defF, verso: defV, brands: {}, photos: {} };
     const brands = D.brands || {}, photos = D.photos || {};
+    const persist = (nd) => { try { localStorage.setItem('panfletos:v1', JSON.stringify(nd)); } catch (err) { this._lsFail = true; } };
     const mut = (fn) => {
       const nd = JSON.parse(JSON.stringify(D)); nd.brands = nd.brands || {}; nd.photos = nd.photos || {};
       fn(nd); this.setState({ data: nd });
-      try { localStorage.setItem('panfletos:v1', JSON.stringify(nd)); } catch (err) {}
+      persist(nd);
     };
     const ev = (e) => String(e && e.target && e.target.value != null ? e.target.value : '');
     const bk = (x) => String(x == null ? '' : x).trim().toUpperCase();
     const pkey = (brand, name) => bk(brand) + '|' + bk(name);
     const uid = () => 'b' + Math.random().toString(36).slice(2, 8);
     const blank = (k, brand) => mk(brand || 'MARCA', 'Nome do produto', '0,00', '0,00', '', hues[k % hues.length]);
-    const readImg = (e, cb) => {
+    const readImg = (e, cb, maxPx, keepType) => {
       const f = e && e.target && e.target.files && e.target.files[0];
       if (!f) return;
       const rd = new FileReader();
-      rd.onload = () => { const im = new Image(); im.onload = () => { const s0 = Math.min(1, 700 / Math.max(im.width, im.height)); const c = document.createElement('canvas'); c.width = Math.max(1, Math.round(im.width * s0)); c.height = Math.max(1, Math.round(im.height * s0)); c.getContext('2d').drawImage(im, 0, 0, c.width, c.height); cb(c.toDataURL('image/png')); }; im.src = String(rd.result); };
+      rd.onload = () => { const im = new Image(); im.onload = () => { const s0 = Math.min(1, (maxPx || 700) / Math.max(im.width, im.height)); const c = document.createElement('canvas'); c.width = Math.max(1, Math.round(im.width * s0)); c.height = Math.max(1, Math.round(im.height * s0)); c.getContext('2d').drawImage(im, 0, 0, c.width, c.height); cb(c.toDataURL(keepType && f.type !== 'image/png' ? 'image/jpeg' : 'image/png', 0.92), im.width, im.height); }; im.src = String(rd.result); };
       rd.readAsDataURL(f);
     };
     const ROWH = { 5: 128, 4: 108, 3: 130, 2: 150 };
@@ -960,13 +964,15 @@ class Component extends DCLogic {
       if (!btn) return;
       const r0 = btn.getBoundingClientRect();
       const w0 = r0.width / zv, h0 = r0.height / zv;
+      const bxEl = btn.parentElement;
+      const maxW = bxEl && bxEl.parentElement ? Math.floor(bxEl.parentElement.clientWidth) : 9999;
       const x0 = e.clientX, y0 = e.clientY;
       const ts = (() => { if (scope === 'one') return [key]; const bid = key.split(':')[0]; return allKeys.filter((k) => scope === 'page' || k.b === bid).map((k) => k.key); })();
       const base = Object.assign({}, props);
       const move = (ev) => {
         const dx = (ev.clientX - x0) / zv, dy = (ev.clientY - y0) / zv;
         const patch = {};
-        if (sx) patch.w = Math.max(44, Math.round(w0 + sx * dx));
+        if (sx) patch.w = Math.min(maxW, Math.max(44, Math.round(w0 + sx * dx)));
         if (sy) patch.h = Math.max(26, Math.round(h0 + sy * dy));
         if (sx && !sy) patch.h = Math.round(h0);
         if (sy && !sx) patch.w = Math.round(w0);
@@ -987,7 +993,7 @@ class Component extends DCLogic {
     const fillTotal = list.reduce((acc, b) => acc + b.h, 0);
     const fillDiff = 782 - fillTotal;
     const mmOf = (px) => Math.round(Math.abs(px) * 153 / 578);
-    const fillText = fillDiff >= 0 ? mmOf(fillDiff) + ' mm livres na página' : 'passou ' + mmOf(fillDiff) + ' mm da página';
+    const fillText = (fillDiff >= 0 ? mmOf(fillDiff) + ' mm livres na página' : 'passou ' + mmOf(fillDiff) + ' mm da página') + (this._lsFail ? ' · imagens grandes não couberam no salvamento do navegador' : '');
     const fillStyle = fillDiff >= 0 ? 'color:#5E5868' : 'color:#D4153B;font-weight:700';
     const noPhotoN = [].concat(D.frente || [], D.verso || []).reduce((acc, b) => acc + (b.products || []).filter((q) => !q.photo).length, 0);
     const blocks = list.map((b, bi) => {
@@ -1002,6 +1008,36 @@ class Component extends DCLogic {
         const key = b.id + ':' + i;
         const setP = (k, v) => mut((nd) => { blk(nd).products[i][k] = v; });
         const logoUrl = b.kind !== 'hero3' ? (brands[bk(p.brand)] || '') : '';
+        const oo = p.o || {};
+        const xf = (part) => { const o = oo[part]; if (!o) return ''; return 'transform:translate(' + (o.x || 0) + 'px,' + (o.y || 0) + 'px)' + (part === 'photo' && o.s && o.s !== 1 ? ' scale(' + o.s + ')' : '') + ';'; };
+        const putO = (base, part, patch) => Object.assign({}, base, { [side]: base[side].map((bb) => bb.id !== bid ? bb : Object.assign({}, bb, { products: bb.products.map((q, k) => k !== i ? q : Object.assign({}, q, { o: Object.assign({}, q.o || {}, { [part]: Object.assign({ x: 0, y: 0, s: 1 }, (q.o || {})[part], patch) }) })) })) });
+        const mv = (part) => (e) => {
+          if (!e || (e.button && e.button > 0)) return;
+          if (tool === 'move' || spaceOn) return;
+          if (part === 'photo' && !p.photo) return;
+          if (e.preventDefault) e.preventDefault();
+          if (e.stopPropagation) e.stopPropagation();
+          const x0 = e.clientX, y0 = e.clientY, base = D, o0 = Object.assign({ x: 0, y: 0, s: 1 }, oo[part]);
+          let moved = false, last = null;
+          const move = (ev) => {
+            const dx = ev.clientX - x0, dy = ev.clientY - y0;
+            if (!moved && Math.abs(dx) + Math.abs(dy) < 4) return;
+            moved = true;
+            last = putO(base, part, { x: Math.round(o0.x + dx / zv), y: Math.round(o0.y + dy / zv) });
+            this.setState({ data: last, menu: null });
+          };
+          const swallow = (ev) => { ev.stopPropagation(); ev.preventDefault(); window.removeEventListener('click', swallow, true); };
+          const up = () => {
+            window.removeEventListener('mousemove', move); window.removeEventListener('mouseup', up);
+            if (!moved) return;
+            persist(last);
+            this.setState(Object.assign({ sel: bid }, part === 'tag' ? { selP: key, rtab: 'props' } : {}));
+            window.addEventListener('click', swallow, true);
+            setTimeout(() => window.removeEventListener('click', swallow, true), 400);
+          };
+          window.addEventListener('mousemove', move);
+          window.addEventListener('mouseup', up);
+        };
         const pp = getP(key, b.kind);
         const isSel = key === selKey;
         const big = b.kind === 'hero3' || b.kind === 'hero2';
@@ -1012,11 +1048,16 @@ class Component extends DCLogic {
           upPhoto: (e) => readImg(e, (url) => mut((nd) => { blk(nd).products[i].photo = url; nd.photos[pkey(p.brand, p.name)] = url; })),
           upLogo: (e) => readImg(e, (url) => mut((nd) => { nd.brands[bk(p.brand)] = url; })),
           delPhoto: () => setP('photo', ''),
+          mvTag: mv('tag'), mvPhoto: mv('photo'), mvName: mv('name'), mvBrand: mv('brand'),
+          photoXf: xf('photo'), nameXf: xf('name'), brandXf: xf('brand'),
+          hasO: Object.keys(oo).length > 0, photoS: Math.round(((oo.photo || {}).s || 1) * 100),
+          inPhotoS: (e) => { const nd = putO(D, 'photo', { s: Math.max(0.4, Math.min(2.5, (parseFloat(ev(e)) || 100) / 100)) }); this.setState({ data: nd }); persist(nd); },
+          resetO: () => mut((nd) => { delete blk(nd).products[i].o; }),
           idNome: b.id + 'n' + i,
           sel: isSel,
           pick: (e) => { if (e && e.stopPropagation) e.stopPropagation(); const changing = st.selP !== key; this.setState(Object.assign({ sel: b.id, selP: key, menu: null, rtab: 'props' }, changing ? { tbMode: 'text' } : {})); },
           rzNW: rz(key, b.kind, -1, -1), rzNE: rz(key, b.kind, 1, -1), rzSW: rz(key, b.kind, -1, 1), rzSE: rz(key, b.kind, 1, 1), rzE: rz(key, b.kind, 1, 0), rzS: rz(key, b.kind, 0, 1),
-          boxStyle: 'position:relative;display:inline-flex;align-self:' + alignCss[pp.align],
+          boxStyle: 'position:relative;display:inline-flex;align-self:' + alignCss[pp.align] + ';' + xf('tag'),
           deStyle: 'font-size:8px;color:#4A4553;background:#fff;padding:0 3px;border-radius:3px;align-self:' + alignCss[pp.align],
           tag: pp.tag || ('DE: R$ ' + p.de),
           hasCada: !!p.cada,
@@ -1029,9 +1070,9 @@ class Component extends DCLogic {
             : 'border:0;position:static;cursor:' + (tool === 'move' ? 'grab' : 'pointer') + ';' + (pp.w ? 'width:' + pp.w + 'px;min-width:0;' : 'min-width:' + (big ? 'auto' : (Math.max(56, Math.round(pp.pt * 4.2)) + 'px')) + ';') + (pp.h ? 'height:' + pp.h + 'px;box-sizing:border-box;overflow:hidden;' : '') + 'margin-top:0;padding:' + Math.max(3, Math.round(pp.pt * (big ? 0.3 : 0.4))) + 'px ' + Math.max(5, Math.round(pp.pt * (big ? 0.48 : 0.6))) + 'px ' + Math.max(6, Math.round(pp.pt * (big ? 0.52 : 0.68))) + 'px;border-radius:' + Math.max(11, Math.round(pp.pt * (big ? 1.2 : 1.35))) + 'px;display:flex;flex-direction:column;align-items:stretch;justify-content:' + (pp.h ? 'center' : 'flex-start') + ';gap:' + Math.max(3, Math.round(pp.pt * (big ? 0.26 : 0.36))) + 'px;background:' + rgba(pp.color, pp.alpha) + ';font-family:\'' + pp.font + '\',sans-serif',
           title: (b.kind === 'hero3' ? p.brand + ' · ' : 'Produto ' + (i + 1) + ' · ') + p.brand + (b.kind === 'hero3' ? '' : ' ' + p.name),
           idMarca: b.id + 'm' + i, idDe: b.id + 'de' + i, idPor: b.id + 'por' + i,
-          imgStyle: 'flex:1;min-height:0;display:flex;align-items:flex-end;justify-content:center;gap:4px;padding:6px 4px;box-sizing:border-box;border-radius:8px;width:100%;background:' + (p.photo ? 'transparent' : 'hsl(' + hue + ',55%,91%)'),
+          imgStyle: 'flex:1;min-height:0;display:flex;align-items:flex-end;justify-content:center;gap:4px;padding:6px 4px;box-sizing:border-box;border-radius:8px;width:100%;overflow:hidden;background:' + (p.photo ? 'transparent' : 'hsl(' + hue + ',55%,91%)'),
           bottleStyle: 'width:' + (big ? 18 : 22) + '%;height:' + (big ? 74 : 70) + '%;border-radius:4px 4px 3px 3px;background:hsl(' + hue + ',42%,60%)',
-          accentStyle: 'font-size:20px;font-weight:800;line-height:1;color:' + tierColors[i % 3],
+          accentStyle: 'cursor:move;font-size:20px;font-weight:800;line-height:1;color:' + tierColors[i % 3] + ';' + xf('brand'),
           frameStyle: 'flex:1;min-width:0;display:flex;gap:8px;padding:8px;box-sizing:border-box;border-radius:14px;' + (i === 0 ? 'border:2px solid #D4153B' : 'border:2px solid transparent')
         };
       });
@@ -1041,6 +1082,9 @@ class Component extends DCLogic {
         hTop: fv(0), hA: tw[0] || '', hB: tw.slice(1).join(' '), h3T: fv(0), h3M: fv(1), siteT: fv(0), siteI: fv(1),
         fpParc: fv(0), fpMin: fv(1), fpVal: fv(4), fpChips: fv(2).split(/[·,|\/]/).map((t) => ({ t: t.trim() })).filter((c) => c.t),
         hasLogo: !!b.logo, noLogo: !b.logo, logo: b.logo || '',
+        canImg: ['header', 'footsite', 'footpay'].indexOf(b.kind) >= 0, hasImg: !!b.img, img: b.img || '',
+        upImg: (e) => readImg(e, (url, w, h) => mut((nd) => { const x = blk(nd); x.img = url; if (w && h) x.h = Math.max(30, Math.round(578 * h / w)); }), 2200, true),
+        delImg: () => mut((nd) => { delete blk(nd).img; }),
         upLogo: (e) => readImg(e, (url) => mut((nd) => { blk(nd).logo = url; })),
         delLogo: () => mut((nd) => { delete blk(nd).logo; }),
         hMinus: () => mut((nd) => { const x = blk(nd); x.h = Math.max(40, x.h - 4); }),
