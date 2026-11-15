@@ -1,4 +1,5 @@
 import seed from './block-seed.json' with { type: 'json' }
+import { parsePrice } from './prices.ts'
 
 export type Tag = 'offer' | 'before' | 'pill' | 'wide' | 'progressive'
 export type Product = { brand: string; name: string; de: string; por: string; cada: string; photo?: string; tag?: Tag }
@@ -12,10 +13,10 @@ export const tags: { id: Tag; name: string }[] = [
   { id: 'progressive', name: 'Leve 1, 2 e 3' },
 ]
 export function priceParts(value: string) {
-  const clean = value.trim().replace(/^R\$\s*/, '') || '0,00'
-  const match = /^(.*)[,.](\d{0,2})$/.exec(clean)
-  return match ? { integer: match[1] || '0', cents: match[2].padEnd(2, '0') }
-    : { integer: clean, cents: '00' }
+  const result = parsePrice(value)
+  if (!result.ok) return { integer: '—', cents: '' }
+  const [integer, cents] = result.normalized.split(',')
+  return { integer, cents }
 }
 export const catalog = [
   { kind: 'header', name: 'Cabeçalho da campanha', cols: 0 },

@@ -2,6 +2,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import seed from '../src/block-seed.json' with { type: 'json' }
 import { parseProject, validateProject, ProjectImportError, MAX_PROJECT_BYTES } from '../src/project-import.ts'
+import { parsePrice, priceIssues } from '../src/prices.ts'
 import { initialDocument, loadDraft, resolveDraftRecovery, saveDraft, STORAGE, RECOVERY_PREFIX, minHeight, moveBlock, newBlock, normalize, paginate, priceParts, tags } from '../src/block-model.ts'
 
 test('D&D preserves its products on both sides and fits the default page', () => {
@@ -49,7 +50,53 @@ test('price layout separates the integer and raised cents without losing thousan
   assert.deepEqual(priceParts('19,99'), { integer: '19', cents: '99' })
   assert.deepEqual(priceParts('1.299,90'), { integer: '1.299', cents: '90' })
   assert.deepEqual(priceParts('129.90'), { integer: '129', cents: '90' })
-  assert.deepEqual(priceParts(''), { integer: '0', cents: '00' })
+  assert.deepEqual(priceParts(''), { integer: '—', cents: '' })
+})
+
+test('prices accept BRL formats and preserve integer cents without rounding', () => {
+  for (const [raw, cents, normalized] of [
+    ['0', 0, '0,00'], ['19', 1900, '19,00'], ['19,9', 1990, '19,90'], ['19.90', 1990, '19,90'],
+    ['1.299,90', 129990, '1.299,90'], ['1299.90', 129990, '1.299,90'], ['1.299', 129900, '1.299,00'],
+    [' R$ 0019,99 ', 1999, '19,99'], ['0,01', 1, '0,01'], ['90.071.992.547.409,91', Number.MAX_SAFE_INTEGER, '90.071.992.547.409,91'],
+  ]) assert.deepEqual(parsePrice(raw), { ok: true, cents, normalized })
+})
+
+test('prices reject nonnumeric, negative, ambiguous, incomplete and imprecise values', () => {
+  for (const raw of ['', ' ', 'R$', 'abc', '-10', '+10', '1e3', 'NaN', 'Infinity', '12,345', '12.3456', '1,299.90', '1.23.45', '19,', '19.', ',90', '.90', '1 299,90', '90.071.992.547.409,92', '999999999999999999999', 19.9, null, {}]) {
+    assert.equal(parsePrice(raw).ok, false, String(raw))
+  }
+  assert.deepEqual(parsePrice('  ', true), { ok: true, cents: null, normalized: '' })
+  assert.equal(parsePrice('-1', true).ok, false)
+  assert.equal(parsePrice('0', true).ok, true)
+  assert.deepEqual(priceParts('abc'), { integer: '—', cents: '' })
+  assert.deepEqual(priceParts('1299.90'), { integer: '1.299', cents: '90' })
+})
+
+test('JSON rejects invalid prices at the right product without mutating the input', () => {
+  for (const field of ['de', 'por']) for (const raw of ['abc', '-10', '12,345', '1e3', '9999999999999999999']) {
+    const doc = initialDocument(); doc.verso[1].products[0][field] = raw
+    const before = structuredClone(doc)
+    assert.throws(() => parseProject(JSON.stringify(doc)), error => error instanceof ProjectImportError && /verso, bloco 2, produto 1, preço/.test(error.message))
+    assert.deepEqual(doc, before)
+  }
+  const doc = initialDocument(); doc.frente[1].products[0].de = ''; doc.frente[1].products[0].por = '0,00'
+  assert.doesNotThrow(() => validateProject(doc))
+  doc.frente[1].products[0].por = ''
+  assert.throws(() => validateProject(doc), /Informe o preço Por/)
+})
+
+test('price issues cover both sides, support print-side filtering and keep old drafts editable', () => {
+  const doc = initialDocument()
+  doc.frente[1].products[0].de = 'bad'; doc.verso[1].products[0].por = ''
+  const storage = memoryStorage([[STORAGE, JSON.stringify(doc)]])
+  const state = loadDraft(storage)
+  assert.equal(state.canSave, true)
+  assert.equal(state.document.frente[1].products[0].de, 'bad')
+  assert.deepEqual(priceIssues(doc).map(i => [i.side, i.field]), [['frente', 'de'], ['verso', 'por']])
+  assert.equal(priceIssues(doc, ['frente']).length, 1)
+  doc.frente[1].products[0].de = ''
+  assert.equal(priceIssues(doc, ['frente']).length, 0)
+  assert.equal(priceIssues(doc).length, 1)
 })
 
 function memoryStorage(entries = []) {

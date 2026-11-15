@@ -1,5 +1,6 @@
 import { normalize, tags } from './block-model.ts'
 import type { Document } from './block-model.ts'
+import { parsePrice } from './prices.ts'
 
 export const MAX_PROJECT_BYTES = 50 * 1024 * 1024
 
@@ -58,6 +59,10 @@ export function validateProject(value: unknown): Document {
           const pp = `${path}, produto ${pi + 1}`
           const product = record(value, pp)
           for (const [key, label] of [['brand', 'marca'], ['name', 'nome'], ['de', 'preço de'], ['por', 'preço por'], ['cada', 'complemento']]) text(product[key], `${pp}, ${label}`)
+          for (const field of ['de', 'por'] as const) {
+            const price = parsePrice(product[field], field === 'de')
+            if (!price.ok) fail(`${pp}, preço ${field === 'de' ? 'De' : 'Por'}`, price.message)
+          }
           if (product.tag !== undefined && !tags.some(tag => tag.id === product.tag)) fail(pp, 'modelo de etiqueta desconhecido.')
           if (product.photo !== undefined) validPhoto(product.photo, `${pp}, foto`)
         })

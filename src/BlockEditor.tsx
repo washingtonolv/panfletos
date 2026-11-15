@@ -4,15 +4,18 @@ import { blankProduct, catalog, loadDraft, resolveDraftRecovery, saveDraft, minH
 import type { Block, Document, Product, Side } from './block-model'
 import './block-editor.css'
 import { MAX_PROJECT_BYTES, parseProject, ProjectImportError } from './project-import'
+import { parsePrice, priceIssues } from './prices'
 
 function PriceTag({ product: p, index = 0 }: { product: Product; index?: number }) {
   const tag = p.tag || 'wide'
   const parts = priceParts(p.por)
+  const sale = parsePrice(p.por), before = parsePrice(p.de, true)
+  if (!sale.ok || !before.ok) return <span className="price-tag invalid-price">Revisar preço</span>
   const priceSize = Math.min(40, 84 / (parts.integer.length * .65 + 1.3))
   return <span className={`price-tag tag-${tag}`} style={{ '--price-font': `${priceSize}cqw`, '--price-narrow-font': `${priceSize * .75}cqw`, '--promo-color': ['#244cff', '#29b52a', '#a02eef'][index % 3] } as CSSProperties}>
-    <span className="price-top">{tag === 'offer' ? 'Por Apenas' : p.de ? `DE: R$ ${p.de}` : 'POR APENAS'}</span>
+    <span className="price-top">{tag === 'offer' ? 'Por Apenas' : before.normalized ? `DE: R$ ${before.normalized}` : 'POR APENAS'}</span>
     {tag === 'progressive' && <span className="price-quantity">LEVE {index + 1}</span>}
-    <span className="price-value" aria-label={`Por R$ ${p.por || '0,00'}${p.cada ? ' ' + p.cada : ''}`}>
+    <span className="price-value" aria-label={`Por R$ ${sale.normalized}${p.cada ? ' ' + p.cada : ''}`}>
       <small className="price-currency"><span>POR{tag === 'progressive' ? '' : ':'}</span><span>R$</span></small>
       <span className="price-number"><strong>{parts.integer}</strong><span className="price-fraction"><sup>,{parts.cents}</sup>{p.cada && <span className="price-unit">{p.cada}</span>}</span></span>
     </span>
@@ -62,6 +65,10 @@ export default function BlockEditor() {
   const current = blocks.find(b => b.id === selected)
   const product = current?.products?.[productIndex]
   const pages = paginate(blocks)
+  const issues = priceIssues(doc)
+  const printIssues = priceIssues(doc, printSides === 'both' ? ['frente', 'verso'] : [printSides])
+  const deResult = product ? parsePrice(product.de, true) : null
+  const porResult = product ? parsePrice(product.por) : null
   useEffect(() => { try { if (saveDraft(doc, draft)) setSaveError(false) } catch { setSaveError(true) } }, [doc, draft])
 
   function recover(choice: 'recovered' | 'new') {
@@ -119,6 +126,20 @@ export default function BlockEditor() {
     const next = structuredClone(doc); fn(next[side].find(b => b.id === current.id)!); commit(next)
   }
   function changeProduct(patch: Partial<Product>) { changeBlock(b => { Object.assign(b.products![productIndex], patch) }) }
+  function formatPrice(field: 'de' | 'por') {
+    if (!product) return
+    const result = parsePrice(product[field], field === 'de')
+    if (result.ok && result.normalized !== product[field]) changeProduct({ [field]: result.normalized })
+  }
+  function reviewPrice() {
+    const issue = issues[0]
+    if (!issue) return
+    setSide(issue.side); setSelected(issue.blockId); setProductIndex(issue.productIndex)
+  }
+  function printDocument() {
+    if (printIssues.length) { setNotice('Corrija os preços inválidos dos lados escolhidos antes de imprimir.'); return }
+    window.print()
+  }
   function undo() {
     const previous = history.past.at(-1); if (!previous) return
     setHistory({ past: history.past.slice(0, -1), future: [doc, ...history.future] }); latestDoc.current = previous; setDoc(previous)
@@ -172,8 +193,9 @@ export default function BlockEditor() {
         <span className={`save-state ${saveError ? 'error' : ''}`}>{saveError ? 'Não foi possível salvar. Baixe o projeto.' : '✓ Salvo neste navegador'}</span>
         <button onClick={() => download(doc)}>Baixar projeto</button><button onClick={() => fileInput.current?.click()}>Abrir projeto</button>
         <input ref={fileInput} hidden type="file" accept=".json,application/json" onChange={e => { void importProject(e.currentTarget) }} />
-        <button className="primary" onClick={() => window.print()}>Imprimir / PDF</button>
+        <button className="primary" onClick={printDocument}>Imprimir / PDF</button>
       </header>
+      {issues.length > 0 && <div className="price-warning" role="alert">{issues.length} preço(s) precisam de revisão. Os valores digitados foram mantidos para correção; a impressão dos lados afetados está bloqueada. <button onClick={reviewPrice}>Revisar preços</button></div>}
       <div className="builder-workspace">
         <aside className="block-library"><div className="panel-heading"><span className="step">1</span><div><h2>Escolha os blocos</h2><p>Clique para adicionar ou arraste para a página.</p></div></div>
           <div className="library-items">{catalog.map((item, i) => <button className="library-item" key={i} draggable onDragStart={e => beginDrag(e, `library:${i}`)} onClick={() => insert(i)}><span className="block-mini">{Array.from({ length: item.cols || 1 }, (_, k) => <i key={k} />)}</span><span>{item.name}</span><b>＋</b></button>)}</div>
@@ -201,7 +223,7 @@ export default function BlockEditor() {
                 {product.photo && <button onClick={() => changeProduct({ photo: undefined })}>Remover foto</button>}
                 <label>Marca<input value={product.brand} onChange={e => changeProduct({ brand: e.target.value })} /></label>
                 <label>Nome do produto<textarea rows={3} value={product.name} onChange={e => changeProduct({ name: e.target.value })} /></label>
-                <div className="price-fields"><label>De (R$)<input inputMode="decimal" value={product.de} onChange={e => changeProduct({ de: e.target.value })} /></label><label>Por (R$)<input inputMode="decimal" value={product.por} onChange={e => changeProduct({ por: e.target.value })} /></label></div>
+                <div className="price-fields"><label>De (R$)<input inputMode="decimal" value={product.de} aria-invalid={deResult?.ok === false} aria-describedby="de-price-help" onChange={e => changeProduct({ de: e.target.value })} onBlur={() => formatPrice('de')} /><small id="de-price-help">{deResult?.ok === false ? deResult.message : 'Opcional. Ex.: 29,90'}</small></label><label>Por (R$)<input inputMode="decimal" value={product.por} aria-invalid={porResult?.ok === false} aria-describedby="por-price-help" onChange={e => changeProduct({ por: e.target.value })} onBlur={() => formatPrice('por')} /><small id="por-price-help">{porResult?.ok === false ? porResult.message : 'Obrigatório. Ex.: 19,90'}</small></label></div>
                 <label>Complemento<input placeholder="Ex.: cada, unidade, kit" value={product.cada} onChange={e => changeProduct({ cada: e.target.value })} /></label>
                 <h3>Etiqueta de preço</h3><p className="muted">Escolha o formato da etiqueta.</p><div className="tag-options">{tags.map(t => <button key={t.id} aria-pressed={(product.tag || 'wide') === t.id} onClick={() => changeProduct({ tag: t.id })}><PriceTag product={{ ...product, tag: t.id, por: '129,90', de: '159,90', cada: 'cada' }} /><span>{t.name}</span></button>)}</div>
                 <button className="full" onClick={() => changeBlock(b => { b.products!.forEach(p => { p.tag = product.tag || 'wide' }) })}>Aplicar etiqueta ao bloco</button>
@@ -213,6 +235,6 @@ export default function BlockEditor() {
         </aside>
       </div>
     </div>
-    <div className="print-document">{(['frente', 'verso'] as Side[]).filter(s => printSides === 'both' || printSides === s).flatMap(s => paginate(doc[s]).map((page, pi) => <div key={`${s}-${pi}`} className="flyer-sheet" style={{ gridTemplateRows: page.map(b => `minmax(${minHeight(b)}px, ${Math.max(1, b.h)}fr)`).join(' ') }}>{page.map(b => <FlyerBlock key={b.id} block={b} />)}</div>))}</div>
+    <div className="print-document">{printIssues.length ? <p role="alert">Impressão bloqueada: corrija os preços inválidos dos lados escolhidos no editor.</p> : (['frente', 'verso'] as Side[]).filter(s => printSides === 'both' || printSides === s).flatMap(s => paginate(doc[s]).map((page, pi) => <div key={`${s}-${pi}`} className="flyer-sheet" style={{ gridTemplateRows: page.map(b => `minmax(${minHeight(b)}px, ${Math.max(1, b.h)}fr)`).join(' ') }}>{page.map(b => <FlyerBlock key={b.id} block={b} />)}</div>))}</div>
   </>
 }

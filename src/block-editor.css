@@ -57,3 +57,5 @@
 .draft-recovery{max-width:720px;margin:5vh auto;padding:24px;background:#fff;border:1px solid #ddd5e5;border-radius:12px;overflow-wrap:anywhere}
 .draft-recovery h1{font-size:24px;margin:0 0 16px}.draft-recovery p{font-size:15px;line-height:1.6;margin:14px 0}.recovery-actions{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0}.draft-recovery [role=alert]{color:#9c2439}.draft-recovery button{min-height:44px;font-size:14px}
 @media(max-width:780px){.draft-recovery{margin:16px;padding:20px}.recovery-actions{flex-direction:column}.recovery-actions button{width:100%}}
+
+.price-warning{flex-shrink:0;padding:10px 18px;background:#fff3e4;color:#7b3500;font-size:13px;line-height:1.5;overflow-wrap:anywhere}.price-warning button{margin-left:8px}.price-fields label{min-width:0}.price-fields input[aria-invalid=true]{border:2px solid #b42a3c}.price-fields small{font-size:11px;line-height:1.4;font-weight:400}.price-fields input[aria-invalid=true]+small{color:#a02036}.price-tag.invalid-price{background:#fff3e4;color:#8b2335;border:1px solid #b42a3c;font-size:11px;font-weight:bold;text-align:center;justify-content:center;white-space:normal}
