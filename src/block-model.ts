@@ -2,6 +2,7 @@ import seed from './block-seed.json' with { type: 'json' }
 import { parsePrice } from './prices.ts'
 import { readLayout, readAppearance, isColor } from './layout-settings.ts'
 import type { Layout, Appearance } from './layout-settings.ts'
+import { validLogoId } from './logo-id.ts'
 
 export type Tag = 'offer' | 'before' | 'pill' | 'wide' | 'progressive'
 export type ImageAdjustment = { scale: number; x: number; y: number }
@@ -11,7 +12,7 @@ export function readAdjustment(v: unknown): ImageAdjustment | undefined {
  if (!a || typeof a !== 'object' || Array.isArray(a) || ![a.scale,a.x,a.y].every(Number.isFinite) || a.scale < .25 || a.scale > 3 || Math.abs(a.x)>50 || Math.abs(a.y)>50) throw new Error('Ajuste de imagem inválido')
  return {scale:a.scale,x:a.x,y:a.y}
 }
-export type Product = { photoAdjustment?: ImageAdjustment; brand: string; name: string; de: string; por: string; cada: string; photo?: string; tag?: Tag; badgeColor?: string; label?: string }
+export type Product = { brandLogo?: string; photoAdjustment?: ImageAdjustment; brand: string; name: string; de: string; por: string; cada: string; photo?: string; tag?: Tag; badgeColor?: string; label?: string }
 export type Block = { imageAdjustment?: ImageAdjustment; id: string; kind: string; name: string; h: number; cols?: number; fields?: { key: string; label: string; value: string }[]; products?: Product[]; appearance?: Appearance; image?: string; imageFit?: 'contain' | 'cover' }
 export type Document = { frente: Block[]; verso: Block[]; layout?: Layout }
 export type Side = 'frente' | 'verso'
@@ -46,6 +47,7 @@ export function normalize(value: unknown, upgradeHero = false): Document {
     return (input[key] as Block[]).map(b => {
       if (!b || !catalog.some(c => c.kind === b.kind)) throw new Error('Bloco inválido')
       const products = b.products?.map(p => ({
+        ...(validLogoId(p.brandLogo) ? { brandLogo: p.brandLogo } : {}),
         ...(p.photoAdjustment !== undefined ? { photoAdjustment: readAdjustment(p.photoAdjustment) } : {}), brand: String(p.brand ?? ''), name: String(p.name ?? ''), de: String(p.de ?? ''),
         por: String(p.por ?? ''), cada: String(p.cada ?? ''),
         ...(p.badgeColor !== undefined ? { badgeColor: isColor(p.badgeColor) ? p.badgeColor : undefined } : {}),

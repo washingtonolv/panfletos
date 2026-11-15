@@ -1,5 +1,8 @@
 # Verificação — Panfletos
 
+## AIDF-008 — biblioteca de logos
+33 testes do modelo aprovados, incluindo persistência, remoção, arquivos ausentes e rejeição de identificadores malformados. Build/TypeScript aprovados e lint sem erros (cinco avisos existentes). scripts/logos.browser.mjs verifica carregamento das 58 imagens, busca, seleção, marca textual preservada, exibição na impressão, remoção, undo/redo, JSON, reload e fallback ausente em contexto Edge isolado. Screenshot desktop revisado. Sem impressão física ou auditoria completa de acessibilidade. Biblioteca usa arquivos fornecidos, sem logos inventadas. Manter arquivos antigos para compatibilidade de projetos.
+
 ## AIDF-006 — imagens e navegação (2026-11-15)
 - Lint sem erros, cinco avisos já existentes; TypeScript/build aprovados. Nenhuma dependência ou workflow alterado.
 - 31 testes de modelo passaram; novos casos cobrem imagem/ajuste de cabeçalhos/rodapés no JSON e rascunho, preservação dos textos, rejeição de URLs/ajustes/tipos inválidos e descarte de alvos obsoletos.

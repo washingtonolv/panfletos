@@ -3,6 +3,7 @@ import type { CSSProperties, DragEvent } from 'react'
 import { blankProduct, catalog, loadDraft, resolveDraftRecovery, saveDraft, minHeight, moveBlock, newBlock, paginate, priceParts, tags, uid } from './block-model'
 import type { ImageAdjustment, Block, Document, Product, Side } from './block-model'
 import './block-editor.css'
+import './brand-logo-styles.css'
 import { MAX_PROJECT_BYTES, parseProject, ProjectImportError } from './project-import'
 import { parsePrice, priceIssues } from './prices'
 import { formats } from './layout-settings'
@@ -11,6 +12,8 @@ import TemplateGallery from './TemplateGallery'
 import CanvasViewport from './CanvasViewport'
 import { applyImage, imageTarget, MAX_IMAGE_BYTES } from './editor-images'
 import type { ImageTarget } from './editor-images'
+import BrandMark from './BrandMark'
+import BrandLogoPicker from './BrandLogoPicker'
 
 function imageStyle(a?: ImageAdjustment): CSSProperties { return { transform: `translate(${a?.x || 0}%, ${a?.y || 0}%) scale(${a?.scale || 1})`, transformOrigin: 'center' } }
 function PriceTag({ product: p, index = 0 }: { product: Product; index?: number }) {
@@ -40,7 +43,7 @@ function FlyerBlock({ block: b, pick, selected, productIndex, imagePick, imageDr
           aria-label={`Editar produto ${i + 1}: ${p.name}`} onClick={e => { e.stopPropagation(); if ((e.target as HTMLElement).closest('.product-photo') && imagePick) imagePick(i); else pick?.(i) }}
           onDragOver={e => { if (imageDrop && e.dataTransfer.types.includes('Files')) { e.preventDefault(); e.stopPropagation() } }} onDrop={e => { const file = e.dataTransfer.files[0]; if (file && imageDrop) { e.preventDefault(); e.stopPropagation(); imageDrop(file, i) } }}>
           <span className="product-photo" title={imagePick ? (p.photo ? 'Clique para trocar a foto. Remova pelo painel de edição.' : 'Clique para adicionar foto') : undefined}>{p.photo ? <><img src={p.photo} alt={p.name} draggable={false} style={imageStyle(p.photoAdjustment)} />{imagePick && <span className="photo-action-hint">Trocar foto</span>}</> : <span className="photo-placeholder"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M4 16v5h16v-5" fill="none" stroke="currentColor" strokeWidth="1.5" /></svg></span>}</span>
-          <span className="product-copy" title={`${p.brand} ${p.name}`}>{p.label && <em className="product-label">{p.label}</em>}<b>{p.brand}</b><span>{p.name}</span></span>
+          <span className="product-copy" title={`${p.brand} ${p.name}`}>{p.label && <em className="product-label">{p.label}</em>}<BrandMark logoId={p.brandLogo} brand={p.brand} /><span>{p.name}</span></span>
           <PriceTag product={p} index={i} />
         </button>)}
       </div></>
@@ -285,6 +288,7 @@ export default function BlockEditor() {
               {product && <><label className="upload-box" onDragOver={e => e.preventDefault()} onDrop={e => { e.preventDefault(); void upload(e.dataTransfer.files[0]) }}>{product.photo ? <img src={product.photo} alt="Foto do produto selecionado" /> : <span>＋</span>}<b>{product.photo ? 'Trocar foto' : 'Adicionar foto'}</b><small>Arraste a foto aqui ou clique · PNG, JPG, WebP</small><input type="file" accept="image/png,image/jpeg,image/webp" onChange={e => { void upload(e.target.files?.[0]); e.target.value = '' }} /></label>
                 {product.photo && <button className="danger full" onClick={() => removeImage(true)}>Remover foto</button>}
                 <label>Marca<input value={product.brand} onChange={e => changeProduct({ brand: e.target.value })} /></label>
+                <BrandLogoPicker value={product.brandLogo} onChange={logo => changeProduct({ brandLogo: logo?.id, ...(logo && !product.brand.trim() ? { brand: logo.name } : {}) })} />
                 <label>Nome do produto<textarea rows={3} value={product.name} onChange={e => changeProduct({ name: e.target.value })} /></label>
                 <div className="price-fields"><label>De (R$)<input inputMode="decimal" value={product.de} aria-invalid={deResult?.ok === false} aria-describedby="de-price-help" onChange={e => changeProduct({ de: e.target.value })} onBlur={() => formatPrice('de')} /><small id="de-price-help">{deResult?.ok === false ? deResult.message : 'Opcional. Ex.: 29,90'}</small></label><label>Por (R$)<input inputMode="decimal" value={product.por} aria-invalid={porResult?.ok === false} aria-describedby="por-price-help" onChange={e => changeProduct({ por: e.target.value })} onBlur={() => formatPrice('por')} /><small id="por-price-help">{porResult?.ok === false ? porResult.message : 'Obrigatório. Ex.: 19,90'}</small></label></div>
                 <label>Complemento<input placeholder="Ex.: cada, unidade, kit" value={product.cada} onChange={e => changeProduct({ cada: e.target.value })} /></label>

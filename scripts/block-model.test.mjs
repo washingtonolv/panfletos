@@ -8,6 +8,16 @@ import { templates, createFromTemplate } from '../src/layout-templates.ts'
 import { formats } from '../src/layout-settings.ts'
 import { replaceDraft, listSavedDrafts, SAVED_PREFIX } from '../src/draft-library.ts'
 import { imageTarget, applyImage } from '../src/editor-images.ts'
+import { validLogoId } from '../src/logo-id.ts'
+
+test('brand logos persist without changing brand names, support missing files and reject paths', () => {
+ const doc=normalize(seed);doc.frente[1].products[0].brandLogo='Eudora - eudora_logo_preta.png'
+ assert.deepEqual(parseProject(JSON.stringify(doc)),doc)
+ assert.equal(normalize(doc).frente[1].products[0].brandLogo,doc.frente[1].products[0].brandLogo)
+ assert.equal(normalize(doc).frente[1].products[0].brand,normalize(seed).frente[1].products[0].brand)
+ for(const bad of ['../logo.png','https://a.com/logo.png','data:image/png;base64,AA==','a/b.png','a\\b.png','logo.html','..png',null,42]){assert.equal(validLogoId(bad),false);const invalid=structuredClone(doc);invalid.frente[1].products[0].brandLogo=bad;assert.throws(()=>validateProject(invalid),ProjectImportError)}
+ delete doc.frente[1].products[0].brandLogo;assert.equal(parseProject(JSON.stringify(doc)).frente[1].products[0].brandLogo,undefined)
+})
 
 test('image framing round trips without changing block geometry and rejects unsafe values', () => {
  const doc=normalize(seed), heights=doc.frente.map(b=>b.h)
