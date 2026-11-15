@@ -1,0 +1,33 @@
+const {chromium}=await import(process.env.PLAYWRIGHT_MODULE||'playwright')
+import assert from 'node:assert/strict'
+const browser=await chromium.launch({channel:'msedge',headless:true})
+const context=await browser.newContext({viewport:{width:1397,height:929}}),page=await context.newPage(),errors=[]
+page.on('pageerror',e=>errors.push(String(e)))
+try{
+ await page.goto(process.env.LOGO_TEST_URL||'http://127.0.0.1:4179/panfletos/')
+ await page.locator('.builder-app .product-copy').first().click()
+ const brand=page.getByRole('textbox',{name:'Marca',exact:true}),name=await brand.inputValue()
+ const assets=await page.locator('.brand-logo-options img').evaluateAll(async elements=>Promise.all(elements.map(e=>new Promise(resolve=>{const image=new Image();image.onload=()=>resolve({ok:true,src:e.src});image.onerror=()=>resolve({ok:false,src:e.src});image.src=e.src}))))
+ assert.equal(assets.length,58);assert.equal(assets.every(a=>a.ok),true)
+ await page.getByRole('searchbox',{name:'Buscar logo'}).fill('Eudora')
+ await page.getByRole('button',{name:'Usar logo Eudora eudora logo preta',exact:true}).click()
+ await page.locator('.builder-app .product-brand-logo img').first().waitFor()
+ assert.equal(await brand.inputValue(),name)
+ const doc=await page.evaluate(()=>JSON.parse(localStorage.getItem('panfletos:montador:v3')))
+ assert.equal(doc.frente[1].products[0].brandLogo,'Eudora - eudora_logo_preta.png')
+ assert.equal(await page.locator('.print-document .product-brand-logo img').count(),1)
+ assert.equal(await page.locator('.builder-app .product-brand-logo img').first().evaluate(e=>e.complete&&e.naturalWidth>0),true)
+ await page.getByRole('button',{name:'Remover logo',exact:true}).click()
+ assert.equal(await page.locator('.builder-app .product-brand-logo').count(),0)
+ await page.getByRole('button',{name:'Desfazer',exact:true}).click();assert.equal(await page.locator('.builder-app .product-brand-logo').count(),1)
+ await page.getByRole('button',{name:'Refazer',exact:true}).click();assert.equal(await page.locator('.builder-app .product-brand-logo').count(),0)
+ await page.locator('input[accept=".json,application/json"]').setInputFiles({name:'logo.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(doc))})
+ await page.getByRole('status').filter({hasText:'Projeto aberto.'}).waitFor();await page.reload();await page.locator('.builder-app .product-brand-logo img').first().waitFor()
+ await page.locator('.builder-app .product-copy').first().click();await page.getByRole('searchbox',{name:'Buscar logo'}).fill('no-such-brand');assert.equal(await page.getByText('Nenhuma logo encontrada.').count(),1)
+ await page.screenshot({path:process.env.LOGO_SCREENSHOT||'../logos-preview.png'})
+ const missing=structuredClone(doc);missing.frente[1].products[0].brandLogo='missing.png'
+ await page.locator('input[accept=".json,application/json"]').setInputFiles({name:'missing.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(missing))});await page.getByRole('status').filter({hasText:'Projeto aberto.'}).waitFor()
+ assert.equal(await page.locator('.builder-app .product-brand-logo').count(),0)
+ await page.locator('.builder-app .product-copy').first().click();assert.equal(await page.getByText(/Esta logo não está disponível/).count(),1)
+ assert.deepEqual(errors,[]);console.log('PASS logos: selection, images, text, removal, history, JSON, reload, search and missing-file fallback')
+}finally{await context.close();await browser.close()}

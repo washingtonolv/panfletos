@@ -21,6 +21,8 @@ npm run dev
 
 ## Montador visual
 
+**Logos das marcas:** selecione um produto e use **Logo da marca**, abaixo do campo Marca. Busque pelo nome e clique na logo; **Remover logo** volta ao nome escrito. A escolha acompanha rascunhos, JSON, histórico e impressão. A biblioteca contém 58 arquivos/variações fornecidos pelo responsável pelo projeto. Para acrescentar logos, coloque PNG/JPG/JPEG/WebP/SVG em `src/assets/brand-logos/` e publique uma nova versão. Mantenha os nomes dos arquivos já utilizados. Logos brancas precisam de um fundo adequado no material final.
+
 **Imagens:** clique no espaço da foto de um produto para escolher o arquivo. No painel, use **Trocar foto** ou **Remover foto**. Cabeçalhos e rodapés possuem **Adicionar imagem**, troca e remoção, com opção de mostrar a imagem inteira ou preencher o espaço (cortando bordas). A imagem substitui a composição visual; os textos ficam guardados e reaparecem quando ela é removida. PNG, JPG e WebP, até 20 MiB por arquivo. Imagens acompanham o rascunho, o JSON, o histórico e a impressão.
 
 **Navegação:** a barra flutuante reúne **Selecionar (V)**, **Mão (H)**, **Desfazer** e **Refazer**. Use **Ctrl + rolagem** (ou Cmd) sobre a folha para zoom no ponto do cursor, entre 25% e 250%. Também há um seletor de porcentagem. Com a mão, arraste para navegar; segurar Espaço ativa a mão temporariamente fora dos campos de texto. Ctrl/Cmd + Z desfaz; Ctrl/Cmd + Shift + Z ou Ctrl/Cmd + Y refaz. Zoom e navegação não alteram o tamanho de impressão.

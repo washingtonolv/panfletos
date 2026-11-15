@@ -2,6 +2,7 @@ import { normalize, tags, readAdjustment } from './block-model.ts'
 import type { Document } from './block-model.ts'
 import { parsePrice } from './prices.ts'
 import { readLayout, readAppearance, isColor } from './layout-settings.ts'
+import { validLogoId } from './logo-id.ts'
 
 export const MAX_PROJECT_BYTES = 50 * 1024 * 1024
 
@@ -67,6 +68,7 @@ export function validateProject(value: unknown): Document {
         block.products.forEach((value, pi) => {
           const pp = `${path}, produto ${pi + 1}`
           const product = record(value, pp)
+          if (product.brandLogo !== undefined && !validLogoId(product.brandLogo)) fail(pp, 'identificador da logo inválido.')
           try { readAdjustment(product.photoAdjustment) } catch { fail(pp, 'ajuste de foto inválido.') }
           if (product.badgeColor !== undefined && !isColor(product.badgeColor)) fail(pp, 'cor da etiqueta inválida.')
           if (product.label !== undefined) text(product.label, `${pp}, chamada`)
