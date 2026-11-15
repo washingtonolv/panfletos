@@ -14,7 +14,7 @@ export function readAdjustment(v: unknown): ImageAdjustment | undefined {
 }
 export type Product = { brandLogo?: string; photoAdjustment?: ImageAdjustment; brand: string; name: string; de: string; por: string; cada: string; photo?: string; tag?: Tag; badgeColor?: string; label?: string }
 export type Block = { imageAdjustment?: ImageAdjustment; id: string; kind: string; name: string; h: number; cols?: number; fields?: { key: string; label: string; value: string }[]; products?: Product[]; appearance?: Appearance; image?: string; imageFit?: 'contain' | 'cover' }
-export type Document = { frente: Block[]; verso: Block[]; layout?: Layout }
+export type Document = { frente: Block[]; verso: Block[]; layout?: Layout; pageBackground?: string }
 export type Side = 'frente' | 'verso'
 export const STORAGE = 'panfletos:montador:v3'
 export const tags: { id: Tag; name: string }[] = [
@@ -63,7 +63,8 @@ export function normalize(value: unknown, upgradeHero = false): Document {
         ...(b.imageFit === 'contain' || b.imageFit === 'cover' ? { imageFit: b.imageFit } : {}) }
     })
   }
-  return { frente: side('frente'), verso: side('verso'), ...(input.layout !== undefined ? { layout: readLayout(input.layout) } : {}) }
+  if (input.pageBackground !== undefined && !isColor(input.pageBackground)) throw new Error('Cor de fundo do panfleto inválida')
+  return { frente: side('frente'), verso: side('verso'), ...(input.layout !== undefined ? { layout: readLayout(input.layout) } : {}), ...(input.pageBackground !== undefined ? { pageBackground: input.pageBackground } : {}) }
 }
 export type DraftStorage = Pick<Storage, 'getItem' | 'setItem'>
 export type DraftFailure = { key: string; raw: string | null }

@@ -105,6 +105,20 @@ test('new layout metadata is preserved through draft loading and rejected when m
   assert.equal(normalize(seed).layout, undefined)
 })
 
+test('flyer background survives draft and JSON round trips while invalid colors are rejected', () => {
+  const doc = normalize(seed)
+  doc.pageBackground = '#17263A'
+  const saved = JSON.stringify(doc)
+  assert.equal(loadDraft({ getItem: key => key === STORAGE ? saved : null }).document.pageBackground, '#17263A')
+  assert.deepEqual(parseProject(saved), doc)
+  assert.equal(normalize(seed).pageBackground, undefined)
+  for (const value of ['red', '#fff', 'url(javascript:alert(1))', null, 42]) {
+    const invalid = { ...doc, pageBackground: value }
+    assert.throws(() => validateProject(invalid), ProjectImportError)
+    assert.throws(() => normalize(invalid))
+  }
+})
+
 function libraryStorage(initial = {}) {
   const values = new Map(Object.entries(initial))
   return { get length() { return values.size }, key: i => [...values.keys()][i] ?? null, getItem: k => values.get(k) ?? null, setItem: (k,v) => values.set(k,v), values }

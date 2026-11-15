@@ -43,6 +43,7 @@ function validPhoto(value: unknown, path: string) {
 export function validateProject(value: unknown): Document {
   const input = record(value, 'Projeto')
   try { readLayout(input.layout) } catch (error) { fail('Projeto', (error as Error).message) }
+  if (input.pageBackground !== undefined && !isColor(input.pageBackground)) fail('Projeto', 'cor de fundo do panfleto inválida.')
   const ids = new Set<string>()
   for (const side of ['frente', 'verso'] as const) {
     const blocks = input[side]

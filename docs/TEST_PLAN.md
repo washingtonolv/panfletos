@@ -43,6 +43,11 @@
 - Download comparado ao texto original; ausência de erros JavaScript verificada. Tela móvel de recuperação inspecionada em 390 × 844 px, sem rolagem horizontal.
 - Critérios, limites e reversão: tasks/AIDF-002.md. Impressão e modos anteriores não sofreram alterações e não foram revalidados visualmente nesta tarefa.
 
+## AIDF-010 — cor de fundo do panfleto (2026-11-15)
+- `npm run lint`: sem erros, cinco avisos existentes. `npm run test:model`: 34 aprovados. `npm run build`: aprovado.
+- Edge local: frente, verso, impressão, tema escuro, rascunho, JSON exportado, reload, restaurar branco e ausência de erros JavaScript.
+- Revisão visual desktop com fundo azul escuro. Critérios e reversão em `tasks/AIDF-010.md`.
+
 ## AIDF-009 — modo escuro (2026-11-15)
 - `npm run lint`: sem erros, cinco avisos existentes. `npm run test:model`: 33 testes aprovados. `npm run build`: aprovado.
 - Edge local: alternância, rótulo e estado do botão, preferência após recarregar, galeria escura, folha branca, rascunho inalterado e ausência de erros JavaScript.

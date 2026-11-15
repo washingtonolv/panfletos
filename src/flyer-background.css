@@ -1,0 +1,4 @@
+.flyer-sheet.has-page-background { background: var(--sheet-background) !important; color: var(--sheet-ink); }
+.flyer-sheet.has-page-background .product-card { background: transparent !important; color: var(--sheet-ink); }
+.flyer-sheet.has-page-background .kind-row { border-color: color-mix(in srgb, var(--sheet-ink) 18%, transparent); }
+.flyer-sheet.has-page-background:not(.themed-sheet) .block-title { color: var(--sheet-ink); }
