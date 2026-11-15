@@ -21,7 +21,7 @@ Hipótese de público: responsáveis por materiais promocionais de lojas. Perfil
 São critérios derivados do código, não uma declaração de testes de navegador concluídos.
 
 ## Próxima evolução
-Ainda não especificada. Registrar uma tarefa em tasks/ com problema concreto, resultado esperado, critérios de aceitação, riscos e verificações.
+A primeira melhoria aprovada é a recuperação segura dos rascunhos, descrita em tasks/AIDF-002.md: preservar originais ilegíveis, avisar, permitir download e exigir decisão explícita antes de novas gravações. Outras melhorias ainda precisam de tarefa definida.
 Não incluir automaticamente novos serviços, login ou armazenamento remoto.
 
 ## Limites atuais

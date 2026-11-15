@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import type { CSSProperties, DragEvent } from 'react'
-import { blankProduct, catalog, initialDocument, minHeight, moveBlock, newBlock, normalize, paginate, priceParts, STORAGE, tags, uid } from './block-model'
+import { blankProduct, catalog, loadDraft, resolveDraftRecovery, saveDraft, minHeight, moveBlock, newBlock, normalize, paginate, priceParts, tags, uid } from './block-model'
 import type { Block, Document, Product, Side } from './block-model'
 import './block-editor.css'
 
@@ -34,13 +34,16 @@ function FlyerBlock({ block: b, pick, selected, productIndex }: { block: Block; 
   return <div className={`flyer-block kind-${b.kind} ${b.kind !== 'hero3' ? 'side-by-side' : ''} ${hasLargeTags ? 'has-large-tags' : ''} ${selected ? 'is-selected' : ''}`} onClick={() => pick?.()}>{content}</div>
 }
 
-function download(data: Document) {
-  const url = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }))
-  const a = document.createElement('a'); a.href = url; a.download = 'panfleto-editavel.json'; a.click(); URL.revokeObjectURL(url)
+function downloadText(text: string, filename: string) {
+  const url = URL.createObjectURL(new Blob([text], { type: 'application/json' }))
+  const a = document.createElement('a'); a.href = url; a.download = filename; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000)
 }
+function download(data: Document) { downloadText(JSON.stringify(data, null, 2), 'panfleto-editavel.json') }
 
 export default function BlockEditor() {
-  const [doc, setDoc] = useState(initialDocument)
+  const [draft, setDraft] = useState(loadDraft)
+  const [doc, setDoc] = useState(draft.document)
+  const [recoveryError, setRecoveryError] = useState('')
   const [side, setSide] = useState<Side>('frente')
   const [selected, setSelected] = useState<string | null>(null)
   const [productIndex, setProductIndex] = useState(0)
@@ -57,7 +60,34 @@ export default function BlockEditor() {
   const current = blocks.find(b => b.id === selected)
   const product = current?.products?.[productIndex]
   const pages = paginate(blocks)
-  useEffect(() => { try { localStorage.setItem(STORAGE, JSON.stringify(doc)); setSaveError(false) } catch { setSaveError(true) } }, [doc])
+  useEffect(() => { try { if (saveDraft(doc, draft)) setSaveError(false) } catch { setSaveError(true) } }, [doc, draft])
+
+  function recover(choice: 'recovered' | 'new') {
+    const message = choice === 'new'
+      ? 'Começar um novo documento com o modelo inicial? O original será guardado em uma cópia local de recuperação antes de salvar.'
+      : 'Usar a versão anterior recuperada? O original que falhou será guardado em uma cópia local de recuperação antes de salvar.'
+    if (!window.confirm(message)) return
+    try {
+      const next = resolveDraftRecovery(draft, choice)
+      latestDoc.current = next.document; setDoc(next.document); setDraft(next); setRecoveryError('')
+    } catch { setRecoveryError('Não foi possível guardar a cópia de recuperação. O salvamento continua bloqueado. Baixe os originais e tente novamente.') }
+  }
+
+  if (!draft.canSave) return <main className="draft-recovery" aria-labelledby="recovery-title">
+    <h1 id="recovery-title">Precisamos recuperar seu rascunho</h1>
+    <p role="alert">Não foi possível abrir o rascunho salvo. Nenhum original foi substituído. O salvamento automático está bloqueado.</p>
+    <p>{draft.sourceKey ? 'Encontramos uma versão anterior que pode ser recuperada.' : 'Você pode tentar novamente ou começar com o modelo inicial após guardar uma cópia do original.'}</p>
+    <div className="recovery-actions">{draft.failures.map((failure, i) => failure.raw !== null
+      ? <button key={failure.key} onClick={() => downloadText(failure.raw!, `panfleto-original-${i + 1}.json`)}>Baixar original {i + 1}</button>
+      : <p key={failure.key}>O navegador não permitiu ler o armazenamento. Não foi possível acessar o original para download.</p>)}</div>
+    {recoveryError && <p role="alert">{recoveryError}</p>}
+    <div className="recovery-actions">
+      {draft.sourceKey && <button className="primary" onClick={() => recover('recovered')}>Usar versão recuperada</button>}
+      <button onClick={() => recover('new')} disabled={draft.failures.some(f => f.raw === null)}>Começar novo documento</button>
+      <button onClick={() => { const next = loadDraft(); latestDoc.current = next.document; setDoc(next.document); setDraft(next); setRecoveryError('') }}>Tentar novamente</button>
+    </div>
+    <p>Baixe o original antes de continuar para também ter uma cópia fora deste navegador. O arquivo pode precisar de reparo para abrir.</p>
+  </main>
 
   function commit(next: Document) {
     const previous = latestDoc.current

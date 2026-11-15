@@ -1,6 +1,6 @@
 # AIDF agent contract
 ## Contexto do Panfletos
-- Objetivo confirmado: evoluir o editor existente. O próximo recurso ainda não foi especificado.
+- Objetivo confirmado: evoluir o editor existente. Primeira melhoria aprovada: recuperação segura de rascunhos, com deploy, conforme tasks/AIDF-002.md.
 - Leia `docs/AIDF_BASELINE.md` e os documentos de contexto antes de editar.
 - Montador principal: `src/BlockEditor.tsx`, `src/block-model.ts` e `src/block-editor.css`. Preserve também `#livre` e `#avancado` em `src/main.tsx`.
 - Preserve rascunhos locais e compatibilidade JSON. Mudanças de formato ou chaves de armazenamento exigem tarefa e estratégia de migração aprovadas.

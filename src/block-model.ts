@@ -48,11 +48,44 @@ export function normalize(value: unknown, upgradeHero = false): Document {
   }
   return { frente: side('frente'), verso: side('verso') }
 }
-export function initialDocument(): Document {
-  for (const key of [STORAGE, 'panfletos:montador:v2', 'panfletos:v1']) {
-    try { const saved = localStorage.getItem(key); if (saved) return normalize(JSON.parse(saved), key !== STORAGE) } catch { /* Keep the original save untouched when it cannot be read. */ }
+export type DraftStorage = Pick<Storage, 'getItem' | 'setItem'>
+export type DraftFailure = { key: string; raw: string | null }
+export type DraftLoad = { document: Document; sourceKey: string | null; failures: DraftFailure[]; canSave: boolean }
+export const RECOVERY_PREFIX = 'panfletos:recovery:'
+const draftKeys = [STORAGE, 'panfletos:montador:v2', 'panfletos:v1']
+export function loadDraft(storage?: DraftStorage): DraftLoad {
+  const failures: DraftFailure[] = []
+  for (const key of draftKeys) {
+    let raw: string | null
+    try { raw = (storage ?? localStorage).getItem(key) }
+    catch { failures.push({ key, raw: null }); break }
+    if (raw === null) continue
+    try {
+      return { document: normalize(JSON.parse(raw), key !== STORAGE), sourceKey: key, failures, canSave: failures.length === 0 }
+    } catch { failures.push({ key, raw }) }
   }
-  return normalize(seed)
+  return { document: normalize(seed), sourceKey: null, failures, canSave: failures.length === 0 }
+}
+export function initialDocument(): Document { return loadDraft().document }
+
+// This guard is also used by the mounting effect: failed loads must never autosave.
+export function saveDraft(document: Document, state: DraftLoad, storage?: DraftStorage): boolean {
+  if (!state.canSave) return false
+  ;(storage ?? localStorage).setItem(STORAGE, JSON.stringify(document))
+  return true
+}
+export function resolveDraftRecovery(state: DraftLoad, choice: 'recovered' | 'new', storage?: DraftStorage): DraftLoad {
+  if (state.canSave || (choice === 'recovered' && !state.sourceKey)) throw new Error('Recuperação indisponível.')
+  const target = storage ?? localStorage
+  // Do not replace a draft that changed in another tab while the decision was open.
+  for (const failure of state.failures) {
+    if (failure.raw === null || target.getItem(failure.key) !== failure.raw) throw new Error('O rascunho mudou ou não pôde ser lido. Tente novamente.')
+  }
+  const archive = JSON.stringify({ failures: state.failures, recoveredFrom: state.sourceKey })
+  const key = RECOVERY_PREFIX + crypto.randomUUID()
+  target.setItem(key, archive)
+  if (target.getItem(key) !== archive) throw new Error('Não foi possível verificar a cópia de recuperação.')
+  return { document: choice === 'new' ? normalize(seed) : state.document, sourceKey: state.sourceKey, failures: [], canSave: true }
 }
 export function newBlock(index: number): Block {
   const item = catalog[index]

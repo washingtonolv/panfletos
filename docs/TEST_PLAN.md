@@ -1,5 +1,14 @@
 # Verificação — Panfletos
 
+## AIDF-002 — recuperação segura (2026-11-15)
+- Instalação pelo lockfile concluída com npm ci usando ferramenta local, sem mudança de dependências.
+- npm run test:model: 14 testes passaram (seis existentes e oito de recuperação).
+- npm run lint: sem erros; cinco avisos nos padrões já existentes, incluindo estado no efeito de salvamento.
+- npm run build: TypeScript e build de produção aprovados.
+- Edge headless, build de produção local: seis cenários passaram — original preservado após reload/download/cancelamento; novo documento confirmado com cópia persistente; recuperação v2; falha de quota; nova tentativa após reparo; navegador sem rascunho.
+- Download comparado ao texto original; ausência de erros JavaScript verificada. Tela móvel de recuperação inspecionada em 390 × 844 px, sem rolagem horizontal.
+- Critérios, limites e reversão: tasks/AIDF-002.md. Impressão e modos anteriores não sofreram alterações e não foram revalidados visualmente nesta tarefa.
+
 ## Comandos existentes
 | Comando | Cobertura |
 |---|---|

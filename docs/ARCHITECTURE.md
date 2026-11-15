@@ -20,6 +20,8 @@ Essas faixas não equivalem a versões instaladas. O workflow usa Node 22; o tes
 | scripts/block-model.test.mjs | Seis testes do modelo na baseline. |
 
 ## Dados e persistência
+loadDraft retorna documento, origem, falhas com conteúdo original e permissão de salvamento. saveDraft recusa gravação enquanto houver falha não resolvida. resolveDraftRecovery verifica que o original não mudou, grava e relê uma cópia em panfletos:recovery:<UUID> antes de liberar a decisão explícita de usar a versão anterior ou o modelo inicial. O download dos originais não depende de conseguir gravar a cópia local. Chaves e formatos dos documentos existentes permanecem iguais.
+
 O documento principal contém frente e verso, com blocos e produtos. Estado e histórico do montador ficam em React; não presumir que o montador usa o store legado.
 O rascunho usa panfletos:montador:v3. A inicialização também tenta ler panfletos:montador:v2 e panfletos:v1; registros antigos são preservados.
 Projetos são importados/exportados em JSON. Fotos PNG/JPEG/WebP enviadas ao montador são limitadas a 900 px no maior lado e convertidas em WebP.
