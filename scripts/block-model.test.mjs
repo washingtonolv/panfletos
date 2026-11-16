@@ -6,7 +6,7 @@ import { parsePrice, priceIssues } from '../src/prices.ts'
 import { initialDocument, loadDraft, resolveDraftRecovery, saveDraft, STORAGE, RECOVERY_PREFIX, minHeight, moveBlock, newBlock, normalize, paginate, priceParts, tags } from '../src/block-model.ts'
 import { templates, createFromTemplate } from '../src/layout-templates.ts'
 import { formats } from '../src/layout-settings.ts'
-import { replaceDraft, listSavedDrafts, SAVED_PREFIX } from '../src/draft-library.ts'
+import { replaceDraft, listSavedDrafts, SAVED_PREFIX, openBlankSession, SESSION_FLAG } from '../src/draft-library.ts'
 import { imageTarget, applyImage } from '../src/editor-images.ts'
 import { validLogoId } from '../src/logo-id.ts'
 
@@ -423,4 +423,49 @@ test('recovery refuses to overwrite an original changed in another tab', () => {
   assert.throws(() => resolveDraftRecovery(state, 'new', storage))
   assert.equal(saveDraft(state.document, state, storage), false)
   assert.equal(storage.getItem(STORAGE), changed)
+})
+
+test('new session opens blank and archives the previous draft; reload keeps the current one', () => {
+  const old = normalize(seed), raw = JSON.stringify(old)
+  const storage = libraryStorage({ [STORAGE]: raw })
+  const session = memoryStorage()
+  const opened = openBlankSession(loadDraft(storage), storage, session)
+  assert.deepEqual(opened.document, { frente: [], verso: [] })
+  assert.equal(opened.canSave, true)
+  assert.equal(storage.getItem(STORAGE), JSON.stringify({ frente: [], verso: [] }))
+  const copies = listSavedDrafts(storage).drafts
+  assert.equal(copies.length, 1)
+  assert.deepEqual(copies[0].document, old)
+  assert.equal(session.getItem(SESSION_FLAG), '1')
+  // Same session (reload): the draft is not archived again and edits survive.
+  const edited = { ...normalize(seed) }
+  storage.setItem(STORAGE, JSON.stringify(edited))
+  const again = openBlankSession(loadDraft(storage), storage, session)
+  assert.deepEqual(again.document, edited)
+  assert.equal(listSavedDrafts(storage).drafts.length, 1)
+})
+
+test('blank session never archives empty drafts, skips unreadable drafts and survives storage errors', () => {
+  const empty = libraryStorage({ [STORAGE]: JSON.stringify({ frente: [], verso: [] }) })
+  assert.deepEqual(openBlankSession(loadDraft(empty), empty, memoryStorage()).document, { frente: [], verso: [] })
+  assert.equal(listSavedDrafts(empty).drafts.length, 0)
+  const broken = libraryStorage({ [STORAGE]: '{bad' })
+  const failed = loadDraft(broken)
+  assert.equal(openBlankSession(failed, broken, memoryStorage()), failed)
+  assert.equal(broken.getItem(STORAGE), '{bad')
+  const raw = JSON.stringify(normalize(seed))
+  const full = libraryStorage({ [STORAGE]: raw })
+  const state = loadDraft(full)
+  const quota = { getItem: k => full.getItem(k), setItem: () => { throw new Error('quota') } }
+  assert.equal(openBlankSession(state, quota, memoryStorage()), state)
+  assert.equal(full.getItem(STORAGE), raw)
+  const blocked = { getItem() { throw new Error('blocked') }, setItem() { throw new Error('blocked') } }
+  assert.equal(openBlankSession(state, full, blocked), state)
+})
+
+test('first visit without a saved draft opens blank without archiving the sample', () => {
+  const storage = libraryStorage()
+  const opened = openBlankSession(loadDraft(storage), storage, memoryStorage())
+  assert.deepEqual(opened.document, { frente: [], verso: [] })
+  assert.equal(listSavedDrafts(storage).drafts.length, 0)
 })

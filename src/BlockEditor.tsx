@@ -9,7 +9,7 @@ import './flyer-background.css'
 import { MAX_PROJECT_BYTES, parseProject, ProjectImportError } from './project-import'
 import { parsePrice, priceIssues } from './prices'
 import { formats } from './layout-settings'
-import { replaceDraft } from './draft-library'
+import { openBlankSession, replaceDraft } from './draft-library'
 import TemplateGallery from './TemplateGallery'
 import CanvasViewport from './CanvasViewport'
 import { applyImage, imageTarget, MAX_IMAGE_BYTES } from './editor-images'
@@ -83,7 +83,7 @@ function download(data: Document) { downloadText(JSON.stringify(data, null, 2), 
 
 export default function BlockEditor() {
   const [darkMode, setDarkMode] = useState(savedEditorTheme)
-  const [draft, setDraft] = useState(loadDraft)
+  const [draft, setDraft] = useState(() => openBlankSession(loadDraft()))
   const [doc, setDoc] = useState(draft.document)
   const [recoveryError, setRecoveryError] = useState('')
   const [side, setSide] = useState<Side>('frente')
