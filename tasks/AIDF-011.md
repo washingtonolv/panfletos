@@ -16,7 +16,8 @@ Melhorar o layout do painel "Edite o conteúdo" (painel 3): agrupar em seções 
 - `npm run lint`: sem erros (avisos existentes).
 - `npm run test:model`: 34 testes passaram.
 - `npm run build`: TypeScript e build de produção aprovados.
-- Prévia local em desktop 1400 px, modo claro. Pendentes: modo escuro, celular e impressão.
+- Prévia local em desktop 1400 px (claro e escuro) e celular 390 px, sem rolagem horizontal nem erros de console. Impressão emulada: editor oculto e folhas inalteradas.
+- Revisão encontrou texto ilegível no modo escuro (fundo claro das seções e da caixa de foto); corrigido em `src/editor-dark.css`.
 
 ## Reversão
 Reverter o commit; não há migração nem mudança de dados.
