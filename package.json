@@ -5,8 +5,10 @@
   "type": "module",
   "scripts": {
     "test:model": "node --experimental-strip-types --test scripts/block-model.test.mjs",
-    "dev": "vite",
-    "build": "tsc -b && vite build",
+    "dev": "node scripts/build-rust.mjs && vite",
+    "build": "node scripts/build-rust.mjs && tsc -b && vite build",
+    "build:rust": "node scripts/build-rust.mjs",
+    "test:rust": "node --experimental-strip-types --test scripts/rust-layout.test.mjs",
     "lint": "oxlint",
     "preview": "vite preview"
   },

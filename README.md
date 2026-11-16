@@ -18,6 +18,7 @@ Editor de panfletos 153 × 207 mm (frente e verso). Elementos em milímetros, mo
 npm install
 npm run dev
 ```
+Instale também Rust pelo rustup antes de desenvolver; o motor de montagem é compilado para WebAssembly em `dev`/`build`. Consulte [Rust no montador](docs/RUST.md) para instalação, testes e fallback. O uso do editor publicado não exige instalação.
 
 ## Montador visual
 

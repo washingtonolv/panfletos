@@ -1,5 +1,12 @@
 # Verificação — Panfletos
 
+## AIDF-016 — motor Rust/WebAssembly (2026-11-16)
+- Rust 1.100.0 compilou o módulo real de 18.008 bytes; TypeScript/build aprovados. Modelo: 39 testes aprovados. Paridade WASM/Node: cinco testes aprovados, comparando 200 documentos, incluindo modelos, limites, frações e um documento de 10.000 blocos. Lint sem erros/cinco avisos preexistentes.
+- Quatro testes Rust passaram localmente com o harness compilado para wasm32-wasip1 e executado no Node/WASI. O teste nativo Windows encontrou ausência de link.exe; sem instalar SDK C++ global. O workflow executa cargo test nativo no Linux antes de publicar.
+- Navegador local confirmou data-layout-engine=rust-wasm; edição de nome/preço/fonte e impressão simulada. Seis blocos na frente geraram duas páginas; verso com cabeçalho gerou uma, total de três folhas imprimíveis. Interface oculta na impressão e tamanho de 153 × 207 mm preservado.
+- Falha de carregamento do WASM simulada no build local: fallback TypeScript manteve seis blocos, duas páginas, nome e fonte Verdana, com inserção/undo funcionando. Asset restaurado; reload voltou a rust-wasm com os mesmos dados e sem erros de console observados.
+- Critérios, limitações e reversão em tasks/AIDF-016.md; compilação e diagnóstico em docs/RUST.md. Sem impressão física ou medição de ganho de desempenho.
+
 ## AIDF-015 — barra flutuante e texto (2026-11-16)
 - 39 testes aprovados; lint sem erros/cinco avisos existentes; TypeScript/build aprovados. Dois novos testes cobrem persistência e rejeição de estilos malformados sem alteração de fotos, preços e geometria.
 - Navegador: controles reais de fonte, tamanho, negrito/itálico, alinhamento, letras e entrelinhas; isolamento por texto/produto; reset, undo/redo, reload, JSON e impressão emulada. Cabeçalho, modelo antigo, foto e arraste conferidos; sem erros JavaScript.
