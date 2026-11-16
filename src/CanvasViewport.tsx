@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import type { Dispatch, PointerEvent, ReactNode, SetStateAction } from 'react'
 
-type Props = { children: ReactNode; zoom: number; setZoom: Dispatch<SetStateAction<number>>; undo: () => void; redo: () => void; canUndo: boolean; canRedo: boolean }
+export type CanvasTool = 'select' | 'hand'
+type Props = { children: ReactNode; zoom: number; setZoom: Dispatch<SetStateAction<number>>; undo: () => void; redo: () => void; tool: CanvasTool; setTool: Dispatch<SetStateAction<CanvasTool>> }
 const clampZoom = (value: number) => Math.max(.25, Math.min(2.5, value))
-export default function CanvasViewport({ children, zoom, setZoom, undo, redo, canUndo, canRedo }: Props) {
+export default function CanvasViewport({ children, zoom, setZoom, undo, redo, tool, setTool }: Props) {
   const area = useRef<HTMLElement>(null)
-  const [tool, setTool] = useState<'select' | 'hand'>('select')
   const [space, setSpace] = useState(false)
   const [panning, setPanning] = useState(false)
   const pan = useRef<{ pointer: number; x: number; y: number; left: number; top: number } | null>(null)
@@ -66,7 +66,7 @@ export default function CanvasViewport({ children, zoom, setZoom, undo, redo, ca
     function blur() { setSpace(false); pan.current = null; setPanning(false) }
     window.addEventListener('keydown', keydown); window.addEventListener('keyup', keyup); window.addEventListener('blur', blur)
     return () => { window.removeEventListener('keydown', keydown); window.removeEventListener('keyup', keyup); window.removeEventListener('blur', blur) }
-  }, [undo, redo])
+  }, [undo, redo, setTool])
   function startPan(event: PointerEvent<HTMLElement>) {
     suppressClick.current = false
     if ((!hand && event.button !== 1) || (event.button !== 0 && event.button !== 1)) return
@@ -94,17 +94,13 @@ export default function CanvasViewport({ children, zoom, setZoom, undo, redo, ca
       <div className="canvas-content">{children}</div>
     </main>
     <div className="canvas-hint">{hand ? 'Arraste para navegar' : 'Clique para selecionar · clique na foto para trocar'} · Ctrl + rolagem para zoom</div>
-    <div className="floating-tools" role="toolbar" aria-label="Ferramentas do editor">
-      <button title="Selecionar (V)" aria-label="Selecionar (V)" aria-pressed={!hand} onClick={() => setTool('select')}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 3 14 10-7 1-3 7Z" /></svg></button>
-      <button title="Mão (H) · segure Espaço para usar temporariamente" aria-label="Mão (H)" aria-pressed={hand} onClick={() => setTool('hand')}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 12V5a2 2 0 0 1 4 0v6-7a2 2 0 0 1 4 0v7-5a2 2 0 0 1 4 0v9c0 5-3 7-7 7-3 0-5-2-7-5l-3-5c-1-2 1-3 3-1l2 2Z" /></svg></button>
-      <span className="tool-divider" />
-      <button title="Desfazer (Ctrl + Z)" aria-label="Desfazer" disabled={!canUndo} onClick={undo}>↶</button>
-      <button title="Refazer (Ctrl + Shift + Z)" aria-label="Refazer" disabled={!canRedo} onClick={redo}>↷</button>
-      <span className="tool-divider" />
+    <div className="floating-tools zoom-cluster" role="group" aria-label="Zoom do canvas">
+      <button title="Diminuir zoom" aria-label="Diminuir zoom" disabled={zoom <= .25} onClick={() => chooseZoom(Math.max(.25, Math.round((zoom - .25) * 100) / 100))}>−</button>
       <select aria-label="Zoom do canvas" value={zoom} onChange={e => chooseZoom(Number(e.target.value))}>
         <option value={zoom}>{Math.round(zoom * 100)}%</option>
         {[.25,.5,.75,1,1.25,1.5,2,2.5].filter(v => v !== zoom).map(v => <option value={v} key={v}>{v * 100}%</option>)}
       </select>
+      <button title="Aumentar zoom" aria-label="Aumentar zoom" disabled={zoom >= 2.5} onClick={() => chooseZoom(Math.min(2.5, Math.round((zoom + .25) * 100) / 100))}>＋</button>
     </div>
   </div>
 }

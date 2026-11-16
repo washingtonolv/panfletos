@@ -1,42 +1,34 @@
 import { useEffect, useRef, useState } from 'react'
 import type { CSSProperties, DragEvent } from 'react'
-import { blankProduct, catalog, loadDraft, resolveDraftRecovery, saveDraft, minHeight, moveBlock, newBlock, paginate, priceParts, tags, uid } from './block-model'
-import type { ImageAdjustment, Block, Document, Product, Side } from './block-model'
+import { blankProduct, catalog, loadDraft, resolveDraftRecovery, saveDraft, minHeight, moveBlock, newBlock, paginate, uid } from './block-model'
+import type { Block, Document, Product, Side } from './block-model'
 import './block-editor.css'
 import './brand-logo-styles.css'
 import './editor-dark.css'
 import './flyer-background.css'
+import './editor-shell.css'
 import { MAX_PROJECT_BYTES, parseProject, ProjectImportError } from './project-import'
 import { parsePrice, priceIssues } from './prices'
 import { formats } from './layout-settings'
 import { openBlankSession, replaceDraft } from './draft-library'
 import TemplateGallery from './TemplateGallery'
 import CanvasViewport from './CanvasViewport'
+import type { CanvasTool } from './CanvasViewport'
+import EditorMenus from './EditorMenus'
+import type { Menu } from './EditorMenus'
+import LayoutLibrary from './LayoutLibrary'
+import PageStructure from './PageStructure'
+import Inspector from './Inspector'
+import type { InspectorTab } from './Inspector'
 import { applyImage, imageTarget, MAX_IMAGE_BYTES } from './editor-images'
 import type { ImageTarget } from './editor-images'
 import BrandMark from './BrandMark'
-import BrandLogoPicker from './BrandLogoPicker'
+import { PriceTag } from './PriceTag'
+import { imageStyle } from './image-style'
 
 const EDITOR_THEME_KEY = 'panfletos:editor:theme'
 function savedEditorTheme(): boolean {
-  try { return localStorage.getItem(EDITOR_THEME_KEY) === 'dark' } catch { return false }
-}
-
-function imageStyle(a?: ImageAdjustment): CSSProperties { return { transform: `translate(${a?.x || 0}%, ${a?.y || 0}%) scale(${a?.scale || 1})`, transformOrigin: 'center' } }
-function PriceTag({ product: p, index = 0 }: { product: Product; index?: number }) {
-  const tag = p.tag || 'wide'
-  const parts = priceParts(p.por)
-  const sale = parsePrice(p.por), before = parsePrice(p.de, true)
-  if (!sale.ok || !before.ok) return <span className="price-tag invalid-price">Revisar preço</span>
-  const priceSize = Math.min(40, 84 / (parts.integer.length * .65 + 1.3))
-  return <span className={`price-tag tag-${tag}`} style={{ '--price-font': `${priceSize}cqw`, '--price-narrow-font': `${priceSize * .75}cqw`, '--promo-color': p.badgeColor || ['#244cff', '#29b52a', '#a02eef'][index % 3], ...(p.badgeColor ? { '--template-price': p.badgeColor } : {}) } as CSSProperties}>
-    <span className="price-top">{tag === 'offer' ? 'Por Apenas' : before.normalized ? `DE: R$ ${before.normalized}` : 'POR APENAS'}</span>
-    {tag === 'progressive' && <span className="price-quantity">LEVE {index + 1}</span>}
-    <span className="price-value" aria-label={`Por R$ ${sale.normalized}${p.cada ? ' ' + p.cada : ''}`}>
-      <small className="price-currency"><span>POR{tag === 'progressive' ? '' : ':'}</span><span>R$</span></small>
-      <span className="price-number"><strong>{parts.integer}</strong><span className="price-fraction"><sup>,{parts.cents}</sup>{p.cada && <span className="price-unit">{p.cada}</span>}</span></span>
-    </span>
-  </span>
+  try { return localStorage.getItem(EDITOR_THEME_KEY) !== 'light' } catch { return true }
 }
 
 function FlyerBlock({ block: b, pick, selected, productIndex, imagePick, imageDrop }: { block: Block; pick?: (index?: number) => void; selected?: boolean; productIndex?: number; imagePick?: (index?: number) => void; imageDrop?: (file: File, index?: number) => void }) {
@@ -97,6 +89,9 @@ export default function BlockEditor() {
   const [history, setHistory] = useState<{ past: Document[]; future: Document[] }>({ past: [], future: [] })
   const [printSides, setPrintSides] = useState<'both' | Side>('both')
   const [galleryOpen, setGalleryOpen] = useState(false)
+  const [tool, setTool] = useState<CanvasTool>('select')
+  const [tab, setTab] = useState<InspectorTab>('produto')
+  const [libraryOpen, setLibraryOpen] = useState(() => !window.matchMedia('(max-width: 780px)').matches)
   const lastSaved = useRef<string | null>(null)
   const fileInput = useRef<HTMLInputElement>(null)
   const latestDoc = useRef(doc)
@@ -235,6 +230,41 @@ export default function BlockEditor() {
     if (target < 0 || target >= blocks.length) return
     const next = [...blocks]; [next[at], next[target]] = [next[target], next[at]]; commit({ ...doc, [side]: next })
   }
+  function duplicateBlock() {
+    if (!current) return
+    const copy = structuredClone(current); copy.id = uid()
+    const next = [...blocks]; next.splice(blocks.indexOf(current) + 1, 0, copy)
+    commit({ ...doc, [side]: next }); pick(copy.id); setNotice('Bloco duplicado.')
+  }
+  function deleteBlock() {
+    if (!current) return
+    commit({ ...doc, [side]: blocks.filter(b => b.id !== current.id) }); setSelected(null)
+    setNotice('Bloco removido. Use Desfazer para recuperá-lo.')
+  }
+  function addProduct() {
+    if (!current?.products || current.products.length >= 5) return
+    const index = current.products.length
+    changeBlock(b => { b.products!.push(blankProduct()); b.cols = b.products!.length }); setProductIndex(index)
+  }
+  function removeProduct() {
+    if (!current?.products || current.products.length <= 1) return
+    changeBlock(b => { b.products!.splice(productIndex, 1); b.cols = b.products!.length }); setProductIndex(Math.max(0, productIndex - 1))
+  }
+  function applyTagToBlock() {
+    if (!product) return
+    const tag = product.tag || 'wide'
+    changeBlock(b => { b.products!.forEach(p => { p.tag = tag }) }); setNotice('Etiqueta aplicada a todos os produtos do bloco.')
+  }
+  function moveById(id: string, delta: number) {
+    const at = blocks.findIndex(b => b.id === id), target = at + delta
+    if (at < 0 || target < 0 || target >= blocks.length) return
+    const next = [...blocks]; [next[at], next[target]] = [next[target], next[at]]; commit({ ...doc, [side]: next })
+  }
+  function focusField(id: string) {
+    if (!current?.products?.length) return
+    setTab('produto'); setTimeout(() => document.getElementById(id)?.focus(), 0)
+  }
+  function changeSide(next: Side) { setSide(next); setSelected(null) }
   function chooseImage(id: string, index?: number) {
     pictureTarget.current = imageTarget(latestDoc.current, side, id, index)
     if (!pictureTarget.current) return
@@ -266,67 +296,113 @@ export default function BlockEditor() {
     } catch { if (epoch === imageEpoch.current && imageRequests.current.get(key) === request) setNotice('Não foi possível abrir a imagem. Tente outro arquivo.') }
   }
 
+  const canPickImage = !!current && (!!current.products?.length || ['header', 'footsite', 'footpay'].includes(current.kind))
+  const at = current ? blocks.indexOf(current) : -1
+  const menus: Menu[] = [
+    { id: 'arquivo', label: 'Arquivo', items: [
+      { label: 'Novo / modelos…', onSelect: () => setGalleryOpen(true) },
+      { label: 'Abrir projeto…', onSelect: () => fileInput.current?.click() },
+      { label: 'Baixar projeto (JSON)', onSelect: () => download(doc) },
+      'separator',
+      { label: 'Imprimir / PDF', onSelect: printDocument },
+    ] },
+    { id: 'editar', label: 'Editar', items: [
+      { label: 'Desfazer', shortcut: 'Ctrl+Z', disabled: !history.past.length, onSelect: undo },
+      { label: 'Refazer', shortcut: 'Ctrl+Shift+Z', disabled: !history.future.length, onSelect: redo },
+      'separator',
+      { label: 'Duplicar bloco', disabled: !current, onSelect: duplicateBlock },
+      { label: 'Excluir bloco', disabled: !current, onSelect: deleteBlock },
+    ] },
+    { id: 'visualizar', label: 'Visualizar', items: [
+      { label: 'Aumentar zoom', disabled: zoom >= 2.5, onSelect: () => setZoom(z => Math.min(2.5, Math.round((z + .25) * 100) / 100)) },
+      { label: 'Diminuir zoom', disabled: zoom <= .25, onSelect: () => setZoom(z => Math.max(.25, Math.round((z - .25) * 100) / 100)) },
+      { label: 'Zoom 100%', disabled: zoom === 1, onSelect: () => setZoom(1) },
+      'separator',
+      { label: 'Ferramenta Selecionar', shortcut: 'V', checked: tool === 'select', onSelect: () => setTool('select') },
+      { label: 'Ferramenta Mão', shortcut: 'H', checked: tool === 'hand', onSelect: () => setTool('hand') },
+      'separator',
+      { label: 'Tema grafite', checked: darkMode, onSelect: () => { if (!darkMode) toggleDarkMode() } },
+      { label: 'Tema claro', checked: !darkMode, onSelect: () => { if (darkMode) toggleDarkMode() } },
+    ] },
+    { id: 'organizar', label: 'Organizar', items: [
+      { label: 'Subir bloco', disabled: !current || at === 0, onSelect: () => move(-1) },
+      { label: 'Descer bloco', disabled: !current || at === blocks.length - 1, onSelect: () => move(1) },
+      'separator',
+      { label: 'Ver frente', checked: side === 'frente', onSelect: () => changeSide('frente') },
+      { label: 'Ver verso', checked: side === 'verso', onSelect: () => changeSide('verso') },
+    ] },
+  ]
+
   return <>
     <div className="builder-app" onDragEnd={() => { setDragging(false); setOver(null) }}>
-      <header className="app-header"><div className="app-brand"><span>▦</span><div><strong>Monta panfleto</strong><small>Escolha, arraste e edite.</small></div></div>
-        <button className="primary new-project" onClick={() => setGalleryOpen(true)}>+ Novo</button>
-        <nav aria-label="Lado do panfleto">{(['frente', 'verso'] as Side[]).map(s => <button key={s} aria-pressed={side === s} onClick={() => { setSide(s); setSelected(null) }}>{s === 'frente' ? 'Frente' : 'Verso'}</button>)}</nav>
-        <span className={`save-state ${saveError ? 'error' : ''}`}>{saveError ? 'Não foi possível salvar. Baixe o projeto.' : '✓ Salvo neste navegador'}</span>
-        <button className="theme-toggle" aria-label={darkMode ? 'Ativar modo claro' : 'Ativar modo escuro'} aria-pressed={darkMode} onClick={toggleDarkMode}>{darkMode ? '☀ Claro' : '☾ Escuro'}</button>
-        <button onClick={() => download(doc)}>Baixar projeto</button><button onClick={() => fileInput.current?.click()}>Abrir projeto</button>
+      <header className="ed-menubar">
+        <div className="ed-brand"><span aria-hidden="true">▦</span><strong>Monta panfleto</strong></div>
+        <EditorMenus menus={menus} />
+        <span className="ed-spacer" />
+        <button type="button" className="theme-toggle" aria-label={darkMode ? 'Ativar tema claro' : 'Ativar tema grafite'} aria-pressed={darkMode} onClick={toggleDarkMode}>{darkMode ? '☀ Tema claro' : '☾ Tema grafite'}</button>
         <input ref={fileInput} hidden type="file" accept=".json,application/json" onChange={e => { void importProject(e.currentTarget) }} />
         <input ref={pictureInput} hidden type="file" accept="image/png,image/jpeg,image/webp" aria-label="Escolher imagem para o item" onChange={e => { void upload(e.currentTarget.files?.[0], pictureTarget.current); e.currentTarget.value = '' }} />
-        <button className="primary" onClick={printDocument}>Imprimir / PDF</button>
       </header>
-      {issues.length > 0 && <div className="price-warning" role="alert">{issues.length} preço(s) precisam de revisão. Os valores digitados foram mantidos para correção; a impressão dos lados afetados está bloqueada. <button onClick={reviewPrice}>Revisar preços</button></div>}
-      <div className="builder-workspace">
-        <aside className="block-library"><div className="panel-heading"><span className="step">1</span><div><h2>Escolha os blocos</h2><p>Clique para adicionar ou arraste para a página.</p></div></div>
-          <div className="library-items">{catalog.map((item, i) => <button className="library-item" key={i} draggable onDragStart={e => beginDrag(e, `library:${i}`)} onClick={() => insert(i)}><span className="block-mini">{Array.from({ length: item.cols || 1 }, (_, k) => <i key={k} />)}</span><span>{item.name}</span><b>＋</b></button>)}</div>
-          <h3>Ordem dos blocos</h3><p className="muted">Arraste pela alça ⠿. Também pode usar ↑ e ↓ no painel de edição.</p>
-          <ol className="block-order">{blocks.map((b, i) => <li key={b.id} className={over === `list-${b.id}` ? 'drop-active' : ''} onDragOver={e => { e.preventDefault(); setOver(`list-${b.id}`) }} onDrop={e => drop(e, b.id)}><button className={selected === b.id ? 'active' : ''} onClick={() => pick(b.id)}><span draggable aria-label={`Arrastar bloco ${i + 1}`} onDragStart={e => beginDrag(e, `block:${b.id}`)}>⠿</span><small>{i + 1}</small>{b.name}</button></li>)}</ol>
-          <div className="order-end" onDragOver={e => e.preventDefault()} onDrop={e => drop(e)}>Solte aqui para mover ao final</div>
-        </aside>
-        <CanvasViewport zoom={zoom} setZoom={setZoom} undo={undo} redo={redo} canUndo={!!history.past.length} canRedo={!!history.future.length}>
-          <div className="status-line" role="status">{notice || `${pages.length} ${pages.length === 1 ? 'página' : 'páginas'} · ${size.widthMm} × ${size.heightMm} mm · encaixe automático`}</div>
-          {pages.map((page, pi) => <section className="page-stage" key={pi} style={{ width: size.width * zoom, height: size.height * zoom }} aria-label={`Página ${pi + 1} da ${side}`}><div className={`flyer-sheet ${doc.layout ? 'themed-sheet' : ''} ${doc.pageBackground ? 'has-page-background' : ''}`} style={{ ...sheetStyle(doc), transform: `scale(${zoom})`, gridTemplateRows: page.map(b => `minmax(${minHeight(b)}px, ${Math.max(1, b.h)}fr)`).join(' ') }}>
-            {page.map(b => <div key={b.id} data-block-id={b.id} className={`block-slot ${over === b.id ? 'drop-active' : ''}`} onDragOver={e => { e.preventDefault(); setOver(b.id) }} onDrop={e => drop(e, b.id)}>
-              <div className="block-controls"><button draggable onDragStart={e => beginDrag(e, `block:${b.id}`)} aria-label={`Arrastar ${b.name}`}>⠿</button><button onClick={() => pick(b.id)}>{b.name}</button></div>
-              <FlyerBlock block={b} selected={selected === b.id} productIndex={productIndex} pick={i => pick(b.id, i)} imagePick={i => chooseImage(b.id, i)} imageDrop={(file, i) => { pick(b.id, i); void upload(file, imageTarget(latestDoc.current, side, b.id, i)) }} />
-            </div>)}
-          </div></section>)}
-          <div className={`canvas-end ${dragging ? 'ready' : ''}`} onDragOver={e => e.preventDefault()} onDrop={e => drop(e)}>＋ Solte um bloco aqui para adicionar ao final</div>
-        </CanvasViewport>
-        <aside className="edit-panel"><div className="panel-heading"><span className="step">3</span><div><h2>Edite o conteúdo</h2><p>Foto, nome e preço. O restante se encaixa.</p></div></div>
-          {!current ? <div className="empty-panel"><span>↖</span><h3>Clique em um produto</h3><p>Ou selecione um bloco para editar o cabeçalho e o rodapé.</p><div className="auto-note">Tudo alinhado automaticamente.<br />Sem mover ou redimensionar etiquetas.</div></div> : <>
-            <h3>{current.name}</h3><div className="block-actions"><button disabled={blocks.indexOf(current) === 0} onClick={() => move(-1)}>↑ Subir</button><button disabled={blocks.indexOf(current) === blocks.length - 1} onClick={() => move(1)}>↓ Descer</button><button onClick={() => { const copy = structuredClone(current); copy.id = uid(); const next = [...blocks]; next.splice(blocks.indexOf(current) + 1, 0, copy); commit({ ...doc, [side]: next }); pick(copy.id) }}>Duplicar</button><button className="danger" onClick={() => { commit({ ...doc, [side]: blocks.filter(b => b.id !== current.id) }); setSelected(null); setNotice('Bloco removido. Use Desfazer para recuperá-lo.') }}>Excluir bloco</button></div>
-            {['header', 'footsite', 'footpay'].includes(current.kind) && <div className="artwork-editor"><label className="upload-box" onDragOver={e => e.preventDefault()} onDrop={e => { e.preventDefault(); void upload(e.dataTransfer.files[0]) }}>{current.image ? <img src={current.image} alt="Imagem do bloco selecionado" /> : <span>＋</span>}<b>{current.image ? 'Trocar imagem' : 'Adicionar imagem'}</b><small>PNG, JPG ou WebP · até 20 MiB</small><input type="file" aria-label="Imagem do cabeçalho ou rodapé" accept="image/png,image/jpeg,image/webp" onChange={e => { void upload(e.currentTarget.files?.[0]); e.currentTarget.value = '' }} /></label>
-              {current.image && <><button className="danger full" onClick={() => removeImage(false)}>Remover imagem</button><label>Ajuste da imagem<select value={current.imageFit || 'contain'} onChange={e => changeBlock(b => { b.imageFit = e.target.value as 'contain' | 'cover' })}><option value="contain">Mostrar imagem inteira</option><option value="cover">Preencher espaço (corta bordas)</option></select></label><p>Os textos abaixo estão guardados e reaparecem ao remover a imagem.</p></>}
-            </div>}
-            {((product?.photo) || current.image) && <fieldset className="image-adjustments"><legend>Ajustar imagem</legend><p>A imagem fica recortada dentro do espaço reservado.</p>{(['scale', 'x', 'y'] as const).map(key => { const adjustment = (product ? product.photoAdjustment : current.imageAdjustment) || { scale: 1, x: 0, y: 0 }; return <label key={key}>{key === 'scale' ? 'Tamanho' : key === 'x' ? 'Posição horizontal' : 'Posição vertical'}<input type="range" min={key === 'scale' ? .25 : -50} max={key === 'scale' ? 3 : 50} step={key === 'scale' ? .05 : 1} value={adjustment[key]} onChange={e => { const next = { ...adjustment, [key]: Number(e.target.value) }; if (product) changeProduct({ photoAdjustment: next }); else changeBlock(b => { b.imageAdjustment = next }) }} /><output>{Math.round(adjustment[key] * (key === 'scale' ? 100 : 1))}%</output></label> })}<button onClick={() => { if (product) changeProduct({ photoAdjustment: undefined }); else changeBlock(b => { delete b.imageAdjustment }) }}>Restaurar enquadramento</button></fieldset>}
-            {current.fields?.map((f, i) => <label key={f.key}>{f.label}<input value={f.value} onChange={e => changeBlock(b => { b.fields![i].value = e.target.value })} /></label>)}
-            {current.products?.length ? <>
-              <div className="product-tabs" aria-label="Escolher produto">{current.products.map((_, i) => <button key={i} aria-pressed={productIndex === i} onClick={() => setProductIndex(i)}>{i + 1}</button>)}<button aria-label="Adicionar produto" disabled={current.products.length >= 5} onClick={() => { const index = current.products!.length; changeBlock(b => { b.products!.push(blankProduct()); b.cols = b.products!.length }); setProductIndex(index) }}>＋</button></div>
-              {product && <><section className="panel-section" aria-label="Foto e identificação"><h3 className="section-title">Foto e identificação</h3><label className="upload-box compact" onDragOver={e => e.preventDefault()} onDrop={e => { e.preventDefault(); void upload(e.dataTransfer.files[0]) }}>{product.photo ? <img src={product.photo} alt="Foto do produto selecionado" /> : <span>＋</span>}<b>{product.photo ? 'Trocar foto' : 'Adicionar foto'}</b><small>Arraste a foto aqui ou clique · PNG, JPG, WebP</small><input type="file" accept="image/png,image/jpeg,image/webp" onChange={e => { void upload(e.target.files?.[0]); e.target.value = '' }} /></label>
-                {product.photo && <button className="danger full photo-remove" onClick={() => removeImage(true)}>Remover foto</button>}
-                <label>Marca<input value={product.brand} onChange={e => changeProduct({ brand: e.target.value })} /></label>
-                <BrandLogoPicker value={product.brandLogo} onChange={logo => changeProduct({ brandLogo: logo?.id, ...(logo && !product.brand.trim() ? { brand: logo.name } : {}) })} />
-                <label>Nome do produto<textarea rows={3} value={product.name} onChange={e => changeProduct({ name: e.target.value })} /></label></section>
-                <section className="panel-section" aria-label="Preço e etiqueta"><h3 className="section-title">Preço e etiqueta</h3>
-                <div className="price-fields"><label>De (R$)<input inputMode="decimal" value={product.de} aria-invalid={deResult?.ok === false} aria-describedby="de-price-help" onChange={e => changeProduct({ de: e.target.value })} onBlur={() => formatPrice('de')} /><small id="de-price-help">{deResult?.ok === false ? deResult.message : 'Opcional. Ex.: 29,90'}</small></label><label>Por (R$)<input inputMode="decimal" value={product.por} aria-invalid={porResult?.ok === false} aria-describedby="por-price-help" onChange={e => changeProduct({ por: e.target.value })} onBlur={() => formatPrice('por')} /><small id="por-price-help">{porResult?.ok === false ? porResult.message : 'Obrigatório. Ex.: 19,90'}</small></label></div>
-                <label>Complemento<input placeholder="Ex.: cada, unidade, kit" value={product.cada} onChange={e => changeProduct({ cada: e.target.value })} /></label>
-                {doc.layout && <><label>Chamada promocional<input value={product.label || ''} onChange={e => changeProduct({ label: e.target.value })} /></label><label>Cor da etiqueta<input type="color" value={product.badgeColor || doc.layout.priceColor} onChange={e => changeProduct({ badgeColor: e.target.value })} /></label></>}
-                <h4 className="sub-title">Formato da etiqueta</h4><div className="tag-options">{tags.map(t => <button key={t.id} aria-pressed={(product.tag || 'wide') === t.id} onClick={() => changeProduct({ tag: t.id })}><PriceTag product={{ ...product, tag: t.id, por: '129,90', de: '159,90', cada: 'cada' }} /><span>{t.name}</span></button>)}</div>
-                <button className="full" onClick={() => changeBlock(b => { b.products!.forEach(p => { p.tag = product.tag || 'wide' }) })}>Aplicar etiqueta ao bloco</button></section>
-                <button className="danger full" disabled={current.products.length <= 1} onClick={() => { changeBlock(b => { b.products!.splice(productIndex, 1); b.cols = b.products!.length }); setProductIndex(Math.max(0, productIndex - 1)) }}>Remover este produto</button>
-              </>}
-            </> : null}
-          </>}
-          <h3 className="section-title document-title">Documento</h3>
-          {doc.layout && <details className="print-options"><summary>Cores do modelo</summary>{([['accent', 'Cor da campanha'], ['priceColor', 'Cor padrão das etiquetas'], ['background', 'Fundo do cabeçalho']] as const).map(([key, label]) => <label key={key}>{label}<input type="color" value={doc.layout![key]} onChange={e => commit({ ...doc, layout: { ...doc.layout!, [key]: e.target.value } })} /></label>)}</details>}
-          <details className="print-options" open><summary>Fundo do panfleto</summary><label>Cor de fundo (frente e verso)<input type="color" value={doc.pageBackground || '#ffffff'} onChange={e => commit({ ...doc, pageBackground: e.target.value })} /></label>{doc.pageBackground && <button className="full" onClick={() => { const next = structuredClone(doc); delete next.pageBackground; commit(next) }}>Restaurar branco</button>}</details>
-          <details className="print-options"><summary>Impressão / PDF</summary><label>Páginas para imprimir<select value={printSides} onChange={e => setPrintSides(e.target.value as typeof printSides)}><option value="both">Frente e verso</option><option value="frente">Só frente</option><option value="verso">Só verso</option></select></label><p>{size.label}. Escolha “Salvar como PDF”, escala 100%, sem margens e com gráficos de fundo na janela de impressão. Sem sangria.</p></details>
-        </aside>
+      <div className="ed-docbar">
+        <div className="ed-doc-tab"><strong>{doc.layout?.name || 'Panfleto'}</strong><small>{size.label}</small></div>
+        <div className="ed-doc-actions">
+          <button type="button" className="ed-primary new-project" onClick={() => setGalleryOpen(true)}>+ Novo</button>
+          <button type="button" aria-label="Desfazer" title="Desfazer (Ctrl + Z)" disabled={!history.past.length} onClick={undo}>↶ Desfazer</button>
+          <button type="button" aria-label="Refazer" title="Refazer (Ctrl + Shift + Z)" disabled={!history.future.length} onClick={redo}>↷ Refazer</button>
+          <button type="button" onClick={() => download(doc)}>Baixar projeto</button>
+          <button type="button" onClick={() => fileInput.current?.click()}>Abrir projeto</button>
+          <button type="button" className="ed-primary" onClick={printDocument}>Imprimir / PDF</button>
+        </div>
       </div>
+      {issues.length > 0 && <div className="price-warning" role="alert">{issues.length} preço(s) precisam de revisão. Os valores digitados foram mantidos para correção; a impressão dos lados afetados está bloqueada. <button type="button" onClick={reviewPrice}>Revisar preços</button></div>}
+      <div className="builder-workspace">
+        <div className="ed-rail" role="toolbar" aria-orientation="vertical" aria-label="Ferramentas">
+          <button type="button" title="Selecionar (V)" aria-label="Selecionar (V)" aria-pressed={tool === 'select'} onClick={() => setTool('select')}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 3 14 10-7 1-3 7Z" /></svg></button>
+          <button type="button" title="Mão (H) · segure Espaço para usar temporariamente" aria-label="Mão (H)" aria-pressed={tool === 'hand'} onClick={() => setTool('hand')}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 12V5a2 2 0 0 1 4 0v6-7a2 2 0 0 1 4 0v7-5a2 2 0 0 1 4 0v9c0 5-3 7-7 7-3 0-5-2-7-5l-3-5c-1-2 1-3 3-1l2 2Z" /></svg></button>
+          <span className="ed-rail-divider" />
+          <button type="button" title="Foto do item selecionado" aria-label="Foto do item selecionado" disabled={!canPickImage} onClick={() => current && chooseImage(current.id, product ? productIndex : undefined)}><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" /><circle cx="9" cy="10" r="1.6" /><path d="m4 18 5-5 4 4 3-3 4 4" /></svg></button>
+          <button type="button" title="Duplicar bloco" aria-label="Duplicar bloco" disabled={!current} onClick={duplicateBlock}><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2" /><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" /></svg></button>
+          <button type="button" title="Excluir bloco" aria-label="Excluir bloco" disabled={!current} onClick={deleteBlock}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M10 7V5h4v2m-7 0 1 12h8l1-12" /></svg></button>
+        </div>
+        <aside className="ed-left" aria-label="Biblioteca e estrutura da página">
+          <LayoutLibrary open={libraryOpen} onToggle={() => setLibraryOpen(v => !v)} onInsert={i => insert(i)} onDragStart={beginDrag} />
+          <PageStructure title={`Estrutura da página · ${side === 'frente' ? 'frente' : 'verso'}`} blocks={blocks} selected={selected} over={over} reorder onPick={id => pick(id)} onMove={moveById} onDragStart={beginDrag} onDragOver={setOver} onDrop={drop} />
+        </aside>
+        <div className="ed-stage">
+          <div className="ed-stagebar">
+            <div className="ed-sides" role="group" aria-label="Lado do panfleto">{(['frente', 'verso'] as Side[]).map((s, i) => <button type="button" key={s} aria-pressed={side === s} onClick={() => changeSide(s)}>{`0${i + 1} · ${s === 'frente' ? 'Frente' : 'Verso'}`}</button>)}</div>
+            <div className="ed-context" role="toolbar" aria-label="Edição rápida do bloco selecionado">
+              <span className="ed-context-name">{current ? current.name : 'Selecione um bloco ou produto'}</span>
+              <button type="button" disabled={!canPickImage} onClick={() => current && chooseImage(current.id, product ? productIndex : undefined)}>Foto</button>
+              <button type="button" disabled={!current?.products?.length} onClick={() => focusField('field-name')}>Nome</button>
+              <button type="button" disabled={!current?.products?.length} onClick={() => focusField('field-por')}>Preço</button>
+              <button type="button" disabled={!current} onClick={duplicateBlock}>Duplicar bloco</button>
+            </div>
+          </div>
+          <CanvasViewport zoom={zoom} setZoom={setZoom} undo={undo} redo={redo} tool={tool} setTool={setTool}>
+            {pages.map((page, pi) => <section className="page-stage" key={pi} style={{ width: size.width * zoom, height: size.height * zoom }} aria-label={`Página ${pi + 1} da ${side}`}><div className={`flyer-sheet ${doc.layout ? 'themed-sheet' : ''} ${doc.pageBackground ? 'has-page-background' : ''}`} style={{ ...sheetStyle(doc), transform: `scale(${zoom})`, gridTemplateRows: page.map(b => `minmax(${minHeight(b)}px, ${Math.max(1, b.h)}fr)`).join(' ') }}>
+              {page.map(b => <div key={b.id} data-block-id={b.id} className={`block-slot ${over === b.id ? 'drop-active' : ''}`} onDragOver={e => { e.preventDefault(); setOver(b.id) }} onDrop={e => drop(e, b.id)}>
+                <div className="block-controls"><button draggable onDragStart={e => beginDrag(e, `block:${b.id}`)} aria-label={`Arrastar ${b.name}`}>⠿</button><button onClick={() => pick(b.id)}>{b.name}</button></div>
+                <FlyerBlock block={b} selected={selected === b.id} productIndex={productIndex} pick={i => pick(b.id, i)} imagePick={i => chooseImage(b.id, i)} imageDrop={(file, i) => { pick(b.id, i); void upload(file, imageTarget(latestDoc.current, side, b.id, i)) }} />
+              </div>)}
+            </div></section>)}
+            {!blocks.length && <p className="ed-empty-sheet">Folha em branco. Escolha um layout pronto na biblioteca à esquerda.</p>}
+            <div className={`canvas-end ${dragging ? 'ready' : ''}`} onDragOver={e => e.preventDefault()} onDrop={e => drop(e)}>＋ Solte um layout aqui para adicionar ao final</div>
+          </CanvasViewport>
+        </div>
+        <div className="ed-right">
+          <Inspector doc={doc} side={side} blocks={blocks} current={current} product={product} productIndex={productIndex} setProductIndex={setProductIndex} tab={tab} setTab={setTab}
+            deResult={deResult} porResult={porResult} size={size} printSides={printSides} setPrintSides={setPrintSides} changeBlock={changeBlock} changeProduct={changeProduct} commit={commit}
+            upload={file => { void upload(file) }} removeImage={removeImage} formatPrice={formatPrice} move={move} duplicateBlock={duplicateBlock} deleteBlock={deleteBlock}
+            addProduct={addProduct} removeProduct={removeProduct} applyTagToBlock={applyTagToBlock} download={() => download(doc)} openProject={() => fileInput.current?.click()} printDocument={printDocument} />
+          <PageStructure title="Blocos / camadas" blocks={blocks} selected={selected} over={over} reorder={false} onPick={id => pick(id)} />
+        </div>
+      </div>
+      <footer className="ed-status">
+        <span role="status" className="ed-status-message">{notice || (blocks.length ? 'Pronto. Clique em um produto para editar.' : 'Folha em branco.')}</span>
+        <span className="ed-status-info">{pages.length} {pages.length === 1 ? 'página' : 'páginas'} · {size.widthMm} × {size.heightMm} mm · {Math.round(zoom * 100)}% · Encaixe automático</span>
+        <span className={`save-state ${saveError ? 'error' : ''}`}>{saveError ? 'Não foi possível salvar. Baixe o projeto.' : '✓ Salvo neste navegador'}</span>
+      </footer>
     </div>
     {galleryOpen && <TemplateGallery onClose={() => setGalleryOpen(false)} onUse={useTemplate} onDownload={download} preview={templatePreview} />}
     <style>{`@media print { @page { size: ${size.widthMm}mm ${size.heightMm}mm; margin: 0; } }`}</style>

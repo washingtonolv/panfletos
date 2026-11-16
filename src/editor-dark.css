@@ -1,91 +1,42 @@
-/* The editor theme is UI only. Flyer pages and gallery previews retain their print colors. */
-.theme-toggle { white-space: nowrap; }
+/* Graphite theme for the dialogs and recovery screen (AIDF-013). The editor chrome itself is styled by editor-shell.css tokens.
+   Flyer pages and gallery previews retain their print colors. */
 :root[data-editor-theme='dark'] { color-scheme: dark; }
-:root[data-editor-theme='dark'] body { background: #14121a; color: #f3edf8; }
-:root[data-editor-theme='dark'] .builder-app { background: #14121a; color: #f3edf8; }
-:root[data-editor-theme='dark'] .app-header,
-:root[data-editor-theme='dark'] .block-library,
-:root[data-editor-theme='dark'] .edit-panel { background: #201c29; border-color: #3e344a; }
-:root[data-editor-theme='dark'] .app-brand strong,
-:root[data-editor-theme='dark'] .panel-heading h2,
-:root[data-editor-theme='dark'] .block-library h3,
-:root[data-editor-theme='dark'] .edit-panel h3,
-:root[data-editor-theme='dark'] .edit-panel label,
-:root[data-editor-theme='dark'] .edit-panel legend { color: #f3edf8; }
-:root[data-editor-theme='dark'] .app-brand small,
-:root[data-editor-theme='dark'] .panel-heading p,
-:root[data-editor-theme='dark'] .muted,
-:root[data-editor-theme='dark'] .edit-panel p,
-:root[data-editor-theme='dark'] .empty-panel,
-:root[data-editor-theme='dark'] .gallery-header p,
-:root[data-editor-theme='dark'] .template-gallery p { color: #c3b6cf; }
-:root[data-editor-theme='dark'] .builder-app button:not(.primary):not(.product-card):not(.block-image-action),
-:root[data-editor-theme='dark'] .template-gallery button:not(.primary):not(.product-card) { background: #30283c; border-color: #594766; color: #f3edf8; }
-:root[data-editor-theme='dark'] .builder-app button:not(.primary):not(.product-card):hover:not(:disabled),
-:root[data-editor-theme='dark'] .template-gallery button:not(.primary):not(.product-card):hover:not(:disabled) { background: #443453; }
-:root[data-editor-theme='dark'] .builder-app button.primary,
-:root[data-editor-theme='dark'] .template-gallery button.primary { background: #8544ad; color: #fff; border-color: #9d60c3; }
-:root[data-editor-theme='dark'] .builder-app button.primary:hover,
-:root[data-editor-theme='dark'] .template-gallery button.primary:hover { background: #9d57c5; }
-:root[data-editor-theme='dark'] .app-header nav,
-:root[data-editor-theme='dark'] .app-header nav button[aria-pressed=true],
-:root[data-editor-theme='dark'] .product-tabs button[aria-pressed=true],
-:root[data-editor-theme='dark'] .floating-tools button[aria-pressed=true],
-:root[data-editor-theme='dark'] .gallery-tabs button[aria-pressed=true] { background: #66318a !important; color: #fff !important; }
-:root[data-editor-theme='dark'] .save-state { color: #9ce4bc; }
-:root[data-editor-theme='dark'] .save-state.error,
-:root[data-editor-theme='dark'] .edit-panel .danger { color: #ff9aaf; }
-:root[data-editor-theme='dark'] .library-item,
-:root[data-editor-theme='dark'] .block-order li button,
-:root[data-editor-theme='dark'] .tag-options>button,
-:root[data-editor-theme='dark'] .upload-box,
-:root[data-editor-theme='dark'] .image-adjustments,
-:root[data-editor-theme='dark'] .brand-logo-picker { border-color: #594766; }
-:root[data-editor-theme='dark'] .block-order button.active,
-:root[data-editor-theme='dark'] .brand-logo-options button[aria-pressed=true] { background: #48305a !important; border-color: #b982db; }
-:root[data-editor-theme='dark'] .auto-note,
-:root[data-editor-theme='dark'] .order-end { background: #30263d; color: #d6b7e9; border-color: #72538a; }
-:root[data-editor-theme='dark'] .canvas-shell,
-:root[data-editor-theme='dark'] .canvas-area { background: #15121b; }
-:root[data-editor-theme='dark'] .canvas-hint { background: linear-gradient(#15121b 65%, #15121b00); color: #bcb0c8; }
-:root[data-editor-theme='dark'] .status-line { color: #c6b4d3; }
-:root[data-editor-theme='dark'] .floating-tools { background: #292132; border-color: #594766; box-shadow: 0 8px 28px #0008; }
-:root[data-editor-theme='dark'] .floating-tools select,
-:root[data-editor-theme='dark'] .edit-panel input,
-:root[data-editor-theme='dark'] .edit-panel textarea,
-:root[data-editor-theme='dark'] .edit-panel select,
-:root[data-editor-theme='dark'] .brand-logo-picker input,
-:root[data-editor-theme='dark'] .gallery-filters input,
-:root[data-editor-theme='dark'] .gallery-filters select { background: #30283c; border-color: #695474; color: #f3edf8; }
-:root[data-editor-theme='dark'] input::placeholder,
-:root[data-editor-theme='dark'] textarea::placeholder { color: #b9a9c5; }
-:root[data-editor-theme='dark'] .tool-divider { background: #5c4c67; }
-:root[data-editor-theme='dark'] .template-gallery { background: #17141d; border-color: #594766; color: #f3edf8; }
-:root[data-editor-theme='dark'] .template-gallery::backdrop { background: #09070cbb; }
+:root[data-editor-theme='dark'] body { background: #262626; color: #eeeeee; }
+:root[data-editor-theme='dark'] .template-gallery,
+:root[data-editor-theme='dark'] .template-gallery p,
+:root[data-editor-theme='dark'] .gallery-header p { color: #cfcfcf; }
+:root[data-editor-theme='dark'] .template-gallery { background: #2d2d2d; border-color: #5a5a5a; color: #eeeeee; }
+:root[data-editor-theme='dark'] .template-gallery::backdrop { background: #000000b8; }
+:root[data-editor-theme='dark'] .template-gallery h2,
+:root[data-editor-theme='dark'] .template-gallery h3,
+:root[data-editor-theme='dark'] .template-gallery label { color: #eeeeee; }
+:root[data-editor-theme='dark'] .template-gallery button:not(.primary):not(.product-card) { background: #444444; border-color: #707070; color: #eeeeee; }
+:root[data-editor-theme='dark'] .template-gallery button:not(.primary):not(.product-card):hover:not(:disabled) { background: #5a5a5a; }
+:root[data-editor-theme='dark'] .template-gallery button.primary { background: #3d63d9; color: #fff; border-color: #3d63d9; }
+:root[data-editor-theme='dark'] .template-gallery button.primary:hover:not(:disabled) { background: #2f4aa6; color: #fff; }
+:root[data-editor-theme='dark'] .gallery-tabs button[aria-pressed=true] { background: #3d63d9 !important; color: #fff !important; }
 :root[data-editor-theme='dark'] .gallery-header,
 :root[data-editor-theme='dark'] .gallery-tabs,
 :root[data-editor-theme='dark'] .gallery-footer,
 :root[data-editor-theme='dark'] .template-card,
 :root[data-editor-theme='dark'] .saved-drafts article,
-:root[data-editor-theme='dark'] .gallery-empty { background: #251f2e; border-color: #4c3e59; }
+:root[data-editor-theme='dark'] .gallery-empty { background: #383838; border-color: #5a5a5a; }
 :root[data-editor-theme='dark'] .gallery-header small,
 :root[data-editor-theme='dark'] .gallery-filters>span,
 :root[data-editor-theme='dark'] .gallery-footer span,
-:root[data-editor-theme='dark'] .template-spread h3 { color: #d4acec; }
-:root[data-editor-theme='dark'] .template-thumbnail { background: linear-gradient(145deg, #302639, #1d1923); }
-:root[data-editor-theme='dark'] .gallery-error,
-:root[data-editor-theme='dark'] .price-warning { background: #41282d; color: #ffd3b9; }
-:root[data-editor-theme='dark'] .draft-recovery { background: #251f2e; border-color: #594766; color: #f3edf8; }
+:root[data-editor-theme='dark'] .template-spread h3 { color: #b7c9ff; }
+:root[data-editor-theme='dark'] .template-thumbnail { background: linear-gradient(145deg, #4a4a4a, #333333); }
+:root[data-editor-theme='dark'] .gallery-filters input,
+:root[data-editor-theme='dark'] .gallery-filters select { background: #393939; border-color: #929292; color: #eeeeee; }
+:root[data-editor-theme='dark'] input::placeholder,
+:root[data-editor-theme='dark'] textarea::placeholder { color: #bcbcbc; }
+:root[data-editor-theme='dark'] .gallery-error { background: #5a2b2b; color: #ffe1d2; }
+:root[data-editor-theme='dark'] .draft-recovery { background: #383838; border-color: #5a5a5a; color: #eeeeee; }
+:root[data-editor-theme='dark'] .draft-recovery button:not(.primary) { background: #444444; border-color: #707070; color: #eeeeee; }
+:root[data-editor-theme='dark'] .draft-recovery button.primary { background: #3d63d9; border-color: #3d63d9; color: #fff; }
 :root[data-editor-theme='dark'] .flyer-sheet,
 :root[data-editor-theme='dark'] .template-preview .flyer-sheet { color-scheme: light; background: white; color: #292235; }
 @media print {
   :root[data-editor-theme='dark'] { color-scheme: light; }
   :root[data-editor-theme='dark'] body { background: white; color: black; }
 }
-:root[data-editor-theme='dark'] .edit-panel .panel-section { background: #272030; border-color: #3e344a; }
-:root[data-editor-theme='dark'] .edit-panel .section-title { color: #d9b8f0; }
-:root[data-editor-theme='dark'] .edit-panel .document-title { border-top-color: #3e344a; }
-:root[data-editor-theme='dark'] .edit-panel .upload-box.compact > img,
-:root[data-editor-theme='dark'] .edit-panel .upload-box.compact > span { background: #1a1522; border-color: #594766; }
-:root[data-editor-theme='dark'] .edit-panel .upload-box { background: #1f1928; color: #f3edf8; }
-:root[data-editor-theme='dark'] .edit-panel .upload-box small { color: #b9a6c7; }
