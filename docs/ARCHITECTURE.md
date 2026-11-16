@@ -3,7 +3,7 @@
 Baseline: 80c11f2d5a25d2fa57a6b1df7a654eac2c38a47c.
 
 ## Tecnologias observadas
-O montador agora usa um motor Rust 1.100.0 compilado para WebAssembly nos cálculos de altura e paginação. React/TypeScript continuam responsáveis pela interface e pelos objetos do documento. Cargo compila o WASM antes de Vite; o GitHub Actions executa testes Rust, modelo e paridade WASM antes do deploy. A ponte possui fallback para as regras TypeScript existentes. Não há servidor, novo formato de dados ou chave de armazenamento. Detalhes em [RUST.md](RUST.md).
+O montador usa Rust 1.100.0/WebAssembly para altura, paginação e composição SVG das folhas. React/TypeScript mantêm interface, documento e camada semântica/interativa; o navegador mede CSS e tipografia, e Rust compõe textos, formas, recortes e imagens incorporadas. O mesmo SVG serve à impressão e à exportação da página visível. Cargo compila antes de Vite; GitHub Actions executa testes Rust, modelo, paridade e renderização antes do deploy. Falhas mantêm as regras TypeScript e o desenho HTML. Sem servidor, novo formato de dados ou chave de armazenamento. Detalhes em [RUST.md](RUST.md).
 
 React + TypeScript + Vite; módulos ES; package-lock.json para instalação reproduzível com npm ci.
 Faixas declaradas no package.json: React/React DOM ^19.3.1, Vite ^8.3.6, TypeScript ~7.0.2, Zustand ^5.1.0, Immer ^11.2.10, react-moveable ^0.56.0, morphdom ^2.7.8 e xlsx ^0.18.5.

@@ -1,4 +1,6 @@
-/** Rust owns numeric layout; TypeScript keeps the original document objects. */
+/** Rust owns pagination and SVG composition; React keeps document objects. */
+import { encodeScene } from './render-scene.ts'
+import type { RenderScene } from './render-scene.ts'
 type LayoutWasm = {
   memory: WebAssembly.Memory
   abi_version: () => number
@@ -6,6 +8,30 @@ type LayoutWasm = {
   allocate: (length: number) => number
   paginate: (pointer: number, length: number, height: number) => number
   release: (pointer: number, length: number) => void
+  renderer_version?: () => number
+  render_allocate?: (length: number) => number
+  render_scene?: (pointer: number, length: number) => bigint
+  render_release?: (pointer: number, length: number) => void
+}
+
+export function renderSvgScene(scene: RenderScene): string | undefined {
+  const runtime = engine
+  if (!runtime?.render_allocate || !runtime.render_scene || !runtime.render_release || runtime.renderer_version?.() !== 1) return undefined
+  let input = 0, output = 0, length = 0, outputLength = 0
+  try {
+    const bytes = encodeScene(scene); length = bytes.length
+    input = runtime.render_allocate(length) >>> 0
+    if (!input) return undefined
+    new Uint8Array(runtime.memory.buffer, input, length).set(bytes)
+    const packed = runtime.render_scene(input, length)
+    output = Number(packed & 0xffffffffn); outputLength = Number(packed >> 32n)
+    if (!output || !outputLength || outputLength > 128 * 1024 * 1024) return undefined
+    return new TextDecoder('utf-8', { fatal: true }).decode(new Uint8Array(runtime.memory.buffer, output, outputLength))
+  } catch { return undefined }
+  finally {
+    try { if (output) runtime.render_release(output, outputLength) } catch { /* Keep the DOM fallback available after a WASM trap. */ }
+    try { if (input) runtime.render_release(input, length) } catch { /* Keep the DOM fallback available after a WASM trap. */ }
+  }
 }
 let engine: LayoutWasm | null = null
 const MAX_BLOCKS = 250_000

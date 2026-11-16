@@ -1,0 +1,15 @@
+.flyer-sheet { position: relative; }
+.rust-vector-layer { position: absolute; inset: 0; z-index: 1; pointer-events: none; display: none; }
+.flyer-sheet[data-render-engine='rust-svg'] > .rust-vector-layer { display: block; }
+.rust-vector-image { display: block; width: 100%; height: 100%; pointer-events: none; }
+.flyer-sheet[data-render-engine='rust-svg'] .flyer-block > :not(.block-image-action) { opacity: 0; }
+.rust-render-mark { position: absolute; z-index: 2; pointer-events: none; border-radius: 3px; }
+.rust-mark-block { outline: 2px solid var(--editor-selection,#89a9ff); outline-offset: 1px; }
+.rust-mark-product,.rust-mark-focus { box-shadow: inset 0 0 0 2px var(--editor-selection,#89a9ff); }
+.rust-mark-photo { display: grid; place-items: center; color: #b69ac8; font-size: 16px; }
+.print-document.rust-print-document { display: block; position: fixed; left: -100000px; top: 0; visibility: hidden; pointer-events: none; }
+.print-document.rust-print-document > .flyer-sheet { width: var(--sheet-width-mm,153mm); height: var(--sheet-height-mm,207mm); }
+@media print {
+  .print-document.rust-print-document { position: static; visibility: visible; pointer-events: auto; }
+  .rust-render-mark { display: none !important; }
+}

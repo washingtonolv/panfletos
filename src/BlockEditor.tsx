@@ -27,6 +27,8 @@ import { PriceTag } from './PriceTag'
 import { imageStyle } from './image-style'
 import { textCss } from './text-style'
 import { layoutEngineName } from './layout-engine'
+import RustRenderSurface from './RustRenderSurface'
+import { prepareVectorPrint, visiblePageSvg } from './render-output'
 
 const EDITOR_THEME_KEY = 'panfletos:editor:theme'
 function savedEditorTheme(): boolean {
@@ -199,9 +201,19 @@ export default function BlockEditor() {
     if (!issue) return
     setSide(issue.side); setSelected(issue.blockId); setProductIndex(issue.productIndex)
   }
-  function printDocument() {
+  async function printDocument() {
     if (printIssues.length) { setNotice('Corrija os preços inválidos dos lados escolhidos antes de imprimir.'); return }
+    const printing = latestDoc.current
+    await prepareVectorPrint()
+    if (printing !== latestDoc.current) { setNotice('O projeto mudou durante a preparação. Clique em imprimir novamente.'); return }
     window.print()
+  }
+  async function exportSvg() {
+    const exporting = latestDoc.current
+    const result = await visiblePageSvg()
+    if (!result || exporting !== latestDoc.current) { setNotice('Não foi possível preparar o SVG desta página. O projeto continua disponível para editar e imprimir.'); return }
+    const url=URL.createObjectURL(new Blob([result.svg],{type:'image/svg+xml;charset=utf-8'}))
+    const link=document.createElement('a');link.href=url;link.download=`panfleto-${side}-${result.page}.svg`;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000)
   }
   function undo() {
     const previous = history.past.at(-1); if (!previous) return
@@ -315,6 +327,7 @@ export default function BlockEditor() {
       { label: 'Novo / modelos…', onSelect: () => setGalleryOpen(true) },
       { label: 'Abrir projeto…', onSelect: () => fileInput.current?.click() },
       { label: 'Baixar projeto (JSON)', onSelect: () => download(doc) },
+      { label: 'Exportar página visível (SVG)', disabled: !blocks.length, onSelect: () => { void exportSvg() } },
       'separator',
       { label: 'Imprimir / PDF', onSelect: printDocument },
     ] },
@@ -392,6 +405,7 @@ export default function BlockEditor() {
                 <div className="block-controls"><button draggable onDragStart={e => beginDrag(e, `block:${b.id}`)} aria-label={`Arrastar ${b.name}`}>⠿</button><button onClick={() => pick(b.id)}>{b.name}</button></div>
                 <FlyerBlock block={b} selected={selected === b.id} productIndex={productIndex} pick={i => pick(b.id, i)} imagePick={i => chooseImage(b.id, i)} imageDrop={(file, i) => { pick(b.id, i); void upload(file, imageTarget(latestDoc.current, side, b.id, i)) }} />
               </div>)}
+              <RustRenderSurface revision={doc} />
             </div></section>)}
             <div className={`canvas-end ${dragging ? 'ready' : ''}`} onDragOver={e => e.preventDefault()} onDrop={e => drop(e)}>＋ Solte um layout aqui para adicionar ao final</div>
           </CanvasViewport>
@@ -412,6 +426,6 @@ export default function BlockEditor() {
     </div>
     {galleryOpen && <TemplateGallery onClose={() => setGalleryOpen(false)} onUse={useTemplate} onDownload={download} preview={templatePreview} />}
     <style>{`@media print { @page { size: ${size.widthMm}mm ${size.heightMm}mm; margin: 0; } }`}</style>
-    <div className="print-document">{printIssues.length ? <p role="alert">Impressão bloqueada: corrija os preços inválidos dos lados escolhidos no editor.</p> : (['frente', 'verso'] as Side[]).filter(s => (printSides === 'both' || printSides === s) && doc[s].length).flatMap(s => paginate(doc[s], size.height).map((page, pi) => <div key={`${s}-${pi}`} className={`flyer-sheet ${doc.layout ? 'themed-sheet' : ''} ${doc.pageBackground ? 'has-page-background' : ''}`} style={{ ...sheetStyle(doc), gridTemplateRows: page.map(b => `minmax(${minHeight(b)}px, ${Math.max(1, b.h)}fr)`).join(' ') }}>{page.map(b => <FlyerBlock key={b.id} block={b} />)}</div>))}</div>
+    <div className="print-document rust-print-document">{printIssues.length ? <p role="alert">Impressão bloqueada: corrija os preços inválidos dos lados escolhidos no editor.</p> : (['frente', 'verso'] as Side[]).filter(s => (printSides === 'both' || printSides === s) && doc[s].length).flatMap(s => paginate(doc[s], size.height).map((page, pi) => <div key={`${s}-${pi}`} className={`flyer-sheet ${doc.layout ? 'themed-sheet' : ''} ${doc.pageBackground ? 'has-page-background' : ''}`} style={{ ...sheetStyle(doc), gridTemplateRows: page.map(b => `minmax(${minHeight(b)}px, ${Math.max(1, b.h)}fr)`).join(' ') }}>{page.map(b => <FlyerBlock key={b.id} block={b} />)}<RustRenderSurface revision={doc} /></div>))}</div>
   </>
 }
