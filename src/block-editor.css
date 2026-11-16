@@ -112,3 +112,17 @@
 @media print{.floating-tools,.canvas-hint,.block-image-action,.photo-action-hint{display:none!important}}
 
 .product-photo{border:1px dashed rgba(128,128,128,.1)}.photo-placeholder{display:grid;place-items:center;width:100%;height:100%}.image-adjustments{border:1px solid #ddd5e5;border-radius:10px;margin:18px 0;padding:12px}.image-adjustments legend{font-size:12px;font-weight:700}.image-adjustments output{font-size:11px}.product-photo img,.block-artwork img{flex-shrink:0}
+
+/* AIDF-011: painel de edição em seções, com foto e marca compactas. Apenas interface; documento e impressão não mudam. */
+.edit-panel .panel-section{margin-top:18px;padding:14px;border:1px solid #e9e0ee;border-radius:12px;background:#fdfbfe}
+.edit-panel .section-title{margin:0 0 2px;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#6a2c91}
+.edit-panel .sub-title{margin:16px 0 8px;font-size:12px;font-weight:700}
+.edit-panel .document-title{margin:30px 0 0;padding-top:18px;border-top:1px solid #e9e0ee}
+.edit-panel .document-title+.print-options,.edit-panel .document-title+details{margin-top:12px}
+.edit-panel .upload-box.compact{display:grid;grid-template-columns:72px minmax(0,1fr);grid-template-rows:auto auto;column-gap:12px;row-gap:2px;align-items:center;justify-items:start;text-align:left;min-height:0;padding:10px}
+.edit-panel .upload-box.compact>img,.edit-panel .upload-box.compact>span{grid-row:1 / 3;grid-column:1;width:72px;height:72px;display:grid;place-items:center;background:#fff;border:1px solid #e9e0ee;border-radius:8px;object-fit:contain}
+.edit-panel .upload-box.compact>b{grid-column:2;align-self:end;font-size:12px}
+.edit-panel .upload-box.compact>small{grid-column:2;align-self:start}
+.edit-panel .photo-remove{margin-top:8px}
+.edit-panel .brand-logo-picker{margin:14px 0 0;padding:10px}
+.edit-panel .brand-logo-options{grid-template-columns:repeat(3,minmax(0,1fr));max-height:210px}
