@@ -82,3 +82,10 @@
   :root[data-editor-theme='dark'] { color-scheme: light; }
   :root[data-editor-theme='dark'] body { background: white; color: black; }
 }
+:root[data-editor-theme='dark'] .edit-panel .panel-section { background: #272030; border-color: #3e344a; }
+:root[data-editor-theme='dark'] .edit-panel .section-title { color: #d9b8f0; }
+:root[data-editor-theme='dark'] .edit-panel .document-title { border-top-color: #3e344a; }
+:root[data-editor-theme='dark'] .edit-panel .upload-box.compact > img,
+:root[data-editor-theme='dark'] .edit-panel .upload-box.compact > span { background: #1a1522; border-color: #594766; }
+:root[data-editor-theme='dark'] .edit-panel .upload-box { background: #1f1928; color: #f3edf8; }
+:root[data-editor-theme='dark'] .edit-panel .upload-box small { color: #b9a6c7; }
