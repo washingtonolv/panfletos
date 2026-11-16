@@ -1,5 +1,11 @@
 # Verificação — Panfletos
 
+## AIDF-014 — refinamento do painel (2026-11-16)
+- 37 testes de modelo aprovados, lint sem erros (cinco avisos existentes), TypeScript/build aprovados. Nenhuma dependência ou configuração de publicação alterada.
+- Navegador local: busca/filtros, inserção por clique e arraste no verso, foto/nome/preço/etiqueta, histórico, ajuste à tela, zoom manual, temas, galeria/prévia/cancelamento, modelo maior e exportação JSON com foto.
+- Revisão responsiva em 1100 × 820, 900 × 800 e 390 × 844; folha ajustada contida no canvas e documento sem estouro horizontal. Modelo completo sem interseção entre cartões.
+- Impressão emulada: interface oculta, duas folhas no tamanho de 185 × 270 mm. Console sem erros. Limites e reversão em tasks/AIDF-014.md; sem impressão física ou auditoria completa de acessibilidade.
+
 ## AIDF-008 — biblioteca de logos
 33 testes do modelo aprovados, incluindo persistência, remoção, arquivos ausentes e rejeição de identificadores malformados. Build/TypeScript aprovados e lint sem erros (cinco avisos existentes). scripts/logos.browser.mjs verifica carregamento das 58 imagens, busca, seleção, marca textual preservada, exibição na impressão, remoção, undo/redo, JSON, reload e fallback ausente em contexto Edge isolado. Screenshot desktop revisado. Sem impressão física ou auditoria completa de acessibilidade. Biblioteca usa arquivos fornecidos, sem logos inventadas. Manter arquivos antigos para compatibilidade de projetos.
 
