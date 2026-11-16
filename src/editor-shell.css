@@ -53,11 +53,11 @@
 :root[data-editor-theme='light'] .price-warning { background: #fdeadf; color: #6c2d0b; }
 
 /* Workspace grid */
-.builder-workspace { flex: 1; min-height: 0; display: grid; grid-template-columns: 48px 264px minmax(0, 1fr) 320px; background: var(--editor-canvas); }
-.ed-rail { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 4px; background: var(--editor-toolbar); border-right: 1px solid var(--editor-border); }
+.builder-workspace { flex: 1; min-height: 0; display: grid; grid-template-columns: 264px minmax(0, 1fr) 320px; background: var(--editor-canvas); }
+.ed-rail { position: absolute; z-index: 9; left: 16px; bottom: 16px; display: flex; flex-direction: row; align-items: center; gap: 4px; padding: 5px; background: var(--editor-toolbar); border: 1px solid var(--editor-field-border); border-radius: 12px; box-shadow: 0 6px 20px #0008; max-width: calc(100% - 24px); }
 .builder-app .ed-rail button { width: 38px; height: 38px; padding: 0; display: grid; place-items: center; }
 .ed-rail svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
-.ed-rail-divider { width: 24px; height: 1px; background: var(--editor-field-border); opacity: .5; margin: 4px 0; }
+.ed-rail-divider { width: 1px; height: 24px; background: var(--editor-field-border); opacity: .5; margin: 0 4px; }
 
 /* Left column: layouts and page structure */
 .ed-left, .ed-right { background: var(--editor-panel); overflow: auto; min-height: 0; padding: 0 0 16px; }
@@ -153,6 +153,10 @@
 .builder-app .floating-tools .fit-view { display: flex; align-items: center; gap: 6px; margin-right: 4px; font-size: 11px; padding: 4px 8px; }
 .builder-app .floating-tools .fit-view svg { width: 17px; height: 17px; }
 .builder-app .floating-tools .fit-view[aria-pressed='true'] { background: var(--editor-accent); color: var(--editor-accent-text); }
+@container (max-width: 580px) {
+  .ed-rail { left: 50%; bottom: 65px; transform: translateX(-50%); }
+  .builder-app .floating-tools.zoom-cluster { left: 50%; right: auto; bottom: 12px; transform: translateX(-50%); }
+}
 .builder-app :is(.ed-left, .ed-right, .canvas-area, .ed-inspector-body, .ed-library-scroll, .ed-structure) { scrollbar-width: thin; scrollbar-color: var(--editor-field-border) transparent; }
 
 /* Inspector */
@@ -173,6 +177,9 @@
 .ed-inspector input[aria-invalid='true'] { border-color: var(--editor-danger); }
 .ed-inspector small { color: var(--editor-text-muted); font-weight: 400; font-size: 11px; }
 .ed-inspector textarea { resize: vertical; }
+.ed-text-properties .ed-two { align-items: end; }
+.ed-text-properties .ed-two button { min-height: 32px; }
+.ed-text-properties .ed-hint { margin-top: 10px; }
 .ed-two { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .ed-row-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px; }
 .ed-group > button, .ed-inspector-body > button { margin-top: 8px; }
@@ -211,7 +218,7 @@
 .ed-status .save-state.error { color: var(--editor-danger); }
 
 @media (max-width: 1100px) {
-  .builder-workspace { grid-template-columns: 44px 208px minmax(0, 1fr) 276px; }
+  .builder-workspace { grid-template-columns: 208px minmax(0, 1fr) 276px; }
   .thumb { height: 44px; }
   .ed-stagebar { align-items: flex-start; }
   .ed-context-name { display: none; }
@@ -223,7 +230,7 @@
   .builder-app { height: auto; min-height: 100dvh; }
   .ed-menubar { position: sticky; top: 0; flex-wrap: wrap; }
   .builder-workspace { display: flex; flex-direction: column; }
-  .ed-rail { flex-direction: row; justify-content: center; padding: 4px; border-right: 0; border-bottom: 1px solid var(--editor-border); }
+  .ed-rail { padding: 5px; }
   .ed-rail-divider { width: 1px; height: 24px; margin: 0 4px; }
   .ed-left { max-height: none; border-right: 0; border-bottom: 1px solid var(--editor-border); }
   .ed-left .ed-library { flex: none; max-height: 340px; }
@@ -238,7 +245,7 @@
   .ed-right > .ed-structure { flex: none; max-height: 180px; }
   .ed-doc-actions button:not(.ed-primary) { font-size: 11px; padding: 5px 8px; }
   .ed-context-name { display: none; }
-  .builder-app .floating-tools.zoom-cluster { right: 10px; bottom: 10px; }
+  .builder-app .floating-tools.zoom-cluster { left: 50%; right: auto; bottom: 10px; transform: translateX(-50%); }
   .ed-status { gap: 6px 12px; }
   .ed-status .save-state { display: inline; margin: 0; }
   .ed-sheet-empty { gap: 10px; padding: 16px; }

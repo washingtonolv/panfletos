@@ -9,6 +9,35 @@ import { formats } from '../src/layout-settings.ts'
 import { replaceDraft, listSavedDrafts, SAVED_PREFIX, openBlankSession, SESSION_FLAG } from '../src/draft-library.ts'
 import { imageTarget, applyImage } from '../src/editor-images.ts'
 import { validLogoId } from '../src/logo-id.ts'
+import { readTextStyle, textCss } from '../src/text-style.ts'
+
+test('text styles survive JSON, drafts and block moves without changing photos, prices or geometry', () => {
+ const doc=normalize(seed), original=structuredClone(doc)
+ doc.frente[0].fields[1].style={fontFamily:'Georgia',fontSize:28,fontWeight:700,textAlign:'center',lineHeight:1.2,letterSpacing:1,color:'#123456'}
+ doc.verso.at(-1).fields[0].style={fontFamily:'Arial',fontSize:10,textAlign:'right',letterSpacing:0,lineHeight:1}
+ doc.frente[1].products[0].textStyles={name:{fontFamily:'Verdana',fontSize:12,fontStyle:'italic',textAlign:'right',letterSpacing:.5,lineHeight:1.5},brand:{fontWeight:900},label:{color:'#ff0000'}}
+ const parsed=parseProject(JSON.stringify(doc))
+ assert.deepEqual(parsed,doc)
+ assert.deepEqual(loadDraft({getItem:k=>k===STORAGE?JSON.stringify(doc):null}).document,doc)
+ assert.deepEqual(parsed.frente.map(b=>b.h),original.frente.map(b=>b.h))
+ assert.deepEqual(parsed.frente[1].products.slice(1),original.frente[1].products.slice(1))
+ for(const k of ['photo','por','de','tag']) assert.equal(parsed.frente[1].products[0][k],original.frente[1].products[0][k])
+ assert.deepEqual(moveBlock(parsed.frente,parsed.frente[1].id).at(-1).products[0].textStyles,doc.frente[1].products[0].textStyles)
+ assert.equal(textCss({letterSpacing:2}).letterSpacing,'2px')
+ assert.equal(textCss(),undefined)
+})
+
+test('invalid and unknown typography values are rejected before document import', () => {
+ for(const style of [null,[],{fontFamily:'url(https://x.test/font)'},{fontSize:Infinity},{fontSize:5},{fontSize:73},{fontSize:'12'},{fontWeight:500},{fontStyle:'oblique'},{textAlign:'diagonal'},{letterSpacing:-3},{letterSpacing:13},{lineHeight:0},{lineHeight:4},{color:'red'},{color:'url(x)'},{position:'absolute'}]) {
+  assert.throws(()=>readTextStyle(style))
+  const block=normalize(seed);block.frente[0].fields[0].style=style;assert.throws(()=>validateProject(block),ProjectImportError)
+  const product=normalize(seed);product.frente[1].products[0].textStyles={name:style};assert.throws(()=>validateProject(product),ProjectImportError)
+ }
+ for(const styles of [null,[],{price:{fontSize:12}},{name:[]},'bad']) {const doc=normalize(seed);doc.frente[1].products[0].textStyles=styles;assert.throws(()=>validateProject(doc),ProjectImportError)}
+ for(const style of [{fontSize:6,lineHeight:.8,letterSpacing:-2},{fontSize:72,lineHeight:3,letterSpacing:12},{}]) assert.deepEqual(readTextStyle(style),style)
+ assert.equal(normalize(seed).frente[0].fields[0].style,undefined)
+ assert.equal(normalize(seed).frente[1].products[0].textStyles,undefined)
+})
 
 test('brand logos persist without changing brand names, support missing files and reject paths', () => {
  const doc=normalize(seed);doc.frente[1].products[0].brandLogo='Eudora - eudora_logo_preta.png'
