@@ -1,13 +1,13 @@
 # Contrato visual — Panfletos
 
 ## Fonte atual
-src/BlockEditor.tsx e src/block-editor.css são a referência implementada. Este documento não aprova um redesenho. Os modos legados possuem estilos próprios. Nenhuma referência Figma foi fornecida.
+src/BlockEditor.tsx, src/editor-shell.css e os componentes EditorMenus, LayoutLibrary, PageStructure e Inspector são a referência implementada. O redesenho do painel foi aprovado pelo usuário em AIDF-013 (ambiente grafite). Os modos legados possuem estilos próprios. Nenhuma referência Figma foi fornecida.
 
 ## Fundações observadas
 - Fonte da interface: Inter, Arial, sans-serif.
-- Texto #292235; fundo #f2eff5; ação principal #6a2c91; painéis brancos; foco #b18cd5.
+- Tema grafite (padrão) via tokens `--editor-*` em .builder-app: painel #444444, barra #4b4b4b, canvas #262626, campo #393939, borda #333333, texto #eeeeee, texto secundário #bcbcbc, seleção #89a9ff, ação #3d63d9. Tema claro opcional (texto #292235, ação #6a2c91) pelo botão de tema; preferência em `panfletos:editor:theme`. A folha do panfleto mantém as cores de impressão em qualquer tema.
 - Etiquetas D&D: vermelho #e91d47, cápsula branca e centavos elevados. Destaque progressivo usa azul, verde e roxo.
-- Biblioteca à esquerda, folha ao centro e edição à direita. Há regras em 1100 px, 780 px e para impressão.
+- Barra de menus (Arquivo, Editar, Visualizar, Organizar, só com ações reais), faixa do documento, trilho de ferramentas, layouts prontos com miniaturas e estrutura da página à esquerda, folha ao centro com abas 01 · Frente / 02 · Verso e barra contextual (Foto, Nome, Preço, Duplicar), inspetor Propriedades (Produto / Bloco / Documento) e lista de blocos à direita, barra de status. Sem régua e sem controles sem função. Regras em 1100 px, 780 px (painéis empilhados) e para impressão.
 - Folha de tela 578 × 782 px; saída pretendida 153 × 207 mm. Zoom não muda o tamanho físico da impressão.
 
 ## Componentes a preservar
