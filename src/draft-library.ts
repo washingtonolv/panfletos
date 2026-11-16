@@ -1,5 +1,5 @@
 import { normalize, STORAGE, uid } from './block-model.ts'
-import type { Document, DraftStorage } from './block-model.ts'
+import type { Document, DraftLoad, DraftStorage } from './block-model.ts'
 
 export const SAVED_PREFIX = 'panfletos:saved:'
 export type SavedDraft = { version: 1; key: string; name: string; createdAt: string; document: Document }
@@ -29,4 +29,24 @@ export function listSavedDrafts(storage: LibraryStorage = localStorage): { draft
     } catch { unreadable++ }
   }
   return { drafts: drafts.sort((a, b) => b.createdAt.localeCompare(a.createdAt)), unreadable }
+}
+
+// AIDF-012: each new browser session (first load of a tab) opens a blank sheet. The previous
+// work is archived through replaceDraft first, so nothing is deleted. A reload in the same tab
+// keeps the current draft. Any failure keeps the loaded draft untouched.
+export const SESSION_FLAG = 'panfletos:session-started'
+type SessionStorageLike = Pick<Storage, 'getItem' | 'setItem'>
+export const blankDocument = (): Document => ({ frente: [], verso: [] })
+const hasContent = (doc: Document) => doc.frente.length > 0 || doc.verso.length > 0
+
+export function openBlankSession(state: DraftLoad, storage: DraftStorage = localStorage, session?: SessionStorageLike): DraftLoad {
+  try {
+    const flags = session ?? sessionStorage
+    if (flags.getItem(SESSION_FLAG)) return state
+    flags.setItem(SESSION_FLAG, '1')
+    if (!state.canSave) return state
+    if (state.sourceKey !== null && hasContent(state.document)) replaceDraft(state.document, blankDocument(), storage.getItem(STORAGE), storage)
+    else if (state.sourceKey !== STORAGE) storage.setItem(STORAGE, JSON.stringify(blankDocument()))
+    return { document: blankDocument(), sourceKey: STORAGE, failures: [], canSave: true }
+  } catch { return state }
 }
