@@ -26,6 +26,7 @@ import BrandMark from './BrandMark'
 import { PriceTag } from './PriceTag'
 import { imageStyle } from './image-style'
 import { textCss } from './text-style'
+import { layoutEngineName } from './layout-engine'
 
 const EDITOR_THEME_KEY = 'panfletos:editor:theme'
 function savedEditorTheme(): boolean {
@@ -346,7 +347,7 @@ export default function BlockEditor() {
   ]
 
   return <>
-    <div className="builder-app" onDragEnd={() => { setDragging(false); setOver(null) }}>
+    <div className="builder-app" data-layout-engine={layoutEngineName()} onDragEnd={() => { setDragging(false); setOver(null) }}>
       <header className="ed-menubar">
         <div className="ed-brand"><span aria-hidden="true">▦</span><strong>Monta panfleto</strong></div>
         <EditorMenus menus={menus} />

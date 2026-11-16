@@ -5,6 +5,7 @@ import type { Layout, Appearance } from './layout-settings.ts'
 import { validLogoId } from './logo-id.ts'
 import { readTextStyle, readProductTextStyles } from './text-style.ts'
 import type { TextStyle, ProductTextStyles } from './text-style.ts'
+import { layoutEngineName, rustMinimumHeight, rustPageIndexes } from './layout-engine.ts'
 
 export type Tag = 'offer' | 'before' | 'pill' | 'wide' | 'progressive'
 export type ImageAdjustment = { scale: number; x: number; y: number }
@@ -119,6 +120,9 @@ export function newBlock(index: number): Block {
     fields: fields.map(([label, value]) => ({ key: uid(), label, value })) }
 }
 export function minHeight(b: Block) {
+  const rust = rustMinimumHeight(b.kind === 'header' ? 0 : b.kind.startsWith('foot') ? b.kind === 'footpay' ? 2 : 1 : 3,
+    b.products?.length || 1, !!b.products?.some(p => p.tag === 'offer' || p.tag === 'before'), !!b.fields?.length, b.appearance?.minHeight || 0)
+  if (rust !== undefined) return rust
   if (b.appearance) return b.appearance.minHeight
   if (b.kind === 'header') return 108
   if (b.kind.startsWith('foot')) return b.kind === 'footpay' ? 88 : 56
@@ -129,6 +133,14 @@ export function minHeight(b: Block) {
   return Math.ceil(58 + 72 + photoReserve + (b.fields?.length ? 24 : 0))
 }
 export function paginate(blocks: Block[], height = 782): Block[][] {
+  if (layoutEngineName() === 'rust-wasm') {
+    const indexes = rustPageIndexes(blocks.map(b => minHeight(b) + 6), height)
+    if (indexes) {
+      const pages: Block[][] = [[]]
+      indexes.forEach((page, index) => { (pages[page] ||= []).push(blocks[index]) })
+      return pages
+    }
+  }
   const pages: Block[][] = [[]]
   let used = 0
   for (const b of blocks) {

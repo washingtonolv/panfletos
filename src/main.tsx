@@ -4,7 +4,7 @@ import { createRoot } from 'react-dom/client'
 const root = document.getElementById('root')!
 
 if (location.hash !== '#livre' && location.hash !== '#avancado') {
-  void import('./BlockEditor').then(({ default: BlockEditor }) => {
+  void Promise.all([import('./BlockEditor'), import('./layout-engine-loader').then(({ loadLayoutEngine }) => loadLayoutEngine())]).then(([{ default: BlockEditor }]) => {
     createRoot(root).render(<StrictMode><BlockEditor /></StrictMode>)
   })
 } else if (location.hash === '#livre') {
