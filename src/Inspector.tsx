@@ -5,6 +5,8 @@ import { formats } from './layout-settings'
 import type { PriceResult } from './prices'
 import BrandLogoPicker from './BrandLogoPicker'
 import { PriceTag } from './PriceTag'
+import TextProperties from './TextProperties'
+import type { ProductTextStyles } from './text-style'
 
 export type InspectorTab = 'produto' | 'bloco' | 'documento'
 
@@ -90,6 +92,10 @@ export default function Inspector(p: Props) {
             <BrandLogoPicker value={product.brandLogo} onChange={logo => p.changeProduct({ brandLogo: logo?.id, ...(logo && !product.brand.trim() ? { brand: logo.name } : {}) })} /></details>
           <label>Nome do produto<textarea id="field-name" rows={3} value={product.name} onChange={e => p.changeProduct({ name: e.target.value })} /></label>
         </section>
+        <TextProperties key={`${current.id}-${p.productIndex}`} targets={(['name', ...(!product.brandLogo ? ['brand'] : []), ...(product.label ? ['label'] : [])] as (keyof ProductTextStyles)[]).map(id => ({ id, label: id === 'name' ? 'Nome do produto' : id === 'brand' ? 'Marca (texto)' : 'Chamada promocional', style: product.textStyles?.[id], onChange: style => {
+          const next = { ...product.textStyles }; if (style) next[id] = style; else delete next[id]
+          p.changeProduct({ textStyles: Object.keys(next).length ? next : undefined })
+        } }))} />
         <section className="ed-group" aria-label="Preço e etiqueta"><h3>Preço e etiqueta</h3>
           <div className="ed-two">
             <label>De (R$)<input id="field-de" inputMode="decimal" value={product.de} aria-invalid={p.deResult?.ok === false} aria-describedby="de-price-help" onChange={e => p.changeProduct({ de: e.target.value })} onBlur={() => p.formatPrice('de')} /><small id="de-price-help">{p.deResult?.ok === false ? p.deResult.message : 'Opcional. Ex.: 29,90'}</small></label>
@@ -132,6 +138,7 @@ export default function Inspector(p: Props) {
         {!!current.fields?.length && <section className="ed-group" aria-label="Textos do bloco"><h3>Textos</h3>
           {current.fields.map((f, i) => <label key={f.key}>{f.label}<input value={f.value} onChange={e => p.changeBlock(b => { b.fields![i].value = e.target.value })} /></label>)}
         </section>}
+        {!!current.fields?.length && <TextProperties key={current.id} targets={current.fields.map((field, index) => ({ id: field.key, label: field.label, style: field.style, onChange: style => p.changeBlock(block => { if (style) block.fields![index].style = style; else delete block.fields![index].style }) }))} />}
         {hasProducts && <p className="ed-hint">{current.products!.length} {current.products!.length === 1 ? 'produto' : 'produtos'} neste bloco. Use a aba Produto para editar foto, nome e preço.</p>}
       </>}
 

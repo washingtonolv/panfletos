@@ -1,5 +1,10 @@
 # Verificação — Panfletos
 
+## AIDF-015 — barra flutuante e texto (2026-11-16)
+- 39 testes aprovados; lint sem erros/cinco avisos existentes; TypeScript/build aprovados. Dois novos testes cobrem persistência e rejeição de estilos malformados sem alteração de fotos, preços e geometria.
+- Navegador: controles reais de fonte, tamanho, negrito/itálico, alinhamento, letras e entrelinhas; isolamento por texto/produto; reset, undo/redo, reload, JSON e impressão emulada. Cabeçalho, modelo antigo, foto e arraste conferidos; sem erros JavaScript.
+- Barra horizontal flutuante e zoom sem interseção em desktop, 900 × 800 e 390 × 844; sem estouro horizontal. Botão T leva à seção correta. Limites e reversão em tasks/AIDF-015.md.
+
 ## AIDF-014 — refinamento do painel (2026-11-16)
 - 37 testes de modelo aprovados, lint sem erros (cinco avisos existentes), TypeScript/build aprovados. Nenhuma dependência ou configuração de publicação alterada.
 - Navegador local: busca/filtros, inserção por clique e arraste no verso, foto/nome/preço/etiqueta, histórico, ajuste à tela, zoom manual, temas, galeria/prévia/cancelamento, modelo maior e exportação JSON com foto.

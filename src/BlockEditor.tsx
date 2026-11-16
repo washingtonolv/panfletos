@@ -25,6 +25,7 @@ import type { ImageTarget } from './editor-images'
 import BrandMark from './BrandMark'
 import { PriceTag } from './PriceTag'
 import { imageStyle } from './image-style'
+import { textCss } from './text-style'
 
 const EDITOR_THEME_KEY = 'panfletos:editor:theme'
 function savedEditorTheme(): boolean {
@@ -34,15 +35,15 @@ function savedEditorTheme(): boolean {
 function FlyerBlock({ block: b, pick, selected, productIndex, imagePick, imageDrop }: { block: Block; pick?: (index?: number) => void; selected?: boolean; productIndex?: number; imagePick?: (index?: number) => void; imageDrop?: (file: File, index?: number) => void }) {
   const artwork = ['header', 'footsite', 'footpay'].includes(b.kind)
   const content = artwork && b.image ? <div className="block-artwork"><img src={b.image} alt={b.kind === 'header' ? 'Imagem do cabeçalho' : 'Imagem do rodapé'} draggable={false} style={{ ...imageStyle(b.imageAdjustment), objectFit: b.imageFit || 'contain' }} /></div>
-    : b.kind === 'header' ? <div className="campaign"><small>{b.fields?.[0]?.value}</small><strong>{b.fields?.[1]?.value}</strong><span>✿</span></div>
-    : b.kind.startsWith('foot') ? <div className="flyer-footer">{b.fields?.map(f => <span key={f.key}>{f.value}</span>)}</div>
-    : <>{b.fields?.length ? <div className="block-title">{b.fields.map(f => f.value).filter(Boolean).join(' · ')}</div> : null}
+    : b.kind === 'header' ? <div className="campaign"><small style={textCss(b.fields?.[0]?.style)}>{b.fields?.[0]?.value}</small><strong style={textCss(b.fields?.[1]?.style)}>{b.fields?.[1]?.value}</strong><span>✿</span></div>
+    : b.kind.startsWith('foot') ? <div className="flyer-footer">{b.fields?.map(f => <span key={f.key} style={textCss(f.style)}>{f.value}</span>)}</div>
+    : <>{b.fields?.length ? <div className="block-title">{b.fields.filter(f => f.value).map((f, i) => <span key={f.key} style={textCss(f.style)}>{i > 0 ? ' · ' : ''}{f.value}</span>)}</div> : null}
       <div className="product-grid" style={{ gridTemplateColumns: `repeat(${b.products?.length || 1}, minmax(0, 1fr))` }}>
         {b.products?.map((p, i) => <button type="button" key={i} className={`product-card ${selected && productIndex === i ? 'is-picked' : ''}`}
           aria-label={`Editar produto ${i + 1}: ${p.name}`} onClick={e => { e.stopPropagation(); if ((e.target as HTMLElement).closest('.product-photo') && imagePick) imagePick(i); else pick?.(i) }}
           onDragOver={e => { if (imageDrop && e.dataTransfer.types.includes('Files')) { e.preventDefault(); e.stopPropagation() } }} onDrop={e => { const file = e.dataTransfer.files[0]; if (file && imageDrop) { e.preventDefault(); e.stopPropagation(); imageDrop(file, i) } }}>
           <span className="product-photo" title={imagePick ? (p.photo ? 'Clique para trocar a foto. Remova pelo painel de edição.' : 'Clique para adicionar foto') : undefined}>{p.photo ? <><img src={p.photo} alt={p.name} draggable={false} style={imageStyle(p.photoAdjustment)} />{imagePick && <span className="photo-action-hint">Trocar foto</span>}</> : <span className="photo-placeholder"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M4 16v5h16v-5" fill="none" stroke="currentColor" strokeWidth="1.5" /></svg></span>}</span>
-          <span className="product-copy" title={`${p.brand} ${p.name}`}>{p.label && <em className="product-label">{p.label}</em>}<BrandMark logoId={p.brandLogo} brand={p.brand} /><span>{p.name}</span></span>
+          <span className="product-copy" title={`${p.brand} ${p.name}`}>{p.label && <em className="product-label" style={textCss(p.textStyles?.label)}>{p.label}</em>}<BrandMark logoId={p.brandLogo} brand={p.brand} style={textCss(p.textStyles?.brand)} /><span style={textCss(p.textStyles?.name)}>{p.name}</span></span>
           <PriceTag product={p} index={i} />
         </button>)}
       </div></>
@@ -299,6 +300,15 @@ export default function BlockEditor() {
 
   const canPickImage = !!current && (!!current.products?.length || ['header', 'footsite', 'footpay'].includes(current.kind))
   const at = current ? blocks.indexOf(current) : -1
+  const floatingTools = <div className="ed-rail" role="toolbar" aria-orientation="horizontal" aria-label="Ferramentas">
+          <button type="button" title="Selecionar (V)" aria-label="Selecionar (V)" aria-pressed={tool === 'select'} onClick={() => setTool('select')}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 3 14 10-7 1-3 7Z" /></svg></button>
+          <button type="button" title="Mão (H) · segure Espaço para usar temporariamente" aria-label="Mão (H)" aria-pressed={tool === 'hand'} onClick={() => setTool('hand')}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 12V5a2 2 0 0 1 4 0v6-7a2 2 0 0 1 4 0v7-5a2 2 0 0 1 4 0v9c0 5-3 7-7 7-3 0-5-2-7-5l-3-5c-1-2 1-3 3-1l2 2Z" /></svg></button>
+          <span className="ed-rail-divider" />
+          <button type="button" title="Propriedades de texto" aria-label="Propriedades de texto" disabled={!current || (!product && !current.fields?.length)} onClick={() => { setTab(product ? 'produto' : 'bloco'); setTimeout(() => { const panel = document.querySelector<HTMLElement>('.ed-text-properties'); panel?.scrollIntoView({ block: 'start' }); panel?.querySelector<HTMLSelectElement>('select')?.focus({ preventScroll: true }) }) }}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14M12 5v15M8 20h8M5 5v3m14-3v3" /></svg></button>
+          <button type="button" title="Foto do item selecionado" aria-label="Foto do item selecionado" disabled={!canPickImage} onClick={() => current && chooseImage(current.id, product ? productIndex : undefined)}><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" /><circle cx="9" cy="10" r="1.6" /><path d="m4 18 5-5 4 4 3-3 4 4" /></svg></button>
+          <button type="button" title="Duplicar bloco" aria-label="Duplicar bloco" disabled={!current} onClick={duplicateBlock}><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2" /><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" /></svg></button>
+          <button type="button" title="Excluir bloco" aria-label="Excluir bloco" disabled={!current} onClick={deleteBlock}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M10 7V5h4v2m-7 0 1 12h8l1-12" /></svg></button>
+        </div>
   const menus: Menu[] = [
     { id: 'arquivo', label: 'Arquivo', items: [
       { label: 'Novo / modelos…', onSelect: () => setGalleryOpen(true) },
@@ -358,14 +368,6 @@ export default function BlockEditor() {
       </div>
       {issues.length > 0 && <div className="price-warning" role="alert">{issues.length} preço(s) precisam de revisão. Os valores digitados foram mantidos para correção; a impressão dos lados afetados está bloqueada. <button type="button" onClick={reviewPrice}>Revisar preços</button></div>}
       <div className="builder-workspace">
-        <div className="ed-rail" role="toolbar" aria-orientation="vertical" aria-label="Ferramentas">
-          <button type="button" title="Selecionar (V)" aria-label="Selecionar (V)" aria-pressed={tool === 'select'} onClick={() => setTool('select')}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 3 14 10-7 1-3 7Z" /></svg></button>
-          <button type="button" title="Mão (H) · segure Espaço para usar temporariamente" aria-label="Mão (H)" aria-pressed={tool === 'hand'} onClick={() => setTool('hand')}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 12V5a2 2 0 0 1 4 0v6-7a2 2 0 0 1 4 0v7-5a2 2 0 0 1 4 0v9c0 5-3 7-7 7-3 0-5-2-7-5l-3-5c-1-2 1-3 3-1l2 2Z" /></svg></button>
-          <span className="ed-rail-divider" />
-          <button type="button" title="Foto do item selecionado" aria-label="Foto do item selecionado" disabled={!canPickImage} onClick={() => current && chooseImage(current.id, product ? productIndex : undefined)}><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" /><circle cx="9" cy="10" r="1.6" /><path d="m4 18 5-5 4 4 3-3 4 4" /></svg></button>
-          <button type="button" title="Duplicar bloco" aria-label="Duplicar bloco" disabled={!current} onClick={duplicateBlock}><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2" /><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" /></svg></button>
-          <button type="button" title="Excluir bloco" aria-label="Excluir bloco" disabled={!current} onClick={deleteBlock}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M10 7V5h4v2m-7 0 1 12h8l1-12" /></svg></button>
-        </div>
         <aside className="ed-left" aria-label="Biblioteca e estrutura da página">
           <LayoutLibrary open={libraryOpen} onToggle={() => setLibraryOpen(v => !v)} onInsert={i => insert(i)} onDragStart={beginDrag} />
           <PageStructure title={`Estrutura da página · ${side === 'frente' ? 'frente' : 'verso'}`} blocks={blocks} selected={selected} over={over} reorder onPick={id => pick(id)} onMove={moveById} onDragStart={beginDrag} onDragOver={setOver} onDrop={drop} />
@@ -381,7 +383,7 @@ export default function BlockEditor() {
               <button type="button" disabled={!current} onClick={duplicateBlock}>Duplicar bloco</button>
             </div>
           </div>
-          <CanvasViewport ref={viewport} pageWidth={size.width} pageHeight={size.height} zoom={zoom} setZoom={setZoom} undo={undo} redo={redo} tool={tool} setTool={setTool}>
+          <CanvasViewport toolbar={floatingTools} ref={viewport} pageWidth={size.width} pageHeight={size.height} zoom={zoom} setZoom={setZoom} undo={undo} redo={redo} tool={tool} setTool={setTool}>
             {pages.map((page, pi) => <section className="page-stage" key={pi} style={{ width: size.width * zoom, height: size.height * zoom }} aria-label={`Página ${pi + 1} da ${side}`} onDragOver={!blocks.length ? e => { e.preventDefault(); setOver('empty') } : undefined} onDragLeave={!blocks.length ? () => setOver(null) : undefined} onDrop={!blocks.length ? e => drop(e) : undefined}>
               {!blocks.length && <div className={`ed-sheet-empty ${over === 'empty' ? 'drop-active' : ''}`}><span className="ed-sheet-icon" aria-hidden="true">▦</span><strong>Seu próximo panfleto começa aqui</strong><p>Arraste um bloco da biblioteca ou comece com um modelo completo.</p><button type="button" onClick={() => setGalleryOpen(true)}>Escolher modelo pronto</button><small>Depois, é só trocar as fotos, os nomes e os preços.</small></div>}
               <div className={`flyer-sheet ${doc.layout ? 'themed-sheet' : ''} ${doc.pageBackground ? 'has-page-background' : ''}`} style={{ ...sheetStyle(doc), transform: `scale(${zoom})`, gridTemplateRows: page.map(b => `minmax(${minHeight(b)}px, ${Math.max(1, b.h)}fr)`).join(' ') }}>

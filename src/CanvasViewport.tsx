@@ -3,9 +3,9 @@ import type { Dispatch, PointerEvent, ReactNode, Ref, SetStateAction } from 'rea
 
 export type CanvasTool = 'select' | 'hand'
 export type CanvasViewportHandle = { fitToView: () => void; chooseZoom: (value: number) => void }
-type Props = { ref?: Ref<CanvasViewportHandle>; children: ReactNode; pageWidth: number; pageHeight: number; zoom: number; setZoom: Dispatch<SetStateAction<number>>; undo: () => void; redo: () => void; tool: CanvasTool; setTool: Dispatch<SetStateAction<CanvasTool>> }
+type Props = { ref?: Ref<CanvasViewportHandle>; toolbar?: ReactNode; children: ReactNode; pageWidth: number; pageHeight: number; zoom: number; setZoom: Dispatch<SetStateAction<number>>; undo: () => void; redo: () => void; tool: CanvasTool; setTool: Dispatch<SetStateAction<CanvasTool>> }
 const clampZoom = (value: number) => Math.max(.25, Math.min(2.5, value))
-export default function CanvasViewport({ ref, children, pageWidth, pageHeight, zoom, setZoom, undo, redo, tool, setTool }: Props) {
+export default function CanvasViewport({ ref, toolbar, children, pageWidth, pageHeight, zoom, setZoom, undo, redo, tool, setTool }: Props) {
   const area = useRef<HTMLElement>(null)
   const [space, setSpace] = useState(false)
   const [panning, setPanning] = useState(false)
@@ -110,6 +110,7 @@ export default function CanvasViewport({ ref, children, pageWidth, pageHeight, z
   }
   useImperativeHandle(ref, () => ({ fitToView, chooseZoom }))
   return <div className="canvas-shell">
+    {toolbar}
     <main ref={area} className={`canvas-area ${hand ? 'tool-hand' : 'tool-select'} ${panning ? 'is-panning' : ''}`} aria-label="Área de edição do panfleto" tabIndex={0}
       onPointerDownCapture={startPan} onPointerMove={event => { const p = pan.current; if (!p || p.pointer !== event.pointerId) return; event.preventDefault(); event.currentTarget.scrollLeft = p.left - (event.clientX - p.x); event.currentTarget.scrollTop = p.top - (event.clientY - p.y) }}
       onPointerUp={endPan} onPointerCancel={endPan} onLostPointerCapture={() => { pan.current = null; setPanning(false) }}

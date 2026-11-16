@@ -11,6 +11,8 @@ src/BlockEditor.tsx, src/editor-shell.css e os componentes EditorMenus, LayoutLi
 - Folha de tela 578 × 782 px; saída pretendida 153 × 207 mm. Zoom não muda o tamanho físico da impressão.
 
 ## Componentes a preservar
+AIDF-015: ferramentas em barra horizontal flutuante no canvas, com Selecionar, Mão, Texto (T), Foto, Duplicar e Excluir. Em áreas estreitas, ferramentas e zoom ficam em duas faixas para não se encobrirem. O botão Texto abre a seção Texto e tipografia do alvo selecionado. Controles de família/tamanho/peso/itálico/cor/alinhamento/letras/entrelinhas aplicam-se ao nome, marca textual, chamada ou campo do bloco, com valores automáticos do modelo e restauração por alvo. Fontes disponíveis são do sistema; nenhuma fonte externa é carregada.
+
 AIDF-006 substitui os controles superiores por barra flutuante centralizada na parte inferior do canvas. Estados selecionados, cursor grab/grabbing e percentuais explícitos distinguem navegação de edição. Cabeçalhos/rodapés têm CTA para imagem; painel oferece remoção e contain/cover. Celular empilha biblioteca, canvas e edição, mantendo a barra dentro da largura disponível. Controles e dicas não aparecem na impressão.
 Galeria AIDF-005: modal de até 1280 px / 92dvh, grade de três/duas/uma colunas, filtros, prévias renderizadas com os mesmos componentes do editor, tela inteira no celular, Escape e restauração de foco. Folhas com layout opcional suportam também 699 × 1020 px / 185 × 270 mm e cores da campanha; documentos antigos preservam os estilos anteriores. Cabeçalhos e ornamentos das referências foram adaptados, não copiados pixel a pixel.
 Biblioteca, ordenação de blocos, seleção de produto, campos, envio de foto, seletor de etiquetas, histórico, zoom, avisos e opções de impressão.

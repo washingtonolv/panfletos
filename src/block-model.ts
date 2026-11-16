@@ -3,6 +3,8 @@ import { parsePrice } from './prices.ts'
 import { readLayout, readAppearance, isColor } from './layout-settings.ts'
 import type { Layout, Appearance } from './layout-settings.ts'
 import { validLogoId } from './logo-id.ts'
+import { readTextStyle, readProductTextStyles } from './text-style.ts'
+import type { TextStyle, ProductTextStyles } from './text-style.ts'
 
 export type Tag = 'offer' | 'before' | 'pill' | 'wide' | 'progressive'
 export type ImageAdjustment = { scale: number; x: number; y: number }
@@ -12,8 +14,8 @@ export function readAdjustment(v: unknown): ImageAdjustment | undefined {
  if (!a || typeof a !== 'object' || Array.isArray(a) || ![a.scale,a.x,a.y].every(Number.isFinite) || a.scale < .25 || a.scale > 3 || Math.abs(a.x)>50 || Math.abs(a.y)>50) throw new Error('Ajuste de imagem inválido')
  return {scale:a.scale,x:a.x,y:a.y}
 }
-export type Product = { brandLogo?: string; photoAdjustment?: ImageAdjustment; brand: string; name: string; de: string; por: string; cada: string; photo?: string; tag?: Tag; badgeColor?: string; label?: string }
-export type Block = { imageAdjustment?: ImageAdjustment; id: string; kind: string; name: string; h: number; cols?: number; fields?: { key: string; label: string; value: string }[]; products?: Product[]; appearance?: Appearance; image?: string; imageFit?: 'contain' | 'cover' }
+export type Product = { textStyles?: ProductTextStyles; brandLogo?: string; photoAdjustment?: ImageAdjustment; brand: string; name: string; de: string; por: string; cada: string; photo?: string; tag?: Tag; badgeColor?: string; label?: string }
+export type Block = { imageAdjustment?: ImageAdjustment; id: string; kind: string; name: string; h: number; cols?: number; fields?: { key: string; label: string; value: string; style?: TextStyle }[]; products?: Product[]; appearance?: Appearance; image?: string; imageFit?: 'contain' | 'cover' }
 export type Document = { frente: Block[]; verso: Block[]; layout?: Layout; pageBackground?: string }
 export type Side = 'frente' | 'verso'
 export const STORAGE = 'panfletos:montador:v3'
@@ -47,6 +49,7 @@ export function normalize(value: unknown, upgradeHero = false): Document {
     return (input[key] as Block[]).map(b => {
       if (!b || !catalog.some(c => c.kind === b.kind)) throw new Error('Bloco inválido')
       const products = b.products?.map(p => ({
+        ...(p.textStyles !== undefined ? { textStyles: readProductTextStyles(p.textStyles) } : {}),
         ...(validLogoId(p.brandLogo) ? { brandLogo: p.brandLogo } : {}),
         ...(p.photoAdjustment !== undefined ? { photoAdjustment: readAdjustment(p.photoAdjustment) } : {}), brand: String(p.brand ?? ''), name: String(p.name ?? ''), de: String(p.de ?? ''),
         por: String(p.por ?? ''), cada: String(p.cada ?? ''),
@@ -57,7 +60,7 @@ export function normalize(value: unknown, upgradeHero = false): Document {
           : tags.some(t => t.id === p.tag) ? p.tag : 'wide' as Tag,
       }))
       return { id: typeof b.id === 'string' ? b.id : uid(), kind: b.kind, name: String(b.name), h: Number(b.h) || 130,
-        ...(b.imageAdjustment !== undefined ? { imageAdjustment: readAdjustment(b.imageAdjustment) } : {}), cols: products?.length, products, fields: b.fields?.map(f => ({ key: String(f.key), label: String(f.label), value: String(f.value) })),
+        ...(b.imageAdjustment !== undefined ? { imageAdjustment: readAdjustment(b.imageAdjustment) } : {}), cols: products?.length, products, fields: b.fields?.map(f => ({ key: String(f.key), label: String(f.label), value: String(f.value), ...(f.style !== undefined ? { style: readTextStyle(f.style) } : {}) })),
         ...(b.appearance !== undefined ? { appearance: readAppearance(b.appearance) } : {}),
         ...(typeof b.image === 'string' && /^(data:image\/(png|jpeg|webp);base64,|https?:\/\/)/.test(b.image) ? { image: b.image } : {}),
         ...(b.imageFit === 'contain' || b.imageFit === 'cover' ? { imageFit: b.imageFit } : {}) }

@@ -3,6 +3,7 @@ import type { Document } from './block-model.ts'
 import { parsePrice } from './prices.ts'
 import { readLayout, readAppearance, isColor } from './layout-settings.ts'
 import { validLogoId } from './logo-id.ts'
+import { readTextStyle, readProductTextStyles } from './text-style.ts'
 
 export const MAX_PROJECT_BYTES = 50 * 1024 * 1024
 
@@ -69,6 +70,7 @@ export function validateProject(value: unknown): Document {
         block.products.forEach((value, pi) => {
           const pp = `${path}, produto ${pi + 1}`
           const product = record(value, pp)
+          try { readProductTextStyles(product.textStyles) } catch (error) { fail(pp, (error as Error).message) }
           if (product.brandLogo !== undefined && !validLogoId(product.brandLogo)) fail(pp, 'identificador da logo inválido.')
           try { readAdjustment(product.photoAdjustment) } catch { fail(pp, 'ajuste de foto inválido.') }
           if (product.badgeColor !== undefined && !isColor(product.badgeColor)) fail(pp, 'cor da etiqueta inválida.')
@@ -91,6 +93,7 @@ export function validateProject(value: unknown): Document {
         block.fields.forEach((value, fi) => {
           const fp = `${path}, campo ${fi + 1}`
           const field = record(value, fp)
+          try { readTextStyle(field.style) } catch (error) { fail(fp, (error as Error).message) }
           identifier(field.key, `${fp}, chave`, keys)
           text(field.label, `${fp}, rótulo`)
           text(field.value, `${fp}, valor`)
