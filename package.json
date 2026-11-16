@@ -9,6 +9,7 @@
     "build": "node scripts/build-rust.mjs && tsc -b && vite build",
     "build:rust": "node scripts/build-rust.mjs",
     "test:rust": "node --experimental-strip-types --test scripts/rust-layout.test.mjs",
+    "test:renderer": "node --experimental-strip-types --test scripts/rust-renderer.test.mjs",
     "lint": "oxlint",
     "preview": "vite preview"
   },

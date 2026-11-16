@@ -1,4 +1,5 @@
-//! Numeric layout only. Documents and product content stay in the React editor.
+//! Pagination and vector composition. React retains the editable document model.
+mod render;
 const MAX_BLOCKS: usize = 250_000;
 
 #[unsafe(no_mangle)]

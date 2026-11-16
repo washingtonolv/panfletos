@@ -1,5 +1,11 @@
 # Verificação — Panfletos
 
+## AIDF-017 — compositor SVG Rust (2026-11-16)
+- 6 testes Rust e 49 testes Node aprovados; build TypeScript/Vite aprovado. Lint sem erros, com os cinco avisos preexistentes.
+- Interface: nove modelos com fotos, cinco etiquetas, fontes/alinhamento/espaçamento, logo local, enquadramento, fotos de cabeçalho/rodapé contain/cover, arraste e histórico. Todas as folhas ativas reportaram rust-svg.
+- SVG exportado aberto fora do editor, comparação DOM/vetor e impressão frente/verso nos tamanhos físicos. Falha de carregamento WASM manteve fotos, texto e edição em fallback.
+- Detalhes e limites em tasks/AIDF-017.md. Cenas truncadas/inválidas e 150 renderizações com imagens testadas no WASM real.
+
 ## AIDF-016 — motor Rust/WebAssembly (2026-11-16)
 - Rust 1.100.0 compilou o módulo real de 18.008 bytes; TypeScript/build aprovados. Modelo: 39 testes aprovados. Paridade WASM/Node: cinco testes aprovados, comparando 200 documentos, incluindo modelos, limites, frações e um documento de 10.000 blocos. Lint sem erros/cinco avisos preexistentes.
 - Quatro testes Rust passaram localmente com o harness compilado para wasm32-wasip1 e executado no Node/WASI. O teste nativo Windows encontrou ausência de link.exe; sem instalar SDK C++ global. O workflow executa cargo test nativo no Linux antes de publicar.
