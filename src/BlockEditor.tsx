@@ -13,7 +13,7 @@ import { formats } from './layout-settings'
 import { openBlankSession, replaceDraft } from './draft-library'
 import TemplateGallery from './TemplateGallery'
 import CanvasViewport from './CanvasViewport'
-import type { CanvasTool } from './CanvasViewport'
+import type { CanvasTool, CanvasViewportHandle } from './CanvasViewport'
 import EditorMenus from './EditorMenus'
 import type { Menu } from './EditorMenus'
 import LayoutLibrary from './LayoutLibrary'
@@ -84,6 +84,7 @@ export default function BlockEditor() {
   const [notice, setNotice] = useState('')
   const [saveError, setSaveError] = useState(false)
   const [zoom, setZoom] = useState(.85)
+  const viewport = useRef<CanvasViewportHandle>(null)
   const [dragging, setDragging] = useState(false)
   const [over, setOver] = useState<string | null>(null)
   const [history, setHistory] = useState<{ past: Document[]; future: Document[] }>({ past: [], future: [] })
@@ -314,9 +315,10 @@ export default function BlockEditor() {
       { label: 'Excluir bloco', disabled: !current, onSelect: deleteBlock },
     ] },
     { id: 'visualizar', label: 'Visualizar', items: [
-      { label: 'Aumentar zoom', disabled: zoom >= 2.5, onSelect: () => setZoom(z => Math.min(2.5, Math.round((z + .25) * 100) / 100)) },
-      { label: 'Diminuir zoom', disabled: zoom <= .25, onSelect: () => setZoom(z => Math.max(.25, Math.round((z - .25) * 100) / 100)) },
-      { label: 'Zoom 100%', disabled: zoom === 1, onSelect: () => setZoom(1) },
+      { label: 'Ajustar à tela', shortcut: 'Ctrl+0', onSelect: () => viewport.current?.fitToView() },
+      { label: 'Aumentar zoom', disabled: zoom >= 2.5, onSelect: () => viewport.current?.chooseZoom(Math.min(2.5, Math.round((zoom + .25) * 100) / 100)) },
+      { label: 'Diminuir zoom', disabled: zoom <= .25, onSelect: () => viewport.current?.chooseZoom(Math.max(.25, Math.round((zoom - .25) * 100) / 100)) },
+      { label: 'Zoom 100%', disabled: zoom === 1, onSelect: () => viewport.current?.chooseZoom(1) },
       'separator',
       { label: 'Ferramenta Selecionar', shortcut: 'V', checked: tool === 'select', onSelect: () => setTool('select') },
       { label: 'Ferramenta Mão', shortcut: 'H', checked: tool === 'hand', onSelect: () => setTool('hand') },
@@ -379,14 +381,15 @@ export default function BlockEditor() {
               <button type="button" disabled={!current} onClick={duplicateBlock}>Duplicar bloco</button>
             </div>
           </div>
-          <CanvasViewport zoom={zoom} setZoom={setZoom} undo={undo} redo={redo} tool={tool} setTool={setTool}>
-            {pages.map((page, pi) => <section className="page-stage" key={pi} style={{ width: size.width * zoom, height: size.height * zoom }} aria-label={`Página ${pi + 1} da ${side}`}><div className={`flyer-sheet ${doc.layout ? 'themed-sheet' : ''} ${doc.pageBackground ? 'has-page-background' : ''}`} style={{ ...sheetStyle(doc), transform: `scale(${zoom})`, gridTemplateRows: page.map(b => `minmax(${minHeight(b)}px, ${Math.max(1, b.h)}fr)`).join(' ') }}>
+          <CanvasViewport ref={viewport} pageWidth={size.width} pageHeight={size.height} zoom={zoom} setZoom={setZoom} undo={undo} redo={redo} tool={tool} setTool={setTool}>
+            {pages.map((page, pi) => <section className="page-stage" key={pi} style={{ width: size.width * zoom, height: size.height * zoom }} aria-label={`Página ${pi + 1} da ${side}`} onDragOver={!blocks.length ? e => { e.preventDefault(); setOver('empty') } : undefined} onDragLeave={!blocks.length ? () => setOver(null) : undefined} onDrop={!blocks.length ? e => drop(e) : undefined}>
+              {!blocks.length && <div className={`ed-sheet-empty ${over === 'empty' ? 'drop-active' : ''}`}><span className="ed-sheet-icon" aria-hidden="true">▦</span><strong>Seu próximo panfleto começa aqui</strong><p>Arraste um bloco da biblioteca ou comece com um modelo completo.</p><button type="button" onClick={() => setGalleryOpen(true)}>Escolher modelo pronto</button><small>Depois, é só trocar as fotos, os nomes e os preços.</small></div>}
+              <div className={`flyer-sheet ${doc.layout ? 'themed-sheet' : ''} ${doc.pageBackground ? 'has-page-background' : ''}`} style={{ ...sheetStyle(doc), transform: `scale(${zoom})`, gridTemplateRows: page.map(b => `minmax(${minHeight(b)}px, ${Math.max(1, b.h)}fr)`).join(' ') }}>
               {page.map(b => <div key={b.id} data-block-id={b.id} className={`block-slot ${over === b.id ? 'drop-active' : ''}`} onDragOver={e => { e.preventDefault(); setOver(b.id) }} onDrop={e => drop(e, b.id)}>
                 <div className="block-controls"><button draggable onDragStart={e => beginDrag(e, `block:${b.id}`)} aria-label={`Arrastar ${b.name}`}>⠿</button><button onClick={() => pick(b.id)}>{b.name}</button></div>
                 <FlyerBlock block={b} selected={selected === b.id} productIndex={productIndex} pick={i => pick(b.id, i)} imagePick={i => chooseImage(b.id, i)} imageDrop={(file, i) => { pick(b.id, i); void upload(file, imageTarget(latestDoc.current, side, b.id, i)) }} />
               </div>)}
             </div></section>)}
-            {!blocks.length && <p className="ed-empty-sheet">Folha em branco. Escolha um layout pronto na biblioteca à esquerda.</p>}
             <div className={`canvas-end ${dragging ? 'ready' : ''}`} onDragOver={e => e.preventDefault()} onDrop={e => drop(e)}>＋ Solte um layout aqui para adicionar ao final</div>
           </CanvasViewport>
         </div>

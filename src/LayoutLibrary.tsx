@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import type { DragEvent } from 'react'
 import { catalog } from './block-model'
 
@@ -21,19 +22,30 @@ type Props = {
 }
 
 export default function LayoutLibrary({ open, onToggle, onInsert, onDragStart }: Props) {
-  return <section className="ed-section ed-library" aria-label="Layouts prontos">
+  const [query, setQuery] = useState('')
+  const [category, setCategory] = useState('todos')
+  const search = (value: string) => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
+  const items = catalog.map((item, index) => ({ item, index })).filter(({ item }) =>
+    (category === 'todos' || (category === 'produtos' ? item.cols > 0 : item.cols === 0)) && search(item.name).includes(search(query.trim())))
+  return <section className={`ed-section ed-library ${open ? '' : 'is-collapsed'}`} aria-label="Layouts prontos">
     <button type="button" className="ed-section-head" aria-expanded={open} aria-controls="layout-library-list" onClick={onToggle}>
       <span>Layouts prontos</span><span aria-hidden="true">{open ? '▾' : '▸'}</span>
     </button>
     {open && <>
       <p className="ed-hint">Clique para adicionar ou arraste para a página.</p>
+      <input className="ed-library-search" type="search" aria-label="Buscar blocos" placeholder="Buscar blocos…" value={query} onChange={e => setQuery(e.target.value)} />
+      <div className="ed-library-filters" role="group" aria-label="Filtrar blocos">{[['todos', 'Todos'], ['produtos', 'Produtos'], ['estrutura', 'Estrutura']].map(([id, label]) => <button type="button" key={id} aria-pressed={category === id} onClick={() => setCategory(id)}>{label}</button>)}</div>
+      <span className="ed-library-count" role="status">{items.length} {items.length === 1 ? 'bloco disponível' : 'blocos disponíveis'}</span>
+      <div className="ed-library-scroll">
       <ul id="layout-library-list" className="ed-layouts">
-        {catalog.map((item, i) => <li key={i}>
-          <button type="button" className="ed-layout" draggable onDragStart={e => onDragStart(e, `library:${i}`)} onClick={() => onInsert(i)} aria-label={`Adicionar ${item.name}`}>
+        {items.map(({ item, index }) => <li key={index}>
+          <button type="button" className="ed-layout" draggable onDragStart={e => onDragStart(e, `library:${index}`)} onClick={() => onInsert(index)} aria-label={`Adicionar ${item.name}`}>
             <Thumb item={item} /><span className="ed-layout-name">{item.name}</span>
           </button>
         </li>)}
       </ul>
+      {!items.length && <p className="ed-library-empty">Nenhum bloco encontrado. Tente outro nome ou filtro.</p>}
+      </div>
     </>}
   </section>
 }

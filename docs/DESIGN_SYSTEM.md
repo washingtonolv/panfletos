@@ -17,6 +17,8 @@ Biblioteca, ordenação de blocos, seleção de produto, campos, envio de foto, 
 Linhas e destaque duplo usam foto à esquerda e conteúdo/etiqueta à direita; destaque progressivo possui composição própria.
 
 ## Aceitação visual das próximas tarefas
+Refinamento AIDF-014: a folha inicia ajustada à área disponível; botão Ajustar, menu Visualizar e Ctrl/Cmd+0 restauram o enquadramento. Redimensionamento acompanha o modo ajustado e preserva o zoom escolhido manualmente. Biblioteca com busca sem acentos, filtros Todos/Produtos/Estrutura, contagem e rolagem das miniaturas independente do título. Propriedades mantêm cabeçalho/abas visíveis enquanto campos e camadas rolam em áreas próprias. Folha vazia orienta a montagem, abre os modelos e recebe blocos por arraste. O estado de navegação continua fora do documento e da impressão.
+
 Comparar antes/depois nas mesmas condições. Verificar nomes longos, milhares, complementos, cinco produtos, foto ausente, foco e estados desabilitados.
 Revisar desktop, larguras próximas dos dois pontos de quebra e celular; matriz oficial ainda pendente.
 Conferir frente, verso e ambos na impressão, sem sangria ou marcas de corte.
