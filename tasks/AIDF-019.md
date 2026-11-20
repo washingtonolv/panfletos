@@ -26,3 +26,16 @@ Pedido: trocar o layout do montador por um estilo parecido com os editores atuai
 - Decisão: opção 1. `motion@14.14.0` como dependência do app; `dialkit@2.2.1` como devDependency, sem importação no código do editor (é um painel de ajuste para desenvolvimento, sem menu nem dropdown).
 - `motion/react` anima a troca de painel do trilho (`ed-left`), com `useReducedMotion` para desativar a animação quando o sistema pedir movimento reduzido.
 - Verificação: `tsc -b` ok; lint sem erros; `npm run test:model` 39 aprovados; `vite build` ok com stub de WASM (removido).
+
+## Rodada de refinamento visual (feedback: quadrado, ícones, controles)
+- Ícones Phosphor (`@phosphor-icons/react`, já instalado) no logotipo, trilho (Blocos, Camadas, Modelos), desfazer/refazer e tema.
+- Cantos mais arredondados: botões 10 px, painel de zoom 16 px, menus 14 px; sombras mais suaves.
+- Pendente (feedback do responsável): painéis e cartões ainda retangulares; controles deslizantes, controles de texto e fonte e seletor de cor moderno ainda não substituídos.
+- Verificação: `tsc -b` ok; lint sem erros; build com stub de WASM ok; captura `/tmp/s19d.png`.
+
+## Controles modernos (slider e cor)
+- Decisão: não copiar a cadeia de slider e cor do toolcraft (cerca de dez arquivos internos). Componentes próprios sobre o `@base-ui/react` já instalado: `src/ui/ModernSlider.tsx` e `src/ui/ColorField.tsx`.
+- Usados em: cor de fundo do panfleto (Inspector), cor do texto (TextProperties), sliders de escala e posição da foto (Inspector).
+- `ColorField`: área saturação/brilho, matiz, amostras e campo hex, em popover.
+- Verificação: `tsc -b` ok; lint sem erros; `npm run test:model` 39 aprovados; build com stub de WASM ok; captura `/tmp/s19e.png` (campo de cor no painel de documento).
+- Pendente: o popover e os sliders aparecem só com bloco ou produto selecionado; ainda não foram vistos em captura nem testados com interação.
