@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import type { CSSProperties, DragEvent } from 'react'
+import { motion, useReducedMotion } from 'motion/react'
 import { blankProduct, catalog, loadDraft, resolveDraftRecovery, saveDraft, minHeight, moveBlock, newBlock, paginate, uid } from './block-model'
 import type { Block, Document, Product, Side } from './block-model'
 import './tailwind.css'
@@ -100,6 +101,7 @@ export default function BlockEditor() {
   const [libraryOpen, setLibraryOpen] = useState(() => !window.matchMedia('(max-width: 780px)').matches)
   // AIDF-019: trilho de ícones à esquerda (estilo Canva) escolhe um painel por vez.
   const [leftPanel, setLeftPanel] = useState<'blocos' | 'camadas'>('blocos')
+  const reduceMotion = useReducedMotion()
   const lastSaved = useRef<string | null>(null)
   const fileInput = useRef<HTMLInputElement>(null)
   const latestDoc = useRef(doc)
@@ -391,11 +393,12 @@ export default function BlockEditor() {
             <button type="button" aria-pressed={leftPanel === 'camadas'} onClick={() => setLeftPanel('camadas')}><span aria-hidden="true">☰</span>Camadas</button>
             <button type="button" onClick={() => setGalleryOpen(true)}><span aria-hidden="true">✦</span>Modelos</button>
           </nav>
-          <aside className="ed-left" aria-label={leftPanel === 'blocos' ? 'Biblioteca de blocos' : 'Camadas da página'}>
+          <motion.aside key={leftPanel} className="ed-left" aria-label={leftPanel === 'blocos' ? 'Biblioteca de blocos' : 'Camadas da página'}
+            initial={reduceMotion ? false : { opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: reduceMotion ? 0 : 0.18, ease: 'easeOut' }}>
             {leftPanel === 'blocos'
               ? <LayoutLibrary open={libraryOpen} onToggle={() => setLibraryOpen(v => !v)} onInsert={i => insert(i)} onDragStart={beginDrag} />
               : <PageStructure title={`Estrutura da página · ${side === 'frente' ? 'frente' : 'verso'}`} blocks={blocks} selected={selected} over={over} reorder onPick={id => pick(id)} onMove={moveById} onDragStart={beginDrag} onDragOver={setOver} onDrop={drop} />}
-          </aside>
+          </motion.aside>
         </div>
         <div className="ed-stage">
           <div className="ed-stagebar">

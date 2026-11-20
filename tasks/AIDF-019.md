@@ -21,3 +21,8 @@ Pedido: trocar o layout do montador por um estilo parecido com os editores atuai
 - Tokens `--foreground`, `--muted`, `--popover`, `--accent` etc. definidos em `:root` (menus usam portal).
 - Verificação: `tsc -b` ok; lint sem erros; `npm run test:model` 39 aprovados; `vite build` ok com stub de WASM (removido); captura em `/tmp/s19b.png`.
 - Pendente: abrir e testar os menus com teclado; migrar o restante da casca (barra superior, painel, propriedades, controles) nas próximas etapas.
+
+## Etapa C (parcial) — motion e dialkit
+- Decisão: opção 1. `motion@14.14.0` como dependência do app; `dialkit@2.2.1` como devDependency, sem importação no código do editor (é um painel de ajuste para desenvolvimento, sem menu nem dropdown).
+- `motion/react` anima a troca de painel do trilho (`ed-left`), com `useReducedMotion` para desativar a animação quando o sistema pedir movimento reduzido.
+- Verificação: `tsc -b` ok; lint sem erros; `npm run test:model` 39 aprovados; `vite build` ok com stub de WASM (removido).
