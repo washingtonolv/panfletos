@@ -1,10 +1,12 @@
 /* AIDF-013 — professional editor shell. Graphite is the default theme; light is optional.
-   Only the editor chrome uses these tokens: the flyer sheet keeps its print colors in every theme. */
+   AIDF-018 etapa 2: tokens escuros derivados do tema do toolcraft (fundo preto, cartão #262626,
+   borda zinco, texto claro, primário e foco azuis). Só o chrome do editor usa estes tokens;
+   a folha do panfleto mantém as cores de impressão em todos os temas. */
 .builder-app {
-  --editor-panel: #444444; --editor-toolbar: #4b4b4b; --editor-canvas: #262626; --editor-input: #393939;
-  --editor-border: #333333; --editor-field-border: #929292; --editor-text: #eeeeee; --editor-text-muted: #bcbcbc;
-  --editor-selection: #89a9ff; --editor-accent: #3d63d9; --editor-accent-text: #ffffff; --editor-danger: #ff9f9f;
-  --editor-hover: #5a5a5a; --editor-pressed: #2f4aa6; --editor-sheet-shadow: 0 8px 30px #000a;
+  --editor-panel: #1c1c1c; --editor-toolbar: #262626; --editor-canvas: #0a0a0a; --editor-input: #262626;
+  --editor-border: #3f3f46; --editor-field-border: #52525b; --editor-text: #f5f5f5; --editor-text-muted: #a1a1a1;
+  --editor-selection: #0c8ce9; --editor-accent: #3d63d9; --editor-accent-text: #ffffff; --editor-danger: #ff8a8a;
+  --editor-hover: #323232; --editor-pressed: #2f4aa6; --editor-sheet-shadow: 0 8px 30px #000a;
   color-scheme: dark;
 }
 :root[data-editor-theme='light'] .builder-app {

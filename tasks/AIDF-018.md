@@ -41,3 +41,11 @@ Pedido: adotar o layout e os componentes de casca do toolcraft no montador de pa
 - Comparação do CSS compilado do montador: 49753 → 49836 bytes (+83, só o wrapper de camadas). Nenhum utilitário sem prefixo foi gerado; o probe `tc:flex` gera `tc\:flex{display:flex}`.
 - `tsc -b`, `npm run lint` (sem erros) e `npm run test:model` (39 aprovados).
 - Build completo ainda depende do WASM (`build-rust.mjs`, bloqueado por Rust 1.100.0 nesta sessão); com um stub temporário de WASM, `vite build` passa, e o stub foi removido.
+
+## Etapa 2 — restilização (decisão: restilizar tudo, sem copiar o menubar)
+- Decisão do responsável: restilizar a casca em vez de copiar o menubar do toolcraft. Os menus, a barra flutuante, o painel e a biblioteca usam os tokens `--editor-*`, então a troca de tokens em `src/editor-shell.css` restilizou a casca inteira.
+- Tokens escuros trocados por valores derivados do tema do toolcraft; tema claro mantido.
+- `docs/DESIGN_SYSTEM.md` atualizado com os novos valores.
+- Verificação: `tsc -b` ok; `npm run lint` sem erros (aviso já existente); `npm run test:model` 39 aprovados; `vite build` ok com stub de WASM (removido depois).
+- Captura headless do preview local: menus, barra flutuante, painel e biblioteca no tema novo; folha em branco com a mesma estrutura. Build real do WASM continua pendente para o CI.
+- Pendências visuais: raio e espaçamento finos (ainda os do AIDF-013), revisão em larguras estreitas e no tema claro, e navegação por teclado.
