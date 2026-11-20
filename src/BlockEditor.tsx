@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { CSSProperties, DragEvent } from 'react'
 import { motion, useReducedMotion } from 'motion/react'
+import { ArrowClockwise, ArrowCounterClockwise, MagicWand, Moon, Stack, Sun, SquaresFour } from '@phosphor-icons/react'
 import { blankProduct, catalog, loadDraft, resolveDraftRecovery, saveDraft, minHeight, moveBlock, newBlock, paginate, uid } from './block-model'
 import type { Block, Document, Product, Side } from './block-model'
 import './tailwind.css'
@@ -367,10 +368,10 @@ export default function BlockEditor() {
   return <>
     <div className="builder-app" data-layout-engine={layoutEngineName()} onDragEnd={() => { setDragging(false); setOver(null) }}>
       <header className="ed-menubar">
-        <div className="ed-brand"><span aria-hidden="true">▦</span><strong>Monta panfleto</strong></div>
+        <div className="ed-brand"><SquaresFour aria-hidden="true" weight="duotone" size={20} /><strong>Monta panfleto</strong></div>
         <EditorMenubar menus={menus} />
         <span className="ed-spacer" />
-        <button type="button" className="theme-toggle" aria-label={darkMode ? 'Ativar tema claro' : 'Ativar tema grafite'} aria-pressed={darkMode} onClick={toggleDarkMode}>{darkMode ? '☀ Tema claro' : '☾ Tema grafite'}</button>
+        <button type="button" className="theme-toggle" aria-label={darkMode ? 'Ativar tema claro' : 'Ativar tema grafite'} aria-pressed={darkMode} onClick={toggleDarkMode}>{darkMode ? <><Sun aria-hidden="true" size={16} /> Tema claro</> : <><Moon aria-hidden="true" size={16} /> Tema grafite</>}</button>
         <input ref={fileInput} hidden type="file" accept=".json,application/json" onChange={e => { void importProject(e.currentTarget) }} />
         <input ref={pictureInput} hidden type="file" accept="image/png,image/jpeg,image/webp" aria-label="Escolher imagem para o item" onChange={e => { void upload(e.currentTarget.files?.[0], pictureTarget.current); e.currentTarget.value = '' }} />
       </header>
@@ -378,8 +379,8 @@ export default function BlockEditor() {
         <div className="ed-doc-tab"><strong>{doc.layout?.name || 'Panfleto'}</strong><small>{size.label}</small></div>
         <div className="ed-doc-actions">
           <button type="button" className="ed-primary new-project" onClick={() => setGalleryOpen(true)}>+ Novo</button>
-          <button type="button" aria-label="Desfazer" title="Desfazer (Ctrl + Z)" disabled={!history.past.length} onClick={undo}>↶ Desfazer</button>
-          <button type="button" aria-label="Refazer" title="Refazer (Ctrl + Shift + Z)" disabled={!history.future.length} onClick={redo}>↷ Refazer</button>
+          <button type="button" aria-label="Desfazer" title="Desfazer (Ctrl + Z)" disabled={!history.past.length} onClick={undo}><ArrowCounterClockwise aria-hidden="true" size={16} /> Desfazer</button>
+          <button type="button" aria-label="Refazer" title="Refazer (Ctrl + Shift + Z)" disabled={!history.future.length} onClick={redo}><ArrowClockwise aria-hidden="true" size={16} /> Refazer</button>
           <button type="button" onClick={() => download(doc)}>Baixar projeto</button>
           <button type="button" onClick={() => fileInput.current?.click()}>Abrir projeto</button>
           <button type="button" className="ed-primary" onClick={printDocument}>Imprimir / PDF</button>
@@ -389,9 +390,9 @@ export default function BlockEditor() {
       <div className="builder-workspace">
         <div className="ed-leftwrap">
           <nav className="ed-iconrail" aria-label="Painéis do editor">
-            <button type="button" aria-pressed={leftPanel === 'blocos'} onClick={() => setLeftPanel('blocos')}><span aria-hidden="true">▦</span>Blocos</button>
-            <button type="button" aria-pressed={leftPanel === 'camadas'} onClick={() => setLeftPanel('camadas')}><span aria-hidden="true">☰</span>Camadas</button>
-            <button type="button" onClick={() => setGalleryOpen(true)}><span aria-hidden="true">✦</span>Modelos</button>
+            <button type="button" aria-pressed={leftPanel === 'blocos'} onClick={() => setLeftPanel('blocos')}><SquaresFour aria-hidden="true" size={22} />Blocos</button>
+            <button type="button" aria-pressed={leftPanel === 'camadas'} onClick={() => setLeftPanel('camadas')}><Stack aria-hidden="true" size={22} />Camadas</button>
+            <button type="button" onClick={() => setGalleryOpen(true)}><MagicWand aria-hidden="true" size={22} />Modelos</button>
           </nav>
           <motion.aside key={leftPanel} className="ed-left" aria-label={leftPanel === 'blocos' ? 'Biblioteca de blocos' : 'Camadas da página'}
             initial={reduceMotion ? false : { opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: reduceMotion ? 0 : 0.18, ease: 'easeOut' }}>

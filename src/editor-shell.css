@@ -24,7 +24,7 @@
 
 .builder-app { height: 100dvh; display: flex; flex-direction: column; background: var(--editor-canvas); color: var(--editor-text); font-size: 13px; }
 .builder-app :focus-visible { outline: 2px solid var(--editor-selection); outline-offset: 2px; }
-.builder-app :is(.ed-menubar, .ed-docbar, .ed-rail, .ed-left, .ed-stagebar, .ed-right, .ed-status, .zoom-cluster, .price-warning) button { background: var(--editor-toolbar); color: var(--editor-text); border: 1px solid var(--editor-border); border-radius: 6px; padding: 6px 10px; font-size: 12px; font-weight: 600; }
+.builder-app :is(.ed-menubar, .ed-docbar, .ed-rail, .ed-left, .ed-stagebar, .ed-right, .ed-status, .zoom-cluster, .price-warning) button { background: var(--editor-toolbar); color: var(--editor-text); border: 1px solid var(--editor-border); border-radius: 10px; padding: 7px 12px; font-size: 12px; font-weight: 600; }
 .builder-app :is(.ed-menubar, .ed-docbar, .ed-rail, .ed-left, .ed-stagebar, .ed-right, .ed-status, .zoom-cluster, .price-warning) button:hover:not(:disabled) { background: var(--editor-hover); border-color: var(--editor-field-border); color: var(--editor-text); }
 .builder-app :is(.ed-menubar, .ed-docbar, .ed-rail, .ed-left, .ed-stagebar, .ed-right, .ed-status, .zoom-cluster, .price-warning) button:disabled { opacity: .45; }
 .builder-app :is(.ed-menubar, .ed-docbar, .ed-rail, .ed-left, .ed-stagebar, .ed-right, .ed-status, .zoom-cluster, .price-warning) button[aria-pressed='true'], .builder-app :is(.ed-menubar, .ed-docbar, .ed-rail, .ed-left, .ed-stagebar, .ed-right, .ed-status, .zoom-cluster, .price-warning) button[aria-selected='true'] { background: var(--editor-accent); border-color: var(--editor-accent); color: var(--editor-accent-text); }
@@ -44,7 +44,7 @@
 .ed-menu { position: relative; }
 .builder-app .ed-menu > button { background: transparent; border-color: transparent; padding: 5px 10px; }
 .builder-app .ed-menu > button[aria-expanded='true'] { background: var(--editor-panel); border-color: var(--editor-field-border); color: var(--editor-text); }
-.ed-menu-list { position: absolute; top: calc(100% + 2px); left: 0; min-width: 230px; background: var(--editor-panel); border: 1px solid var(--editor-field-border); border-radius: 8px; padding: 5px; box-shadow: 0 12px 34px #000a; display: grid; gap: 1px; }
+.ed-menu-list { position: absolute; top: calc(100% + 2px); left: 0; min-width: 230px; background: var(--editor-panel); border: 1px solid var(--editor-field-border); border-radius: 14px; padding: 6px; box-shadow: 0 16px 40px #000c; display: grid; gap: 1px; }
 .builder-app .ed-menu-list button { display: flex; justify-content: space-between; gap: 16px; text-align: left; background: transparent; border-color: transparent; font-weight: 500; padding: 7px 10px; }
 .ed-menu-list kbd { font: inherit; font-size: 11px; color: var(--editor-text-muted); }
 .ed-menu-list hr { border: 0; border-top: 1px solid var(--editor-border); width: 100%; margin: 4px 0; }
@@ -163,7 +163,7 @@
 .ed-sheet-empty small { max-width: 30ch; font-size: 11px; line-height: 1.5; color: #625a6d; }
 .builder-app .ed-sheet-empty button { background: #3d63d9; border-color: #3d63d9; color: #fff; padding: 9px 12px; }
 .builder-app .ed-sheet-empty button:hover { background: #2f4aa6; border-color: #2f4aa6; }
-.builder-app .floating-tools.zoom-cluster { left: auto; right: 18px; bottom: 16px; transform: none; padding: 4px; gap: 2px; background: var(--editor-toolbar); border: 1px solid var(--editor-field-border); border-radius: 10px; box-shadow: 0 6px 20px #0008; }
+.builder-app .floating-tools.zoom-cluster { left: auto; right: 18px; bottom: 16px; transform: none; padding: 4px; gap: 2px; background: var(--editor-toolbar); border: 1px solid var(--editor-field-border); border-radius: 16px; box-shadow: 0 10px 30px #0009; }
 .builder-app .floating-tools button { min-width: 32px; min-height: 32px; font-size: 16px; padding: 2px 6px; border-color: transparent; background: transparent; }
 .builder-app .floating-tools select { min-height: 32px; width: 68px; background: var(--editor-input); color: var(--editor-text); border: 1px solid var(--editor-field-border); border-radius: 6px; font-size: 12px; font-weight: 700; }
 .builder-app .floating-tools .fit-view { display: flex; align-items: center; gap: 6px; margin-right: 4px; font-size: 11px; padding: 4px 8px; }
