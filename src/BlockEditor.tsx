@@ -98,6 +98,8 @@ export default function BlockEditor() {
   const [tool, setTool] = useState<CanvasTool>('select')
   const [tab, setTab] = useState<InspectorTab>('produto')
   const [libraryOpen, setLibraryOpen] = useState(() => !window.matchMedia('(max-width: 780px)').matches)
+  // AIDF-019: trilho de ícones à esquerda (estilo Canva) escolhe um painel por vez.
+  const [leftPanel, setLeftPanel] = useState<'blocos' | 'camadas'>('blocos')
   const lastSaved = useRef<string | null>(null)
   const fileInput = useRef<HTMLInputElement>(null)
   const latestDoc = useRef(doc)
@@ -383,10 +385,18 @@ export default function BlockEditor() {
       </div>
       {issues.length > 0 && <div className="price-warning" role="alert">{issues.length} preço(s) precisam de revisão. Os valores digitados foram mantidos para correção; a impressão dos lados afetados está bloqueada. <button type="button" onClick={reviewPrice}>Revisar preços</button></div>}
       <div className="builder-workspace">
-        <aside className="ed-left" aria-label="Biblioteca e estrutura da página">
-          <LayoutLibrary open={libraryOpen} onToggle={() => setLibraryOpen(v => !v)} onInsert={i => insert(i)} onDragStart={beginDrag} />
-          <PageStructure title={`Estrutura da página · ${side === 'frente' ? 'frente' : 'verso'}`} blocks={blocks} selected={selected} over={over} reorder onPick={id => pick(id)} onMove={moveById} onDragStart={beginDrag} onDragOver={setOver} onDrop={drop} />
-        </aside>
+        <div className="ed-leftwrap">
+          <nav className="ed-iconrail" aria-label="Painéis do editor">
+            <button type="button" aria-pressed={leftPanel === 'blocos'} onClick={() => setLeftPanel('blocos')}><span aria-hidden="true">▦</span>Blocos</button>
+            <button type="button" aria-pressed={leftPanel === 'camadas'} onClick={() => setLeftPanel('camadas')}><span aria-hidden="true">☰</span>Camadas</button>
+            <button type="button" onClick={() => setGalleryOpen(true)}><span aria-hidden="true">✦</span>Modelos</button>
+          </nav>
+          <aside className="ed-left" aria-label={leftPanel === 'blocos' ? 'Biblioteca de blocos' : 'Camadas da página'}>
+            {leftPanel === 'blocos'
+              ? <LayoutLibrary open={libraryOpen} onToggle={() => setLibraryOpen(v => !v)} onInsert={i => insert(i)} onDragStart={beginDrag} />
+              : <PageStructure title={`Estrutura da página · ${side === 'frente' ? 'frente' : 'verso'}`} blocks={blocks} selected={selected} over={over} reorder onPick={id => pick(id)} onMove={moveById} onDragStart={beginDrag} onDragOver={setOver} onDrop={drop} />}
+          </aside>
+        </div>
         <div className="ed-stage">
           <div className="ed-stagebar">
             <div className="ed-sides" role="group" aria-label="Lado do panfleto">{(['frente', 'verso'] as Side[]).map((s, i) => <button type="button" key={s} aria-pressed={side === s} onClick={() => changeSide(s)}>{`0${i + 1} · ${s === 'frente' ? 'Frente' : 'Verso'}`}</button>)}</div>

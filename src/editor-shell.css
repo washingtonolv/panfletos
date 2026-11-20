@@ -55,7 +55,7 @@
 :root[data-editor-theme='light'] .price-warning { background: #fdeadf; color: #6c2d0b; }
 
 /* Workspace grid */
-.builder-workspace { flex: 1; min-height: 0; display: grid; grid-template-columns: 264px minmax(0, 1fr) 320px; background: var(--editor-canvas); }
+.builder-workspace { flex: 1; min-height: 0; display: grid; grid-template-columns: 336px minmax(0, 1fr) 320px; background: var(--editor-canvas); }
 .ed-rail { position: absolute; z-index: 9; left: 16px; bottom: 16px; display: flex; flex-direction: row; align-items: center; gap: 4px; padding: 5px; background: var(--editor-toolbar); border: 1px solid var(--editor-field-border); border-radius: 12px; box-shadow: 0 6px 20px #0008; max-width: calc(100% - 24px); }
 .builder-app .ed-rail button { width: 38px; height: 38px; padding: 0; display: grid; place-items: center; }
 .ed-rail svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
@@ -67,6 +67,15 @@
 .ed-left .ed-library { flex: 1 1 62%; min-height: 0; display: flex; flex-direction: column; overflow: hidden; }
 .ed-left .ed-library.is-collapsed { flex: 0 0 auto; }
 .ed-left .ed-structure { flex: 1 1 auto; overflow: auto; min-height: 120px; border-bottom: 0; }
+
+/* AIDF-019: trilho de ícones à esquerda, estilo Canva. Escolhe um painel por vez. */
+.ed-leftwrap { display: flex; min-width: 0; min-height: 0; overflow: hidden; }
+.ed-iconrail { flex: 0 0 72px; display: flex; flex-direction: column; align-items: stretch; gap: 4px; padding: 8px 6px; background: var(--editor-toolbar); border-right: 1px solid var(--editor-border); }
+.builder-app .ed-iconrail button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 56px; padding: 6px 2px; border: 0; background: transparent; color: var(--editor-text-muted); font-size: 11px; font-weight: 600; border-radius: 10px; }
+.builder-app .ed-iconrail button span { font-size: 18px; line-height: 1; }
+.builder-app .ed-iconrail button:hover:not(:disabled) { background: var(--editor-hover); color: var(--editor-text); }
+.builder-app .ed-iconrail button[aria-pressed='true'] { background: var(--editor-panel); color: var(--editor-text); box-shadow: inset 3px 0 0 var(--editor-selection); }
+.ed-leftwrap .ed-left { flex: 1 1 auto; min-width: 0; }
 .ed-right { border-left: 1px solid var(--editor-border); display: flex; flex-direction: column; overflow: hidden; padding-bottom: 0; }
 .ed-right > .ed-structure { flex: 0 1 auto; max-height: 27%; min-height: 90px; overflow: auto; }
 .ed-section { border-bottom: 1px solid var(--editor-border); padding: 10px 12px 12px; }
@@ -220,7 +229,7 @@
 .ed-status .save-state.error { color: var(--editor-danger); }
 
 @media (max-width: 1100px) {
-  .builder-workspace { grid-template-columns: 208px minmax(0, 1fr) 276px; }
+  .builder-workspace { grid-template-columns: 280px minmax(0, 1fr) 276px; }
   .thumb { height: 44px; }
   .ed-stagebar { align-items: flex-start; }
   .ed-context-name { display: none; }
@@ -234,6 +243,9 @@
   .builder-workspace { display: flex; flex-direction: column; }
   .ed-rail { padding: 5px; }
   .ed-rail-divider { width: 1px; height: 24px; margin: 0 4px; }
+  .ed-leftwrap { flex-direction: column; }
+  .ed-iconrail { flex: none; flex-direction: row; justify-content: center; padding: 6px; border-right: 0; border-bottom: 1px solid var(--editor-border); }
+  .builder-app .ed-iconrail button { min-height: 44px; flex-direction: row; gap: 6px; font-size: 12px; }
   .ed-left { max-height: none; border-right: 0; border-bottom: 1px solid var(--editor-border); }
   .ed-left .ed-library { flex: none; max-height: 340px; }
   .ed-library-scroll { flex: 1 1 auto; }
