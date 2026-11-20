@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { textFonts } from './text-style'
 import type { TextStyle } from './text-style'
+import ColorField from './ui/ColorField'
 
 type Target = { id: string; label: string; style?: TextStyle; onChange: (style: TextStyle | undefined) => void }
 function NumberField({ label, value, min, max, step = 1, onChange }: { label: string; value?: number; min: number; max: number; step?: number; onChange: (value: number | undefined) => void }) {
@@ -38,7 +39,7 @@ export default function TextProperties({ targets }: { targets: Target[] }) {
       <NumberField key={`${target.id}-letters`} label="Entre letras (px)" value={style.letterSpacing} min={-2} max={12} step={.1} onChange={letterSpacing => update({ letterSpacing })} />
       <NumberField key={`${target.id}-lines`} label="Entre linhas" value={style.lineHeight} min={.8} max={3} step={.05} onChange={lineHeight => update({ lineHeight })} />
     </div>
-    <label>Cor do texto{!style.color && <small>Cor do modelo</small>}<input type="color" aria-label="Cor do texto" value={style.color || '#25202b'} onChange={e => update({ color: e.target.value })} /></label>
+    <div className="ed-color-row"><ColorField label="Cor do texto" value={style.color || '#25202b'} onChange={hex => update({ color: hex })} />{!style.color && <small>Cor do modelo</small>}</div>
     <p className="ed-hint">Automático mantém o modelo. O texto respeita o espaço do bloco; use o zoom para conferir os detalhes.</p>
     <button type="button" disabled={!target.style || !Object.keys(target.style).length} onClick={() => target.onChange(undefined)}>Restaurar estilo deste texto</button>
   </section>

@@ -6,6 +6,8 @@ import type { PriceResult } from './prices'
 import BrandLogoPicker from './BrandLogoPicker'
 import { PriceTag } from './PriceTag'
 import TextProperties from './TextProperties'
+import ColorField from './ui/ColorField'
+import ModernSlider from './ui/ModernSlider'
 import type { ProductTextStyles } from './text-style'
 
 export type InspectorTab = 'produto' | 'bloco' | 'documento'
@@ -58,10 +60,10 @@ export default function Inspector(p: Props) {
 
   const imageEditor = hasImage && <fieldset className="ed-fieldset"><legend>Ajustar imagem</legend>
     <p className="ed-hint">A imagem fica recortada dentro do espaço reservado.</p>
-    {(['scale', 'x', 'y'] as const).map(key => <label key={key} className="ed-range">{adjustmentLabels[key]}
-      <input type="range" min={key === 'scale' ? .25 : -50} max={key === 'scale' ? 3 : 50} step={key === 'scale' ? .05 : 1} value={adjustment[key]}
-        onChange={e => { const next = { ...adjustment, [key]: Number(e.target.value) }; if (product) p.changeProduct({ photoAdjustment: next }); else p.changeBlock(b => { b.imageAdjustment = next }) }} />
-      <output>{Math.round(adjustment[key] * (key === 'scale' ? 100 : 1))}{key === 'scale' ? '%' : ''}</output></label>)}
+    {(['scale', 'x', 'y'] as const).map(key => <ModernSlider key={key} label={adjustmentLabels[key]} value={adjustment[key]}
+      min={key === 'scale' ? .25 : -50} max={key === 'scale' ? 3 : 50} step={key === 'scale' ? .05 : 1}
+      format={v => `${Math.round(v * (key === 'scale' ? 100 : 1))}${key === 'scale' ? '%' : ''}`}
+      onChange={v => { const next = { ...adjustment, [key]: v }; if (product) p.changeProduct({ photoAdjustment: next }); else p.changeBlock(b => { b.imageAdjustment = next }) }} />)}
     <button type="button" onClick={() => { if (product) p.changeProduct({ photoAdjustment: undefined }); else p.changeBlock(b => { delete b.imageAdjustment }) }}>Restaurar enquadramento</button>
   </fieldset>
 
@@ -151,7 +153,7 @@ export default function Inspector(p: Props) {
           <div className="ed-row-actions"><button type="button" onClick={p.download}>Baixar projeto</button><button type="button" onClick={p.openProject}>Abrir projeto</button></div>
         </section>
         <section className="ed-group" aria-label="Fundo do panfleto"><h3>Fundo do panfleto</h3>
-          <label>Cor de fundo (frente e verso)<input type="color" value={doc.pageBackground || '#ffffff'} onChange={e => p.commit({ ...doc, pageBackground: e.target.value })} /></label>
+          <ColorField label="Cor de fundo (frente e verso)" value={doc.pageBackground || '#ffffff'} onChange={hex => p.commit({ ...doc, pageBackground: hex })} />
           {doc.pageBackground && <button type="button" onClick={() => { const next = structuredClone(doc); delete next.pageBackground; p.commit(next) }}>Restaurar branco</button>}
         </section>
         {doc.layout && <section className="ed-group" aria-label="Cores do modelo"><h3>Cores do modelo</h3>
