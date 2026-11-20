@@ -15,7 +15,7 @@ import { openBlankSession, replaceDraft } from './draft-library'
 import TemplateGallery from './TemplateGallery'
 import CanvasViewport from './CanvasViewport'
 import type { CanvasTool, CanvasViewportHandle } from './CanvasViewport'
-import EditorMenus from './EditorMenus'
+import EditorMenubar from './EditorMenubar'
 import type { Menu } from './EditorMenus'
 import LayoutLibrary from './LayoutLibrary'
 import PageStructure from './PageStructure'
@@ -366,7 +366,7 @@ export default function BlockEditor() {
     <div className="builder-app" data-layout-engine={layoutEngineName()} onDragEnd={() => { setDragging(false); setOver(null) }}>
       <header className="ed-menubar">
         <div className="ed-brand"><span aria-hidden="true">▦</span><strong>Monta panfleto</strong></div>
-        <EditorMenus menus={menus} />
+        <EditorMenubar menus={menus} />
         <span className="ed-spacer" />
         <button type="button" className="theme-toggle" aria-label={darkMode ? 'Ativar tema claro' : 'Ativar tema grafite'} aria-pressed={darkMode} onClick={toggleDarkMode}>{darkMode ? '☀ Tema claro' : '☾ Tema grafite'}</button>
         <input ref={fileInput} hidden type="file" accept=".json,application/json" onChange={e => { void importProject(e.currentTarget) }} />

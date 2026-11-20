@@ -11,3 +11,13 @@ Pedido: trocar o layout do montador por um estilo parecido com os editores atuai
 - `BlockEditor.tsx`: estado `leftPanel` ('blocos' | 'camadas') e trilho `.ed-iconrail`; "Modelos" abre a galeria existente.
 - `editor-shell.css`: `.ed-leftwrap`, `.ed-iconrail`; colunas da grade ajustadas para 336 px (desktop) e 280 px (1100 px); no celular o trilho fica horizontal.
 - Verificação: `tsc -b` ok; lint sem erros; `npm run test:model` 39 aprovados; `vite build` ok com stub de WASM (removido); captura headless em `/tmp/s19-desktop.png`.
+
+## Etapa B — barra de menus do toolcraft
+- Decisão: opção 1 (componentes visuais do toolcraft ligados ao estado atual do montador).
+- Copiados de `starter/src/toolcraft/ui`: `lib/utils.ts`, `components/primitives/primitive-arrow-icon.tsx`, `components/composites/menubar.tsx`, `components/composites/dropdown-menu.tsx`. Helper `sanitize-composed-host-props` removido (usado só em dois spans de atalho). Licença MIT em `src/toolcraft/LICENSE.md` e `NOTICE.md`.
+- Dependências: `@base-ui/react`, `@phosphor-icons/react`, `clsx`, `tailwind-merge`.
+- Tailwind sem prefixo, com varredura limitada a `src/toolcraft` (verificado: nenhuma classe do editor coincide com utilitários comuns).
+- `src/EditorMenubar.tsx` aplica os mesmos dados `Menu[]` ao Menubar do toolcraft; `BlockEditor.tsx` usa o novo componente.
+- Tokens `--foreground`, `--muted`, `--popover`, `--accent` etc. definidos em `:root` (menus usam portal).
+- Verificação: `tsc -b` ok; lint sem erros; `npm run test:model` 39 aprovados; `vite build` ok com stub de WASM (removido); captura em `/tmp/s19b.png`.
+- Pendente: abrir e testar os menus com teclado; migrar o restante da casca (barra superior, painel, propriedades, controles) nas próximas etapas.

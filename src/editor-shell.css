@@ -2,14 +2,19 @@
    AIDF-018 etapa 2: tokens escuros derivados do tema do toolcraft (fundo preto, cartão #262626,
    borda zinco, texto claro, primário e foco azuis). Só o chrome do editor usa estes tokens;
    a folha do panfleto mantém as cores de impressão em todos os temas. */
-.builder-app {
+/* Tokens no :root para que menus em portal (fora de .builder-app) também os recebam. */
+:root, .builder-app {
   --editor-panel: #1c1c1c; --editor-toolbar: #262626; --editor-canvas: #0a0a0a; --editor-input: #262626;
   --editor-border: #3f3f46; --editor-field-border: #52525b; --editor-text: #f5f5f5; --editor-text-muted: #a1a1a1;
   --editor-selection: #0c8ce9; --editor-accent: #3d63d9; --editor-accent-text: #ffffff; --editor-danger: #ff8a8a;
   --editor-hover: #323232; --editor-pressed: #2f4aa6; --editor-sheet-shadow: 0 8px 30px #000a;
+  /* Nomes usados pelos componentes copiados do toolcraft (menus, popups). */
+  --foreground: var(--editor-text); --muted: var(--editor-hover); --muted-foreground: var(--editor-text-muted);
+  --popover: var(--editor-panel); --popover-foreground: var(--editor-text); --accent: var(--editor-accent);
+  --accent-foreground: var(--editor-accent-text); --border: var(--editor-border); --radius-md: 6px;
   color-scheme: dark;
 }
-:root[data-editor-theme='light'] .builder-app {
+:root[data-editor-theme='light'], :root[data-editor-theme='light'] .builder-app {
   --editor-panel: #ffffff; --editor-toolbar: #f1edf5; --editor-canvas: #e7e2ec; --editor-input: #ffffff;
   --editor-border: #d9d0e2; --editor-field-border: #7d7189; --editor-text: #292235; --editor-text-muted: #5f5370;
   --editor-selection: #6a2c91; --editor-accent: #6a2c91; --editor-accent-text: #ffffff; --editor-danger: #b3261e;
