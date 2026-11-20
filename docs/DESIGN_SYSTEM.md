@@ -5,7 +5,7 @@ src/BlockEditor.tsx, src/editor-shell.css e os componentes EditorMenus, LayoutLi
 
 ## Fundações observadas
 - Fonte da interface: Inter, Arial, sans-serif.
-- Tema grafite (padrão) via tokens `--editor-*` em .builder-app: painel #444444, barra #4b4b4b, canvas #262626, campo #393939, borda #333333, texto #eeeeee, texto secundário #bcbcbc, seleção #89a9ff, ação #3d63d9. Tema claro opcional (texto #292235, ação #6a2c91) pelo botão de tema; preferência em `panfletos:editor:theme`. A folha do panfleto mantém as cores de impressão em qualquer tema.
+- AIDF-018 etapa 2: tema escuro (padrão) com tokens `--editor-*` derivados do toolcraft: fundo #0a0a0a, painel #1c1c1c, barra e campos #262626, borda #3f3f46, texto #f5f5f5, texto secundário #a1a1a1, seleção #0c8ce9, ação #3d63d9. Tema claro opcional (botão de tema, preferência em `panfletos:editor:theme`). A folha do panfleto mantém as cores de impressão em qualquer tema.
 - Etiquetas D&D: vermelho #e91d47, cápsula branca e centavos elevados. Destaque progressivo usa azul, verde e roxo.
 - Barra de menus (Arquivo, Editar, Visualizar, Organizar, só com ações reais), faixa do documento, trilho de ferramentas, layouts prontos com miniaturas e estrutura da página à esquerda, folha ao centro com abas 01 · Frente / 02 · Verso e barra contextual (Foto, Nome, Preço, Duplicar), inspetor Propriedades (Produto / Bloco / Documento) e lista de blocos à direita, barra de status. Sem régua e sem controles sem função. Regras em 1100 px, 780 px (painéis empilhados) e para impressão.
 - Folha de tela 578 × 782 px; saída pretendida 153 × 207 mm. Zoom não muda o tamanho físico da impressão.
