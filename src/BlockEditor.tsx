@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import type { CSSProperties, DragEvent } from 'react'
+import { motion, useReducedMotion } from 'motion/react'
 import { blankProduct, catalog, loadDraft, resolveDraftRecovery, saveDraft, minHeight, moveBlock, newBlock, paginate, uid } from './block-model'
 import type { Block, Document, Product, Side } from './block-model'
 import './tailwind.css'
@@ -15,7 +16,7 @@ import { openBlankSession, replaceDraft } from './draft-library'
 import TemplateGallery from './TemplateGallery'
 import CanvasViewport from './CanvasViewport'
 import type { CanvasTool, CanvasViewportHandle } from './CanvasViewport'
-import EditorMenus from './EditorMenus'
+import EditorMenubar from './EditorMenubar'
 import type { Menu } from './EditorMenus'
 import LayoutLibrary from './LayoutLibrary'
 import PageStructure from './PageStructure'
@@ -98,6 +99,9 @@ export default function BlockEditor() {
   const [tool, setTool] = useState<CanvasTool>('select')
   const [tab, setTab] = useState<InspectorTab>('produto')
   const [libraryOpen, setLibraryOpen] = useState(() => !window.matchMedia('(max-width: 780px)').matches)
+  // AIDF-019: trilho de ícones à esquerda (estilo Canva) escolhe um painel por vez.
+  const [leftPanel, setLeftPanel] = useState<'blocos' | 'camadas'>('blocos')
+  const reduceMotion = useReducedMotion()
   const lastSaved = useRef<string | null>(null)
   const fileInput = useRef<HTMLInputElement>(null)
   const latestDoc = useRef(doc)
@@ -364,7 +368,7 @@ export default function BlockEditor() {
     <div className="builder-app" data-layout-engine={layoutEngineName()} onDragEnd={() => { setDragging(false); setOver(null) }}>
       <header className="ed-menubar">
         <div className="ed-brand"><span aria-hidden="true">▦</span><strong>Monta panfleto</strong></div>
-        <EditorMenus menus={menus} />
+        <EditorMenubar menus={menus} />
         <span className="ed-spacer" />
         <button type="button" className="theme-toggle" aria-label={darkMode ? 'Ativar tema claro' : 'Ativar tema grafite'} aria-pressed={darkMode} onClick={toggleDarkMode}>{darkMode ? '☀ Tema claro' : '☾ Tema grafite'}</button>
         <input ref={fileInput} hidden type="file" accept=".json,application/json" onChange={e => { void importProject(e.currentTarget) }} />
@@ -383,10 +387,19 @@ export default function BlockEditor() {
       </div>
       {issues.length > 0 && <div className="price-warning" role="alert">{issues.length} preço(s) precisam de revisão. Os valores digitados foram mantidos para correção; a impressão dos lados afetados está bloqueada. <button type="button" onClick={reviewPrice}>Revisar preços</button></div>}
       <div className="builder-workspace">
-        <aside className="ed-left" aria-label="Biblioteca e estrutura da página">
-          <LayoutLibrary open={libraryOpen} onToggle={() => setLibraryOpen(v => !v)} onInsert={i => insert(i)} onDragStart={beginDrag} />
-          <PageStructure title={`Estrutura da página · ${side === 'frente' ? 'frente' : 'verso'}`} blocks={blocks} selected={selected} over={over} reorder onPick={id => pick(id)} onMove={moveById} onDragStart={beginDrag} onDragOver={setOver} onDrop={drop} />
-        </aside>
+        <div className="ed-leftwrap">
+          <nav className="ed-iconrail" aria-label="Painéis do editor">
+            <button type="button" aria-pressed={leftPanel === 'blocos'} onClick={() => setLeftPanel('blocos')}><span aria-hidden="true">▦</span>Blocos</button>
+            <button type="button" aria-pressed={leftPanel === 'camadas'} onClick={() => setLeftPanel('camadas')}><span aria-hidden="true">☰</span>Camadas</button>
+            <button type="button" onClick={() => setGalleryOpen(true)}><span aria-hidden="true">✦</span>Modelos</button>
+          </nav>
+          <motion.aside key={leftPanel} className="ed-left" aria-label={leftPanel === 'blocos' ? 'Biblioteca de blocos' : 'Camadas da página'}
+            initial={reduceMotion ? false : { opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: reduceMotion ? 0 : 0.18, ease: 'easeOut' }}>
+            {leftPanel === 'blocos'
+              ? <LayoutLibrary open={libraryOpen} onToggle={() => setLibraryOpen(v => !v)} onInsert={i => insert(i)} onDragStart={beginDrag} />
+              : <PageStructure title={`Estrutura da página · ${side === 'frente' ? 'frente' : 'verso'}`} blocks={blocks} selected={selected} over={over} reorder onPick={id => pick(id)} onMove={moveById} onDragStart={beginDrag} onDragOver={setOver} onDrop={drop} />}
+          </motion.aside>
+        </div>
         <div className="ed-stage">
           <div className="ed-stagebar">
             <div className="ed-sides" role="group" aria-label="Lado do panfleto">{(['frente', 'verso'] as Side[]).map((s, i) => <button type="button" key={s} aria-pressed={side === s} onClick={() => changeSide(s)}>{`0${i + 1} · ${s === 'frente' ? 'Frente' : 'Verso'}`}</button>)}</div>

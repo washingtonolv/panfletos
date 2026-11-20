@@ -1,6 +1,6 @@
-/* AIDF-018 etapa 1: Tailwind isolado.
-   Prefixo `tc:` evita colisão com as classes existentes; sem preflight, para não alterar
-   a aparência atual; camadas de utilitários ficam abaixo do CSS sem camada já existente. */
-@import "tailwindcss/theme.css" layer(theme) prefix(tc);
-@import "tailwindcss/utilities.css" layer(utilities) prefix(tc);
+/* AIDF-018/019: Tailwind para os componentes copiados do toolcraft.
+   Sem preflight, para não alterar os elementos existentes; a varredura fica em src/toolcraft,
+   então só classes usadas por esses componentes geram CSS; camadas abaixo do CSS existente. */
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
 @source "./toolcraft";
